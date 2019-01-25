@@ -11,6 +11,16 @@ function getArgument(value, def = null) {
   else                            return def
 }
 
+if(getArgument('loglevel') == 'debug') {
+  console.log('Input Paramaters')
+  console.log('----------------')
+  let con = ['config', 'baseurl','username', 'cron']
+  con.forEach(element => {
+    console.log(`${element} = ${getArgument(element, "NULL")}`)
+  });
+  console.log('')
+}
+
 let configuration = JSON.parse(
   fs.readFileSync(getArgument('config', 'config.json'), 'utf8')
 );
