@@ -50,6 +50,7 @@ class jiraParser {
   _fnMap(item, field) {
     return get(item, field.source, [])
             .map( value => get(value, field.criteria))
+            .filter( element => { return element !== undefined; })
             .join(", ")
   }
 /*
