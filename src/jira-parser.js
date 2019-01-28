@@ -1,5 +1,7 @@
 const isString = require('lodash/isString');
 const get      = require('lodash/get');
+const moment   = require('moment');
+                 require('moment-weekday-calc');
 
 class jiraParser {
 
@@ -17,21 +19,14 @@ class jiraParser {
       let field = this.fields[fieldName]
 
         if (isString(field))
-          sanitizedItem[fieldName] = get(item, field, "")
+          sanitizedItem[fieldName] = get(item, field, null)
   
         else if ('function' in field) {
-          switch (field.function) {
-            case 'filter':
-              sanitizedItem[fieldName] = this._fnFilter(item, field)
-              break;
-            case 'map':
-              sanitizedItem[fieldName] = this._fnMap(item, field)
-              break;
-          }
+          sanitizedItem[fieldName] = this._fn(field.function)(item, field)
         }
 
         if (sanitizedItem[fieldName] == undefined)
-          sanitizedItem[fieldName] = get(item, field.source, "") 
+          sanitizedItem[fieldName] = get(item, field.source, null) 
     });
     return sanitizedItem;
   }
@@ -53,11 +48,23 @@ class jiraParser {
             .filter( element => { return element !== undefined; })
             .join(", ")
   }
-/*
-  _fn = {
-    'filter': this._fnFilter,
-    'map':    this._fnMap
-  }*/
+
+  _fnDaysDiff(item, field) {
+    let range = ('return' in field && field.return == 'workday') ? [1,2,3,4,5] : [0,1,2,3,4,5,6];
+    return moment().weekdayCalc(get(item, field.source), get(item, field.criteria), range)
+  }
+
+  _fn(fn) { 
+    let functions = {
+      'filter':   this._fnFilter,
+      'map':      this._fnMap,
+      'daysdiff': this._fnDaysDiff
+    }
+    return get(functions, fn)
+  }
 }
 
 module.exports = jiraParser
+
+
+// TODO: not throwing an error if the structure is not correct. Source for example, is missing.

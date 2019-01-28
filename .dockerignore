@@ -1,5 +1,7 @@
 node_modules
+.nyc_output
 npm-debug.log
 *.db
 config.json
 example*.json
+*.test.js
