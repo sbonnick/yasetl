@@ -9,6 +9,11 @@
   },
   "author": "stewart bonnick",
   "license": "MIT",
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ]
+  },
   "dependencies": {
     "@atlassian/jira": "^0.1.0",
     "lodash": "^4.17.11",
