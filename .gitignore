@@ -1,6 +1,7 @@
 *.db
 config.json
 example*.json
+.vscode
 
 # Logs
 logs

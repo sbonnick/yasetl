@@ -12,7 +12,11 @@
   "license": "MIT",
   "nyc": {
     "include": [ "src/**/*.js" ],
-    "all": true
+    "all": true,
+    "reporter": [
+      "lcov",
+      "text"
+    ]
   },
   "dependencies": {
     "@atlassian/jira": "^0.1.0",
