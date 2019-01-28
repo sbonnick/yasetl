@@ -1,4 +1,4 @@
-const jiraParser = require('../jira-parser');
+const jiraParser = require('../../src/jira-parser');
 const expect     = require('chai').expect;
 const sinon      = require('sinon');
 const test       = require('sinon-test')(sinon);
@@ -19,14 +19,14 @@ describe('Jira-Parser', () => {
       }}
   })
 
-  describe('Parse list of issues', () => {
+  describe('Parse()', () => {
 
     it.skip('should parse multiple issues', test(function() {
 
     }))
   })
 
-  describe('Parse single issue', () => {
+  describe('ParseItem()', () => {
     
     it.skip('should parse simple string mappings by default', test(function() {
 
@@ -41,7 +41,7 @@ describe('Jira-Parser', () => {
     }))
   })
 
-  describe('Map function', () => {
+  describe('_fnMap()', () => {
     let field, parser
 
     beforeEach(function() {
@@ -72,7 +72,7 @@ describe('Jira-Parser', () => {
     }))
   })
 
-  describe('Filter function', () => {
+  describe('_fnFilter()', () => {
     let field, parser
 
     beforeEach(function() {
@@ -109,7 +109,7 @@ describe('Jira-Parser', () => {
     }))
   })
 
-  describe('DaysDiff Function', () => {
+  describe('_fnDaysDiff()', () => {
     let field, parser
 
     beforeEach(function() {
