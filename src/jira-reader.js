@@ -41,7 +41,8 @@ class jiraReader {
     return this.jira.search.searchForIssuesUsingJqlGet({
       jql: jql, 
       maxResults: batchsize,    
-      startAt: pageIndex                   
+      startAt: pageIndex,
+      expand: "changelog"                   
     })
   }
 

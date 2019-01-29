@@ -11,7 +11,9 @@ function getArgument(value, def = null) {
   else                            return def
 }
 
-if(getArgument('loglevel') == 'debug') {
+let debug = (getArgument('loglevel') == 'debug') ? true : false
+
+if(debug) {
   console.log('Input Paramaters')
   console.log('----------------')
   let con = ['config', 'baseurl','username', 'cron']
@@ -29,6 +31,7 @@ let app = new extractor(
   configuration, 
   getArgument('baseurl'), 
   getArgument('username'), 
-  getArgument('password'))
+  getArgument('password'),
+  debug)
 
 app.run(getArgument('cron'))
