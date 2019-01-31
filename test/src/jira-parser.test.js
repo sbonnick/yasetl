@@ -15,7 +15,27 @@ describe('Jira-Parser', () => {
         ],
         "labels": [ 'AAA', 'CCC', 'BBB' ],
         "created": "2018-12-11T08:14:28.000-0800",
-        "resolutionDate": "2019-01-04T13:08:18.000-0800"
+        "resolutionDate": "2019-01-04T13:08:18.000-0800",
+        "changelog": {
+          "startAt": 0,
+          "maxResults": 11,
+          "total": 11,
+          "histories": [
+            {
+              "created": "2019-01-01T11:09:08.000-0800",
+              "items": [
+                {
+                  "field": "status",
+                  "fieldtype": "jira",
+                  "from": "10000",
+                  "fromString": "To Do",
+                  "to": "3",
+                  "toString": "In Progress"
+                }
+              ]
+            }
+          ]
+        }
       }}
   })
 
@@ -38,6 +58,19 @@ describe('Jira-Parser', () => {
 
     it.skip('should parse complex and mixed field functions', test(function() {
 
+    }))
+  })
+
+  describe('_getStateChangeDates()', () => {
+    let parser
+
+    beforeEach(function() {
+      parser = new jiraParser(null)
+    })
+
+    it('should return last date of all state changes', test(function() {
+      let results = parser._getStateChangeDates(item)
+      expect(results).to.have.property('inprogress', '2019-01-01T11:09:08.000-0800' )
     }))
   })
 

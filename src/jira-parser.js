@@ -15,6 +15,9 @@ class jiraParser {
 
   parseItem(item) {
     let sanitizedItem = {}
+
+    item['stateChangeDates'] = this._getStateChangeDates(item)
+
     Object.keys(this.fields).forEach(fieldName => {
       let field = this.fields[fieldName]
 
@@ -25,10 +28,24 @@ class jiraParser {
           sanitizedItem[fieldName] = this._fn(field.function)(item, field)
         }
 
-        if (sanitizedItem[fieldName] == undefined)
+        if (sanitizedItem[fieldName] == null)
           sanitizedItem[fieldName] = get(item, field.source, null) 
     });
     return sanitizedItem;
+  }
+
+  _getStateChangeDates(item) {
+    let history = get(item, 'fields.changelog.histories', null)
+    if (history == null) return null
+
+    let changeDates = {}
+    history.forEach(change => {
+      change.items.forEach(changeItem => {
+        if(changeItem.field == "status") 
+          changeDates[changeItem.toString.replace(/\s+/g, '').toLowerCase()] = change.created
+      })
+    })
+    return changeDates
   }
 
   _fnFilter(item, field) {
@@ -54,13 +71,17 @@ class jiraParser {
     return moment().weekdayCalc(get(item, field.source), get(item, field.criteria), range)
   }
 
+  _fnNull(item, field) { 
+    return null 
+  }
+
   _fn(fn) { 
     let functions = {
       'filter':   this._fnFilter,
       'map':      this._fnMap,
       'daysdiff': this._fnDaysDiff
     }
-    return get(functions, fn)
+    return get(functions, fn, this._fnNull)
   }
 }
 
@@ -68,3 +89,4 @@ module.exports = jiraParser
 
 
 // TODO: not throwing an error if the structure is not correct. Source for example, is missing.
+// TODO: change _getStateChangeDates() to use MAPs and an object append to iterate

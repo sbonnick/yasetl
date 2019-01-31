@@ -11,7 +11,9 @@
   "author": "stewart bonnick",
   "license": "MIT",
   "nyc": {
-    "include": [ "src/**/*.js" ],
+    "include": [
+      "src/**/*.js"
+    ],
     "all": true,
     "reporter": [
       "lcov",
