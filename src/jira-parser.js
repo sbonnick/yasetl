@@ -16,7 +16,6 @@ class jiraParser {
 
   parseItem(item) {
     item.fields['stateChangeDates'] = this._getStateChangeDates(item)
-
     let sanitizedItem = {}
     Object.keys(this.fields).forEach(fieldName => {
       let field = this.fields[fieldName]
@@ -27,7 +26,7 @@ class jiraParser {
   }
 
   _getStateChangeDates(item) {
-    let history = get(item, 'fields.changelog.histories', null)
+    let history = get(item, 'changelog.histories', null)
     if (history == null) return null
 
     let changeDates = {}
@@ -59,12 +58,14 @@ class jiraParser {
   }
 
   _fnDaysDiff(item, field) {
+    let source = get(item, field.source, null)
+    let criteria = get(item, field.criteria, null)
     let range = ('return' in field && field.return == 'workday') ? [1,2,3,4,5] : [0,1,2,3,4,5,6];
-    return moment().weekdayCalc(get(item, field.source), get(item, field.criteria), range)
+    return (source != null && criteria != null) ? moment().weekdayCalc(source, criteria, range) : null
   }
 
   _fnSimple(item, field) {
-    return (isString(field))? get(item, field, null) : get(item, field.source, null)
+    return (isString(field)) ? get(item, field, null) : get(item, field.source, null)
   }
 
   _fnNull(item, field) { 

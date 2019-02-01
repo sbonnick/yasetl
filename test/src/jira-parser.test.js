@@ -15,28 +15,29 @@ describe('Jira-Parser', () => {
         ],
         "labels": [ 'AAA', 'CCC', 'BBB' ],
         "created": "2018-12-11T08:14:28.000-0800",
-        "resolutionDate": "2019-01-04T13:08:18.000-0800",
-        "changelog": {
-          "startAt": 0,
-          "maxResults": 11,
-          "total": 11,
-          "histories": [
-            {
-              "created": "2019-01-01T11:09:08.000-0800",
-              "items": [
-                {
-                  "field": "status",
-                  "fieldtype": "jira",
-                  "from": "10000",
-                  "fromString": "To Do",
-                  "to": "3",
-                  "toString": "In Progress"
-                }
-              ]
-            }
-          ]
-        }
-      }}
+        "resolutiondate": "2019-01-04T13:08:18.000-0800"
+      },
+      "changelog": {
+        "startAt": 0,
+        "maxResults": 11,
+        "total": 11,
+        "histories": [
+          {
+            "created": "2019-01-01T11:09:08.000-0800",
+            "items": [
+              {
+                "field": "status",
+                "fieldtype": "jira",
+                "from": "10000",
+                "fromString": "To Do",
+                "to": "3",
+                "toString": "In Progress"
+              }
+            ]
+          }
+        ]
+      }
+    }
   })
 
   describe('Parse()', () => {
@@ -80,7 +81,7 @@ describe('Jira-Parser', () => {
       let parser = new jiraParser( {
         createdDate: "fields.created",
         resolutionDate: {
-          source:   "fields.resolutionDate",
+          source:   "fields.resolutiondate",
           datatype: "datetime"
         },
         inProgressDate: {
@@ -90,7 +91,7 @@ describe('Jira-Parser', () => {
         cycleTime: {
           function: "daysdiff",
           source:   "fields.stateChangeDates.inprogress",
-          criteria: "fields.resolutionDate",
+          criteria: "fields.resolutiondate",
           datatype: "integer"
         },
         catalog: {
@@ -204,7 +205,7 @@ describe('Jira-Parser', () => {
       field = {
         function: "datediff",
         source:   "fields.created",
-        criteria: "fields.resolutionDate",
+        criteria: "fields.resolutiondate",
         datatype: "integer"
       }
     })
