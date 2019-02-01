@@ -16,7 +16,7 @@ class jiraParser {
   parseItem(item) {
     let sanitizedItem = {}
 
-    item['stateChangeDates'] = this._getStateChangeDates(item)
+    sanitizedItem['stateChangeDates'] = this._getStateChangeDates(item)
 
     Object.keys(this.fields).forEach(fieldName => {
       let field = this.fields[fieldName]

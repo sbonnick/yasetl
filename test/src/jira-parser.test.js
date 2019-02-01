@@ -48,8 +48,20 @@ describe('Jira-Parser', () => {
 
   describe('ParseItem()', () => {
     
-    it.skip('should parse simple string mappings by default', test(function() {
+    it('should parse simple string mappings by default', test(function() {
+      let parser = new jiraParser( {
+        createdDate: "fields.created"
+      })
 
+      let output = { 
+        stateChangeDates: { 
+          inprogress: '2019-01-01T11:09:08.000-0800' 
+        },
+        createdDate: '2018-12-11T08:14:28.000-0800' 
+      }
+
+      let results = parser.parseItem(item)
+      expect(results).to.eql(output)
     }))
 
     it.skip('should parse simple string mappings with no function specified', test(function() {
@@ -87,19 +99,19 @@ describe('Jira-Parser', () => {
       }
     });
 
-    it('should output a comma seperated list as a string', test(function() {
+    it('should output a comma separated list as a string', test(function() {
       let results = parser._fnMap(item, field)
       expect(results).to.equal('Gateway, Backend')
     }))
 
     it('should output a empty string with invalid criteria', test(function() {
-      field['criteria'] = "non-existant"
+      field['criteria'] = "non-existent"
       let results = parser._fnMap(item, field)
       expect(results).to.equal('')
     }))
 
     it('should output a empty string with invalid source', test(function() {
-      field['source'] = "non-existant"
+      field['source'] = "non-existent"
       let results = parser._fnMap(item, field)
       expect(results).to.equal('')
     }))
@@ -118,12 +130,12 @@ describe('Jira-Parser', () => {
       }
     })
 
-    it('should output a comma seperated list as a string with all criteria matching', test(function() {
+    it('should output a comma separated list as a string with all criteria matching', test(function() {
       let results = parser._fnFilter(item, field)
       expect(results).to.equal('AAA, BBB')
     }))
 
-    it('should output a comma seperated list as a string with single criteria matching', test(function() {
+    it('should output a comma separated list as a string with single criteria matching', test(function() {
       field['criteria'] = ["AAA", "DDD"]
       let results = parser._fnFilter(item, field)
       expect(results).to.equal('AAA')
@@ -165,6 +177,41 @@ describe('Jira-Parser', () => {
       let results = parser._fnDaysDiff(item, field)
       expect(results).to.equal(19)
     }))
+  })
+
+  describe('_fnNull', () => {
+    let parser
+
+    beforeEach(function() {
+      parser = new jiraParser(null)
+    })
+
+    it('should return null', test(function() {
+      expect(parser._fnNull()).to.be.null
+    }))
+  })
+
+  describe('_fn()', () => {
+    let parser
+    let fnSupported = ["filter", "map", "daysdiff"]
+
+    beforeEach(function() {
+      parser = new jiraParser(null)
+    })
     
+    fnSupported.forEach(function(fn) {
+      it('should return function reference with ' + fn + ' function', test(function() {
+        let fct = parser._fn(fn)
+        expect(fct).to.be.a('function')
+        expect(fct).to.have.lengthOf(2)
+      }))
+    })
+    
+    it('should return _fnNull reference on unrecognized functions', test(function() {
+      let fct = parser._fn('fake')
+      expect(fct).to.be.a('function')
+      expect(fct).to.have.lengthOf(2)
+      expect(fct.name).to.equal('_fnNull')
+    }))
   })
 })
