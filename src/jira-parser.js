@@ -1,4 +1,5 @@
 const isString = require('lodash/isString');
+const isObject = require('lodash/isObject');
 const get      = require('lodash/get');
 const moment   = require('moment');
                  require('moment-weekday-calc');
@@ -14,22 +15,13 @@ class jiraParser {
   }
 
   parseItem(item) {
+    item.fields['stateChangeDates'] = this._getStateChangeDates(item)
+
     let sanitizedItem = {}
-
-    sanitizedItem['stateChangeDates'] = this._getStateChangeDates(item)
-
     Object.keys(this.fields).forEach(fieldName => {
       let field = this.fields[fieldName]
-
-        if (isString(field))
-          sanitizedItem[fieldName] = get(item, field, null)
-  
-        else if ('function' in field) {
-          sanitizedItem[fieldName] = this._fn(field.function)(item, field)
-        }
-
-        if (sanitizedItem[fieldName] == null)
-          sanitizedItem[fieldName] = get(item, field.source, null) 
+      let fn = (isObject(field) && 'function' in field) ? field.function : 'simple' 
+      sanitizedItem[fieldName] = this._fn(fn)(item, field)
     });
     return sanitizedItem;
   }
@@ -71,12 +63,17 @@ class jiraParser {
     return moment().weekdayCalc(get(item, field.source), get(item, field.criteria), range)
   }
 
+  _fnSimple(item, field) {
+    return (isString(field))? get(item, field, null) : get(item, field.source, null)
+  }
+
   _fnNull(item, field) { 
     return null 
   }
 
   _fn(fn) { 
     let functions = {
+      'simple':   this._fnSimple,
       'filter':   this._fnFilter,
       'map':      this._fnMap,
       'daysdiff': this._fnDaysDiff
@@ -87,6 +84,5 @@ class jiraParser {
 
 module.exports = jiraParser
 
-
-// TODO: not throwing an error if the structure is not correct. Source for example, is missing.
+// TODO: handle config fields in a case-insensitive way
 // TODO: change _getStateChangeDates() to use MAPs and an object append to iterate

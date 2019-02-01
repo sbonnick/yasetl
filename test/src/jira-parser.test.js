@@ -54,9 +54,6 @@ describe('Jira-Parser', () => {
       })
 
       let output = { 
-        stateChangeDates: { 
-          inprogress: '2019-01-01T11:09:08.000-0800' 
-        },
         createdDate: '2018-12-11T08:14:28.000-0800' 
       }
 
@@ -64,12 +61,57 @@ describe('Jira-Parser', () => {
       expect(results).to.eql(output)
     }))
 
-    it.skip('should parse simple string mappings with no function specified', test(function() {
+    it('should parse simple string mappings with no function specified', test(function() {
+      let parser = new jiraParser( {
+        createdDate: {
+          source: "fields.created"
+        }
+      })
 
+      let output = { 
+        createdDate: '2018-12-11T08:14:28.000-0800' 
+      }
+
+      let results = parser.parseItem(item)
+      expect(results).to.eql(output)
     }))
 
-    it.skip('should parse complex and mixed field functions', test(function() {
+    it('should parse complex and mixed field functions', test(function() {
+      let parser = new jiraParser( {
+        createdDate: "fields.created",
+        resolutionDate: {
+          source:   "fields.resolutionDate",
+          datatype: "datetime"
+        },
+        inProgressDate: {
+          source:   "fields.stateChangeDates.inprogress",
+          datatype: "datetime"
+        },
+        cycleTime: {
+          function: "daysdiff",
+          source:   "fields.stateChangeDates.inprogress",
+          criteria: "fields.resolutionDate",
+          datatype: "integer"
+        },
+        catalog: {
+          function: "filter",
+          return:   "first",
+          source:   "fields.labels",
+          criteria: ["AAA"],
+          datatype: "text"
+        },
+      })
 
+      let output = {                                                 
+        catalog:        "AAA",                     
+        createdDate:    "2018-12-11T08:14:28.000-0800",   
+        cycleTime:      4,     
+        inProgressDate: "2019-01-01T11:09:08.000-0800",
+        resolutionDate: "2019-01-04T13:08:18.000-0800"                        
+      }                                                 
+
+      let results = parser.parseItem(item)
+      expect(results).to.eql(output)
     }))
   })
 
@@ -163,7 +205,7 @@ describe('Jira-Parser', () => {
         function: "datediff",
         source:   "fields.created",
         criteria: "fields.resolutionDate",
-        datatype: "datetime"
+        datatype: "integer"
       }
     })
 
