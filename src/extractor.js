@@ -19,7 +19,7 @@ class extractor {
     var parser = new jiraParser(this.config.output.fields);
 
     // TODO: maintain state in the writer class
-    // TODO: use promise chaining  instead of single function
+    // TODO: use promise chaining instead of single function
     // TODO: print time of query as well as when a schedule is 
     // TODO: extract from this function
     var active = false
@@ -39,10 +39,10 @@ class extractor {
       }
     }
 
-    // Run extract Immediatly on execution
+    // Run extract Immediately on execution
     extract(Date.now(), this)
 
-    // Continue to run extract at a given freqency
+    // Continue to run extract at a given frequency
     if (cron != null) {
       schedule.scheduleJob(cron, function(fireDate){
         extract(fireDate, this)

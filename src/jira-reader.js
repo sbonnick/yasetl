@@ -37,15 +37,14 @@ class jiraReader {
       })
   }
 
-  _queryPage(jql, batchsize, pageIndex) {
+  _queryPage(jql, batchSize, pageIndex) {
     return this.jira.search.searchForIssuesUsingJqlGet({
       jql: jql, 
-      maxResults: batchsize,    
+      maxResults: batchSize,    
       startAt: pageIndex,
       expand: "changelog"                   
     })
   }
-
 
   close() {
     return true;

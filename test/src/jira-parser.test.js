@@ -42,8 +42,11 @@ describe('Jira-Parser', () => {
 
   describe('Parse()', () => {
 
-    it.skip('should parse multiple issues', test(function() {
-
+    it('should parse multiple issues', test(function() {
+      let parser = new jiraParser(null)
+      var stub = this.stub(parser, 'parseItem')
+      let result = parser.parse(['one', 'two', 'three'])
+      expect(stub.callCount).equals(3)
     }))
   })
 
@@ -222,7 +225,27 @@ describe('Jira-Parser', () => {
     }))
   })
 
-  describe('_fnNull', () => {
+  describe('_fnSimple()', () => {
+    let parser
+
+    beforeEach(function() {
+      parser = new jiraParser(null)
+    })
+
+    it('should output when using a string value', test(function() {
+      let field = 'fields.created'
+      let results = parser._fnSimple(item, field)
+      expect(results).to.equal('2018-12-11T08:14:28.000-0800')
+    }))
+
+    it('should output when using a source object', test(function() {
+      let field = { source: 'fields.created' }
+      let results = parser._fnSimple(item, field)
+      expect(results).to.equal('2018-12-11T08:14:28.000-0800')
+    }))
+  })
+
+  describe('_fnNull()', () => {
     let parser
 
     beforeEach(function() {
@@ -236,7 +259,7 @@ describe('Jira-Parser', () => {
 
   describe('_fn()', () => {
     let parser
-    let fnSupported = ["filter", "map", "daysdiff"]
+    let fnSupported = ["simple", "filter", "map", "daysdiff"]
 
     beforeEach(function() {
       parser = new jiraParser(null)
