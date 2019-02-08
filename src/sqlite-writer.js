@@ -59,7 +59,7 @@ class SqliteWriter {
         if (this.fields[name].datatype == 'datetime')
           value = "\"" + moment(data[name]).tz("America/Los_Angeles").format() + "\""
         if (this.fields[name].datatype == 'boolean')
-          value = (data[name].toLowerCase() == "true") ? 1 : 0
+          value = (data[name] != null && data[name].toLowerCase() == "true") ? 1 : 0
       }
       // TODO: fix other formattings
 
