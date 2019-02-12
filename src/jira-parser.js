@@ -10,11 +10,12 @@ class jiraParser {
     this.fields = fields
   }
 
-  parse(data) {
-    return data.map(item => this.parseItem(item))
+  async parse(data) {
+    let items = data.map(async item => await this.parseItem(item))
+    return Promise.all(items)
   }
 
-  parseItem(item) {
+  async parseItem(item) {
     item.fields['stateChangeDates'] = this._getStateChangeDates(item)
     let sanitizedItem = {}
     Object.keys(this.fields).forEach(fieldName => {

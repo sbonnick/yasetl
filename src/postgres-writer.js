@@ -6,72 +6,88 @@ const moment   = require('moment-timezone');
 class PostgressWriter {
 
   constructor(connectionString, table, fields) {
-    
-    var db = new Client({
+    this.db = new Client({
       connectionString: connectionString,
     })
-
-    await db.connect()
-
-    let schema = []
-    Object.keys(fields).forEach(name => {
-      let field = fields[name]
-    
-      let data = `${name} BLOB`
-      if (isObject(field)) {
-        if ('datatype' in field)
-          data = `${name} ${field.datatype.toUpperCase()}`
-        
-        if ('primary' in field && field.primary == true)
-          data += ' PRIMARY KEY'
-      }
-      schema.push(data)
-    });
-
-    let drop   = await db.query(`DROP TABLE IF EXISTS ${table}`)
-    let create = await db.query(`CREATE TABLE IF NOT EXISTS ${table} (${schema.join(', ')})`)
-
-    this.db = db
     this.fields = fields;
     this.table = table;
     return this;
   }
 
-  insert(data) {
-    data.map(item => this.insertItem(item))
+  async create() {
+    await this.db.connect()
+
+    let schema = []
+    Object.keys(this.fields).forEach(name => {
+      let field = this.fields[name]
+    
+      let data = `${name} TEXT`
+      if (isObject(field)) {
+        if ('datatype' in field)
+          data = `${name} ${field.datatype.toUpperCase()}`
+
+          if ('primary' in field && field.primary == true)
+          data += ' PRIMARY KEY'
+      }
+      schema.push(data)
+    });
+
+    await this.db.query(`DROP TABLE IF EXISTS ${this.table}`)
+      .then(`Dropping table ${this.table}`)
+      .catch(console.log)
+
+    await this.db.query(`CREATE TABLE IF NOT EXISTS ${this.table} (${schema.join(', ')})`)
+      .then(`Creating table ${this.table}`)
+      .catch(console.log)
   }
 
-  insertItem(data) {
-    
+  async insert(data) {
+    let inserts = data.map(async item => await this.insertItem(item))
+    return await Promise.all(inserts)
+  }
+
+  async insertItem(data) {
+    let query = this._buildInsertQuery(data)
+    await this.db.query(query)
+      .catch(err => {
+        console.log({error: err.error, query: query, hint: err.hint})
+      })
+  }
+
+  async close() {
+    await this.db.end()
+  }
+
+  _buildInsertQuery(data) {
     let formattedData = []
     let formattedKeys = []
     Object.keys(data).forEach(name => { 
 
-      let value = "\"" + String(data[name]) + "\""
+      let value = "'" + String(data[name]) + "'"
       if (data[name] == null)
         return
 
       if (isObject(this.fields[name]) && 'datatype' in this.fields[name]) {
         if (this.fields[name].datatype == 'integer')
           value = data[name]
-        if (this.fields[name].datatype == 'datetime')
-          value = "\"" + moment(data[name]).tz("America/Los_Angeles").format() + "\""
+        if (this.fields[name].datatype == 'timestamptz')
+          value = "'" + moment(data[name]).tz("America/Los_Angeles").format() + "'"
         if (this.fields[name].datatype == 'boolean')
-          value = (String(data[name]).toLowerCase() == "true") ? 1 : 0
+          value = (String(data[name]).toLowerCase() == "true") ? true : false
       }
-      // TODO: fix other formattings
 
       formattedKeys.push(name) 
       formattedData.push(value) 
     });
-    this.db.query(`INSERT INTO ${this.table} (${formattedKeys.join(', ')}) VALUES (${formattedData.join(', ')})`)
 
-    return this;
-  }
-
-  close() {
-    await this.db.end()
+    let query = `INSERT INTO ${this.table} (${formattedKeys.join(', ')}) VALUES (${formattedData.join(', ')})`
+    return query
   }
 }
 
 module.exports = PostgressWriter
+
+
+// TODO: the schema function should be able to be inherited by writers and supplying a mapping table
+// TODO: the query builder should be able to also be inherited with a supplied mapping table
+// TODO: a larger breadth of formats need to be supported. currently only text, date, boolean, integer

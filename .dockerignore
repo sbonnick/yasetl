@@ -5,5 +5,6 @@ test
 npm-debug.log
 *.db
 config.json
+config*.json
 example*.json
 *.test.js

@@ -1,10 +1,10 @@
 const schedule = require('node-schedule');
+const moment   = require('moment');
+const humanize = require('humanize-duration')
 
-//const sqliteWriter = require('./sqlite-writer');
 const jiraReader   = require('./jira-reader');
 const jiraParser   = require('./jira-parser');
 
-var Writer;
 
 class extractor {
   constructor(config, baseurl, username, password, debug = false) {
@@ -18,47 +18,47 @@ class extractor {
 
   _writer(name) {
     switch (name) {
-      case 'sqlite': return require('./sqlite-writer');
+      case 'sqlite':   return require('./sqlite-writer');
       case 'postgres': return require('./postgres-writer');
-      default: return null;
+      default:         return null;
     }
+  }
+
+  async _extract(reader, parser, writer, fireDate) {
+    await writer.create()
+
+    let results = await reader.query(this.config.jql)
+    let values = await parser.parse(results)
+
+    await writer.insert(values)
+    await writer.close()
+
+    var duration = humanize(moment(Date.now()).diff(moment(fireDate)))
+
+    console.log(`Extracted ${values.length} records from jira to ${this.config.output.format}  (${duration})`)
   }
 
   run(cron = null) {  
     var reader = new jiraReader(this.baseurl, this.username, this.password);
     var parser = new jiraParser(this.config.output.fields);
 
-    // TODO: maintain state in the writer class
-    // TODO: use promise chaining instead of single function
-    // TODO: print time of query as well as when a schedule is 
-    // TODO: extract from this function
-    var active = false
-    function extract(fireDate, cl) {
-      if (!active) {
-        active = true
-        let writer = new cl._writer(cl.config.output.format)(cl.config.output.location, cl.config.output.table, cl.config.output.fields)
-        reader.query(cl.config.jql)
-          .then(data => {
-            if (cl.debug) console.log(JSON.stringify(data[0], null, 2))
-            let val = parser.parse(data)
-            writer.insert(val)
-            writer.close()
-            active = false
-            console.log(`Extracted ${val.length} records from jira to sqlite`)
-          })
-      }
-    }
-
+    let writerEngine = this._writer(this.config.output.format)
+    let writer = new writerEngine(this.config.output.location, this.config.output.table, this.config.output.fields)
+    
     // Run extract Immediately on execution
-    extract(Date.now(), this)
+    this._extract(reader, parser, writer, Date.now())
 
     // Continue to run extract at a given frequency
     if (cron != null) {
       schedule.scheduleJob(cron, function(fireDate){
-        extract(fireDate, this)
+        this._extract(reader, parser, writer, fireDate)
       })
     }
   }
 }
 
 module.exports = extractor
+
+
+// TODO: Add safety around if null is returned from writer selection
+// TODO: Add safety around cron jobs overlapping

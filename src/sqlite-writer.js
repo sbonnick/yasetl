@@ -6,16 +6,20 @@ const moment   = require('moment-timezone');
 class SqliteWriter {
 
   constructor(path, table, fields) {
-    
     sqlite3.verbose()
-    let db = new sqlite3.Database(path, error => {
+    this.db = new sqlite3.Database(path, error => {
       if (error != null)
         console.error(error)
     });
+    this.fields = fields;
+    this.table = table;
+    return this;
+  }
 
+  async create() {
     let schema = []
-    Object.keys(fields).forEach(name => {
-      let field = fields[name]
+    Object.keys(this.fields).forEach(name => {
+      let field = this.fields[name]
 
       let data = `${name} BLOB`
       if (isObject(field)) {
@@ -28,23 +32,25 @@ class SqliteWriter {
       schema.push(data)
     });
 
-    db.serialize( function() { 
-      db.run(`DROP TABLE IF EXISTS ${table}`)
-      db.run(`CREATE TABLE IF NOT EXISTS ${table} (${schema.join(', ')})`)
-    });
-
-    this.db = db
-    this.fields = fields;
-    this.table = table;
-    return this;
+    await this.db.run(`DROP TABLE IF EXISTS ${this.table}`)
+    await this.db.run(`CREATE TABLE IF NOT EXISTS ${this.table} (${schema.join(', ')})`)
   }
 
-  insert(data) {
-    data.map(item => this.insertItem(item))
+  async insert(data) {
+    let inserts = data.map(async item => await this.insertItem(item))
+    return await Promise.all(inserts)
   }
 
-  insertItem(data) {
-    
+  async insertItem(data) {
+    let query = this._buildInsertQuery(data)
+    await this.db.run(query)
+  }
+
+  async close() {
+    this.db.close()
+  }
+
+  _buildInsertQuery(data) {
     let formattedData = []
     let formattedKeys = []
     Object.keys(data).forEach(name => { 
@@ -61,19 +67,19 @@ class SqliteWriter {
         if (this.fields[name].datatype == 'boolean')
           value = (String(data[name]).toLowerCase() == "true") ? 1 : 0
       }
-      // TODO: fix other formattings
 
       formattedKeys.push(name) 
       formattedData.push(value) 
     });
-    this.db.run(`INSERT INTO ${this.table} (${formattedKeys.join(', ')}) VALUES (${formattedData.join(', ')})`)
 
-    return this;
-  }
-
-  close() {
-    this.db.close()
+    let query = `INSERT INTO ${this.table} (${formattedKeys.join(', ')}) VALUES (${formattedData.join(', ')})`
+    return query
   }
 }
 
 module.exports = SqliteWriter
+
+
+// TODO: the schema function should be able to be inherited by writers and supplying a mapping table
+// TODO: the query builder should be able to also be inherited with a supplied mapping table
+// TODO: a larger breadth of formats need to be supported. currently only text, date, boolean, integer
