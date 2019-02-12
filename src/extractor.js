@@ -24,10 +24,10 @@ class extractor {
     }
   }
 
-  async _extract(reader, parser, writer, fireDate) {
+  async _extract(config, reader, parser, writer, fireDate) {
     await writer.create()
 
-    let results = await reader.query(this.config.jql)
+    let results = await reader.query(config.jql)
     let values = await parser.parse(results)
 
     await writer.insert(values)
@@ -35,7 +35,7 @@ class extractor {
 
     var duration = humanize(moment(Date.now()).diff(moment(fireDate)))
 
-    console.log(`Extracted ${values.length} records from jira to ${this.config.output.format}  (${duration})`)
+    console.log(`Extracted ${values.length} records from jira to ${config.output.format}  (${duration})`)
   }
 
   run(cron = null) {  
@@ -46,12 +46,12 @@ class extractor {
     let writer = new writerEngine(this.config.output.location, this.config.output.table, this.config.output.fields)
     
     // Run extract Immediately on execution
-    this._extract(reader, parser, writer, Date.now())
+    this._extract(this.config, reader, parser, writer, Date.now())
 
     // Continue to run extract at a given frequency
     if (cron != null) {
       schedule.scheduleJob(cron, function(fireDate){
-        this._extract(reader, parser, writer, fireDate)
+        this._extract(this.config, reader, parser, writer, fireDate)
       })
     }
   }
