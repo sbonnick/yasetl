@@ -1,8 +1,10 @@
 const schedule = require('node-schedule');
 
-const sqliteWriter = require('./sqlite-writer');
+//const sqliteWriter = require('./sqlite-writer');
 const jiraReader   = require('./jira-reader');
 const jiraParser   = require('./jira-parser');
+
+var Writer;
 
 class extractor {
   constructor(config, baseurl, username, password, debug = false) {
@@ -12,6 +14,14 @@ class extractor {
     this.password = password
     this.debug = debug
     return this
+  }
+
+  _writer(name) {
+    switch (name) {
+      case 'sqlite': return require('./sqlite-writer');
+      case 'postgres': return require('./postgres-writer');
+      default: return null;
+    }
   }
 
   run(cron = null) {  
@@ -26,7 +36,7 @@ class extractor {
     function extract(fireDate, cl) {
       if (!active) {
         active = true
-        let writer = new sqliteWriter(cl.config.output.location, cl.config.output.table, cl.config.output.fields)
+        let writer = new cl._writer(cl.config.output.format)(cl.config.output.location, cl.config.output.table, cl.config.output.fields)
         reader.query(cl.config.jql)
           .then(data => {
             if (cl.debug) console.log(JSON.stringify(data[0], null, 2))
