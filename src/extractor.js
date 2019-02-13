@@ -52,7 +52,7 @@ class extractor {
     if (cron != null) {
       schedule.scheduleJob(cron, function(fireDate){
         this._extract(this.config, reader, parser, writer, fireDate)
-      })
+      }).bind(this)
     }
   }
 }
