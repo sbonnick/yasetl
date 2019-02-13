@@ -46,12 +46,13 @@ class extractor {
     let writer = new writerEngine(this.config.output.location, this.config.output.table, this.config.output.fields)
     
     // Run extract Immediately on execution
-    this._extract(this.config, reader, parser, writer, Date.now())
+    this._extract(config, reader, parser, writer, Date.now())
 
     // Continue to run extract at a given frequency
     if (cron != null) {
+      var config = this.config
       schedule.scheduleJob(cron, function(fireDate){
-        this._extract(this.config, reader, parser, writer, fireDate)
+        this._extract(config, reader, parser, writer, fireDate)
       })
     }
   }
