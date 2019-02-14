@@ -24,7 +24,7 @@ class extractor {
     }
   }
 
-  async _extract(config, reader, parser, writer, fireDate) {
+  static async extract(config, reader, parser, writer, fireDate) {
     await writer.create()
 
     let results = await reader.query(config.jql)
@@ -46,13 +46,13 @@ class extractor {
     let writer = new writerEngine(this.config.output.location, this.config.output.table, this.config.output.fields)
     
     // Run extract Immediately on execution
-    this._extract(this.config, reader, parser, writer, Date.now())
+    extractor.extract(this.config, reader, parser, writer, Date.now())
 
     // Continue to run extract at a given frequency
     if (cron != null) {
-      schedule.scheduleJob(cron, function(fireDate){
-        this._extract(this.config, reader, parser, writer, fireDate)
-      }).bind(this)
+      schedule.scheduleJob(cron, function(config, reader, parser, writer){
+        extractor.extract(config, reader, parser, writer, Date.now())
+      }.bind(null, this.config, reader, parser, writer))
     }
   }
 }
