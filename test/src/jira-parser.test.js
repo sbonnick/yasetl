@@ -52,7 +52,7 @@ describe('Jira-Parser', () => {
 
   describe('ParseItem()', () => {
     
-    it('should parse simple string mappings by default', test(function() {
+    it('should parse simple string mappings by default', test(async function() {
       let parser = new jiraParser( {
         createdDate: "fields.created"
       })
@@ -61,11 +61,11 @@ describe('Jira-Parser', () => {
         createdDate: '2018-12-11T08:14:28.000-0800' 
       }
 
-      let results = parser.parseItem(item)
+      let results = await parser.parseItem(item)
       expect(results).to.eql(output)
     }))
 
-    it('should parse simple string mappings with no function specified', test(function() {
+    it('should parse simple string mappings with no function specified', test(async function() {
       let parser = new jiraParser( {
         createdDate: {
           source: "fields.created"
@@ -76,11 +76,11 @@ describe('Jira-Parser', () => {
         createdDate: '2018-12-11T08:14:28.000-0800' 
       }
 
-      let results = parser.parseItem(item)
+      let results = await parser.parseItem(item)
       expect(results).to.eql(output)
     }))
 
-    it('should parse complex and mixed field functions', test(function() {
+    it('should parse complex and mixed field functions', test(async function() {
       let parser = new jiraParser( {
         createdDate: "fields.created",
         resolutionDate: {
@@ -114,7 +114,7 @@ describe('Jira-Parser', () => {
         resolutionDate: "2019-01-04T13:08:18.000-0800"                        
       }                                                 
 
-      let results = parser.parseItem(item)
+      let results = await parser.parseItem(item)
       expect(results).to.eql(output)
     }))
   })

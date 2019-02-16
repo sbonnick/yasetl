@@ -9,10 +9,11 @@ env:
 
 jobs:
   include:
+  
     - stage: Test
       install: npm install
       script: npm test
-      
+
     - stage: Deploy Docker Container
       script:
         - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
