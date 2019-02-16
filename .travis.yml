@@ -1,16 +1,26 @@
+language: node_js
+node_js:
+  - 11
+
 env:
   global:
-  - COMMIT=${TRAVIS_COMMIT::8}
-  - REPO=sbonnick/jiraextract
+    - COMMIT=${TRAVIS_COMMIT::8}
+    - REPO=sbonnick/jiraextract
 
-script:
- - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
- - docker build -t $REPO:$TAG . 
-
-after_success:
-- if [ "$TRAVIS_BRANCH" == "master" ]; then
-   docker login -u $DOCKER_USER -p $DOCKER_PASS;
-   docker tag $REPO:$COMMIT $REPO:$TAG;
-   docker tag $REPO:$COMMIT $REPO:$TRAVIS_BUILD_NUMBER;
-   docker push $REPO;
-   fi
+jobs:
+  include:
+    - stage: Test
+      install: npm install
+      script: npm test
+      
+    - stage: Deploy Docker Container
+      script:
+        - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+        - docker build -t $REPO:$TAG . 
+      after_success:
+        - if [ "$TRAVIS_BRANCH" == "master" ]; then
+            docker tag $REPO:$COMMIT $REPO:$TAG;
+            docker login -u $DOCKER_USER -p $DOCKER_PASS;
+            docker tag $REPO:$COMMIT $REPO:$TRAVIS_BUILD_NUMBER;
+            docker push $REPO;
+          fi
