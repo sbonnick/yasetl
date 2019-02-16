@@ -2,6 +2,7 @@ const { Client } = require('pg')
 const isObject = require('lodash/isObject');
 const isString = require('lodash/isString');
 const moment   = require('moment-timezone');
+const Retry   = require('promise-retry');
 
 class PostgressWriter {
 
@@ -15,7 +16,12 @@ class PostgressWriter {
   }
 
   async create() {
-    await this.db.connect()
+    var db = this.db
+    Retry(async function (retry) {
+      console.log('Database not yet available');
+      return await db.connect()
+        .catch(retry)
+    })    
 
     let schema = []
     Object.keys(this.fields).forEach(name => {
