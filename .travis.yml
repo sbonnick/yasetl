@@ -15,7 +15,7 @@ jobs:
         - npm install
       script: 
         - npm test
-        - npm coverage
+        - npm run coverage
 
     - stage: Deploy Docker Container
       script:
