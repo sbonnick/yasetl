@@ -11,8 +11,11 @@ jobs:
   include:
   
     - stage: Test
-      install: npm install
-      script: npm test
+      install: 
+        - npm install
+      script: 
+        - npm test
+        - npm coverage
 
     - stage: Deploy Docker Container
       script:
