@@ -42,7 +42,6 @@ class jiraParser {
 
   _fnFilter(item, field) {
     let result = get(item, field.source, [])
-                  //.filter(value => field.criteria.toLowerCase().indexOf(value.toLowerCase()) !== -1)
                   .filter(value => field.criteria.findIndex(item => item.toLowerCase() === value.toLowerCase()) != -1)
     
     if ('return' in field && field.return == 'first')
