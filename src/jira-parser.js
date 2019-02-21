@@ -1,6 +1,7 @@
 const isString = require('lodash/isString');
 const isObject = require('lodash/isObject');
 const get      = require('lodash/get');
+const str_     = require('lodash/string')
 const moment   = require('moment');
                  require('moment-weekday-calc');
 
@@ -21,7 +22,13 @@ class jiraParser {
     Object.keys(this.fields).forEach(fieldName => {
       let field = this.fields[fieldName]
       let fn = (isObject(field) && 'function' in field) ? field.function : 'simple' 
-      sanitizedItem[fieldName] = this._fn(fn)(item, field)
+      let ca = (isObject(field) && 'case' in field)     ? field.case     : null
+
+      let fnResp = this._fn(fn)(item, field)
+      let caResp = this._castCase(fnResp, ca)
+      // Add string replacer logic
+
+      sanitizedItem[fieldName] = caResp
     });
     return sanitizedItem;
   }
@@ -80,7 +87,19 @@ class jiraParser {
       'map':      this._fnMap,
       'daysdiff': this._fnDaysDiff
     }
-    return get(functions, fn, this._fnNull)
+    return get(functions, fn.toLowerCase(), this._fnNull)
+  }
+
+  _castCase(value, cast) {
+    if (value == null || cast == null || !isString(value)) return value
+    
+    switch(cast.toLowerCase()) {
+      case "lowercase":  return value.toLowerCase();
+      case "uppercase":  return value.toUpperCase();
+      case "propercase": return str_.capitalize(value);
+      case "camelcase":  return str_.camelCase(value);
+      default:           return value;
+    }
   }
 }
 
@@ -88,3 +107,5 @@ module.exports = jiraParser
 
 // TODO: handle config fields in a case-insensitive way
 // TODO: change _getStateChangeDates() to use MAPs and an object append to iterate
+// TODO: introduce a logger
+// TODO: inherit from base class with common parsing removed

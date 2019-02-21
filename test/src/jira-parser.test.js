@@ -280,4 +280,24 @@ describe('Jira-Parser', () => {
       expect(fct.name).to.equal('_fnNull')
     }))
   })
+
+  describe('_castCase()', () => {
+    let parser = new jiraParser(null)
+    let cmd = [
+      {value: "tHIS ShouldFunction correctlyAs EXPECTED", cast: "lowercase", result: "this shouldfunction correctlyas expected"},
+      {value: "tHIS ShouldFunction correctlyAs EXPECTED", cast: "uppercase", result: "THIS SHOULDFUNCTION CORRECTLYAS EXPECTED"},
+      {value: "tHIS ShouldFunction correctlyAs EXPECTED", cast: "propercase", result: "This shouldfunction correctlyas expected"},
+      {value: "tHIS ShouldFunction correctlyAs EXPECTED", cast: "camelcase", result: "tHisShouldFunctionCorrectlyAsExpected"},
+      {value: "", cast: "", result: ""},
+      {value: 3465, cast: "lowercase", result: 3465},
+      {value: null, cast: null, result: null},
+    ]
+
+    cmd.forEach(function(input) {
+      it('should return correct case given the input cast ' + input.cast + '', test(function() {
+        let rtn = parser._castCase(input.value, input.cast)
+        expect(rtn).to.equal(input.result)
+      }))
+    })
+  })
 })
