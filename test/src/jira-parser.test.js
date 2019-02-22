@@ -11,7 +11,8 @@ describe('Jira-Parser', () => {
       "fields": {
         "components": [
           { "name": "Gateway" },
-          { "name": "Backend" }
+          { "name": "BackEnd" },
+          { "name": "frontend" }
         ],
         "labels": [ 'AAA', 'CCC', 'BBB' ],
         "created": "2018-12-11T08:14:28.000-0800",
@@ -147,7 +148,7 @@ describe('Jira-Parser', () => {
 
     it('should output a comma separated list as a string', test(function() {
       let results = parser._fnMap(item, field)
-      expect(results).to.equal('Gateway, Backend')
+      expect(results).to.equal('Gateway, BackEnd, frontend')
     }))
 
     it('should output a empty string with invalid criteria', test(function() {
@@ -160,6 +161,44 @@ describe('Jira-Parser', () => {
       field['source'] = "non-existent"
       let results = parser._fnMap(item, field)
       expect(results).to.equal('')
+    }))
+  })
+
+  describe('_fnMapFilter()', () => {
+    let field, parser
+
+    beforeEach(function() {
+      parser = new jiraParser(null)
+      field = {
+        function: "mapfilter",
+        source:   "fields.components",
+        map:      "name",
+        criteria: ["Gateway", "frontend"],
+        datatype: "text"
+      }
+    });
+
+    it('should output a comma separated list as a string with all criteria matching', test(function() {
+      let results = parser._fnMapFilter(item, field)
+      expect(results).to.equal('Gateway, frontend')
+    }))
+
+    it('should output a comma separated list as a string with single criteria matching', test(function() {
+      field['criteria'] = ["Gateway", "Something"]
+      let results = parser._fnMapFilter(item, field)
+      expect(results).to.equal('Gateway')
+    }))
+
+    it('should output a empty string with no criteria matching', test(function() {
+      field['criteria'] = ["Blah", "Foo"]
+      let results = parser._fnMapFilter(item, field)
+      expect(results).to.equal('')
+    }))
+
+    it('should output the first match as a string when return is set to "first"', test(function() {
+      field['return'] = "first"
+      let results = parser._fnMapFilter(item, field)
+      expect(results).to.equal('Gateway')
     }))
   })
 
@@ -259,7 +298,7 @@ describe('Jira-Parser', () => {
 
   describe('_fn()', () => {
     let parser
-    let fnSupported = ["simple", "filter", "map", "daysdiff"]
+    let fnSupported = ["simple", "filter", "map", "mapfilter", "daysdiff"]
 
     beforeEach(function() {
       parser = new jiraParser(null)

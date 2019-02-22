@@ -65,6 +65,18 @@ class jiraParser {
             .join(", ")
   }
 
+  _fnMapFilter(item, field) {
+    let result = get(item, field.source, [])
+                .map( value => get(value, field.map))
+                .filter(value => field.criteria.findIndex(item => item.toLowerCase() === value.toLowerCase()) != -1)
+
+    if ('return' in field && field.return == 'first')
+      result = result.shift() || null
+    else 
+      result = result.join(", ")
+    return result;
+  }
+
   _fnDaysDiff(item, field) {
     let source = get(item, field.source, null)
     let criteria = get(item, field.criteria, null)
@@ -82,10 +94,11 @@ class jiraParser {
 
   _fn(fn) { 
     let functions = {
-      'simple':   this._fnSimple,
-      'filter':   this._fnFilter,
-      'map':      this._fnMap,
-      'daysdiff': this._fnDaysDiff
+      'simple':    this._fnSimple,
+      'filter':    this._fnFilter,
+      'map':       this._fnMap,
+      'mapfilter': this._fnMapFilter,
+      'daysdiff':  this._fnDaysDiff
     }
     return get(functions, fn.toLowerCase(), this._fnNull)
   }
@@ -109,3 +122,5 @@ module.exports = jiraParser
 // TODO: change _getStateChangeDates() to use MAPs and an object append to iterate
 // TODO: introduce a logger
 // TODO: inherit from base class with common parsing removed
+
+// TODO: FIXME: Hacked in "mapfilter" to solve a short term chaining problem. refactoring to natively support chaining is better
