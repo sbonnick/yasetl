@@ -26,9 +26,9 @@ class jiraParser {
 
       let fnResp = this._fn(fn)(item, field)
       let caResp = this._castCase(fnResp, ca)
-      // Add string replacer logic
+      let reResp = this._replace(caResp, field)
 
-      sanitizedItem[fieldName] = caResp
+      sanitizedItem[fieldName] = reResp
     });
     return sanitizedItem;
   }
@@ -113,6 +113,17 @@ class jiraParser {
       case "camelcase":  return str_.camelCase(value);
       default:           return value;
     }
+  }
+
+  _replace(value, field) {
+    if (value == null || !isString(value) || field.replace == null)
+      return value
+
+    return value.replace(
+      new RegExp(
+        get(field, 'replace.regex', ""),
+        get(field, 'replace.flags', "gi")), 
+      get(field, 'replace.with', ""))   
   }
 }
 

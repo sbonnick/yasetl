@@ -339,4 +339,25 @@ describe('Jira-Parser', () => {
       }))
     })
   })
+
+  describe('_replace()', () => {
+    let parser = new jiraParser(null)
+    let cmd = [
+      {value: "A4A", regex: "[^0-9.]", with: "", result: "4"},
+      {value: "", regex: "", with: "", result: ""},
+      {value: "", regex: null, with: "", result: ""},
+      {value: null, regex: null, with: null, result: null}
+    ]
+
+    cmd.forEach(function(input) {
+      it('should return correct replaced value with input "' + input.value + '", regex "' + input.regex + '"', test(function() {
+        let rtn = parser._replace(input.value, {
+          replace: {
+            regex: input.regex,
+            with:  input.with 
+          }})
+        expect(rtn).to.equal(input.result)
+      }))
+    })
+  })
 })
