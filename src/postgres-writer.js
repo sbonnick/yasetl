@@ -72,7 +72,7 @@ class PostgressWriter {
     let formattedKeys = []
     Object.keys(data).forEach(name => { 
 
-      let value = "'" + JSON.stringify(String(data[name])) + "'"
+      let value = "'" + String(data[name]).replace(/'/g, "\'") + "'"
       if (data[name] == null)
         return
 
