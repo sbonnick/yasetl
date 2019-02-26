@@ -72,9 +72,15 @@ class PostgressWriter {
     let formattedKeys = []
     Object.keys(data).forEach(name => { 
 
-      let value = "'" + String(data[name]).replace(/'/g, "\'") + "'"
       if (data[name] == null)
         return
+
+      let value = String(data[name])
+      var backslash = ~value.indexOf('\\');
+      var prefix = backslash ? 'E' : '';
+      value = value.replace(/'/g, "''");
+      value = val.replace(/\\/g, '\\\\');
+      value = prefix + "'" + val + "'";
 
       if (isObject(this.fields[name]) && 'datatype' in this.fields[name]) {
         if (this.fields[name].datatype == 'integer')
