@@ -42,7 +42,7 @@ class jiraReader {
       jql: jql, 
       maxResults: batchSize,    
       startAt: pageIndex,
-      expand: "changelog"                   
+      expand: "editmeta,changelog"                   
     })
   }
 

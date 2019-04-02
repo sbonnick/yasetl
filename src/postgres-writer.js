@@ -82,7 +82,7 @@ class PostgressWriter {
       value = prefix + "'" + value + "'";
 
       if (isObject(this.fields[name]) && 'datatype' in this.fields[name]) {
-        if (this.fields[name].datatype == 'integer')
+        if (this.fields[name].datatype == 'integer' || this.fields[name].datatype == 'real')
           value = data[name]
         if (this.fields[name].datatype == 'timestamptz')
           value = "'" + moment(data[name]).tz("America/Los_Angeles").format() + "'"

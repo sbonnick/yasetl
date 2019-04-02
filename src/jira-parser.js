@@ -116,10 +116,12 @@ class jiraParser {
   }
 
   _replace(value, field) {
-    if (value == null || !isString(value) || field.replace == null)
+    if (value == null || (isString(value) && value === "") || field.replace == null)
       return value
 
-    return value.replace(
+    let repValue = (isString(value)) ? value : JSON.stringify(value)
+
+    return repValue.replace(
       new RegExp(
         get(field, 'replace.regex', ""),
         get(field, 'replace.flags', "gi")), 

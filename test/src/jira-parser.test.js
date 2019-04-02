@@ -346,7 +346,8 @@ describe('Jira-Parser', () => {
       {value: "A4A", regex: "[^0-9.]", with: "", result: "4"},
       {value: "", regex: "", with: "", result: ""},
       {value: "", regex: null, with: "", result: ""},
-      {value: null, regex: null, with: null, result: null}
+      {value: null, regex: null, with: null, result: null},
+      {value: ["state=ACTIVE,name=34.2 Sprint 1,startDate=2019-02-19"], regex: "^.*name=.*([0-9]{2})\\.([0-9]{1}) .*?([0-9]).*", with: "$1$2$3", result: "3421"}
     ]
 
     cmd.forEach(function(input) {
