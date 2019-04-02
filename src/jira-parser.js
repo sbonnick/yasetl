@@ -121,6 +121,9 @@ class jiraParser {
 
     let repValue = (isString(value)) ? value : JSON.stringify(value)
 
+    if (get(field, 'replace.mustMatch', true) && repValue.match(get(field, 'replace.regex', "")) == null)
+      return null
+
     return repValue.replace(
       new RegExp(
         get(field, 'replace.regex', ""),
