@@ -18,7 +18,6 @@ class extractor {
 
   _writer(name) {
     switch (name) {
-      case 'sqlite':   return require('./sqlite-writer');
       case 'postgres': return require('./postgres-writer');
       default:         return null;
     }
