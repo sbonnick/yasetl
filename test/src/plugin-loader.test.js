@@ -7,9 +7,9 @@ const test         = require('sinon-test')(sinon);
 chai.use(chaiPromise);
 const expect = chai.expect;
 
-describe('Plugins', () => {
+describe('Plugin Loader', () => {
 
-  const pluginPath         = __dirname  + '/plugins/generic/'
+  const pluginPath         = __dirname   + '/../resources/plugins/generic/'
   const simplePluginPath   = pluginPath  + 'simple-plugin.js'
   const extendedPluginPath = pluginPath  + 'extended-plugin.js'
   const otherPluginPath    = pluginPath  + 'other-plugin.js'
