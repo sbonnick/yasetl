@@ -24,30 +24,22 @@ describe('String Format Processor', () => {
   })
 
   describe('process()', () => {
-    it('should by default pass through input when configuration is null', test(async function() {
-      let proc = new Processor()
-      let processed = await proc.process('value', null)
-      expect(processed).equal('value')
-    }))
 
-    it('should by default pass through input when configuration does not containa format', test(async function() {
-      let proc = new Processor()
-      let processed = await proc.process('value', {})
-      expect(processed).equal('value')
-    }))
-
+    let commonInput = "tHIS ShouldFunction correctlyAs EXPECTED"
     let cmd = [
-      {value: "tHIS ShouldFunction correctlyAs EXPECTED", config: {format: "lowercase"}, result: "this shouldfunction correctlyas expected"},
-      {value: "tHIS ShouldFunction correctlyAs EXPECTED", config: {format: "uppercase"}, result: "THIS SHOULDFUNCTION CORRECTLYAS EXPECTED"},
-      {value: "tHIS ShouldFunction correctlyAs EXPECTED", config: {format: "propercase"}, result: "This shouldfunction correctlyas expected"},
-      {value: "tHIS ShouldFunction correctlyAs EXPECTED", config: {format: "camelcase"}, result: "tHisShouldFunctionCorrectlyAsExpected"},
-      {value: "", config: {format: ""}, result: ""},
-      {value: 3465, config: {format: "lowercase"}, result: '3465'},
-      {value: null, config: {format: null}, result: null},
+      {test: "should by default pass through input when configuration is null", value: commonInput, config: null, result: commonInput},
+      {test: "should by default pass through input when configuration does not containa format", value: commonInput, config: {}, result: commonInput},
+      {test: "should return correct case given format lowercase", value: commonInput, config: {format: "lowercase"}, result: "this shouldfunction correctlyas expected"},
+      {test: "should return correct case given format uppercase", value: commonInput, config: {format: "uppercase"}, result: "THIS SHOULDFUNCTION CORRECTLYAS EXPECTED"},
+      {test: "should return correct case given format propercase", value: commonInput, config: {format: "propercase"}, result: "This shouldfunction correctlyas expected"},
+      {test: "should return correct case given format camelcase", value: commonInput, config: {format: "camelcase"}, result: "tHisShouldFunctionCorrectlyAsExpected"},
+      {test: "should return correct case given blank string values", value: "", config: {format: ""}, result: ""},
+      {test: "should return correct case given integers returned as string", value: 3465, config: {format: "lowercase"}, result: '3465'},
+      {test: "should return correct case given all null values", value: null, config: {format: null}, result: null},
     ]
 
     cmd.forEach(function(input) {
-      it('should return correct case given the input cast ' + input.config.format + '', test(async function() {
+      it(input.test, test(async function() {
         let proc = new Processor()
         let processed = await proc.process(input.value, input.config)
         expect(processed).to.equal(input.result)
