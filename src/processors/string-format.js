@@ -16,7 +16,8 @@ class StringFormat extends Processor {
       configuration:  {
         format: {
           required: true,
-          values: ['lowercase', 'uppercase', 'propercase', 'camelcase']
+          type:     String,
+          values:   ['lowercase', 'uppercase', 'propercase', 'camelcase']
         }
       }
     }
