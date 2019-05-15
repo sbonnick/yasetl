@@ -28,8 +28,9 @@ class StringFormat extends Processor {
     if (input == null) return input
     if (configuration == null || get(configuration, 'format', null) == null) return input  
 
-    let inputString = (lang.isString(input)) ? input : JSON.stringify(input)
-      
+    let joinChar = get(configuration, 'joinOn', " ")
+    let inputString = await this._convertToString(input, joinChar)
+
     switch(configuration.format.toLowerCase()) {
       case "lowercase":  return inputString.toLowerCase();
       case "uppercase":  return inputString.toUpperCase();
@@ -38,6 +39,18 @@ class StringFormat extends Processor {
       default:           return inputString;
     }
   }
+
+  async _convertToString(value, joinChar = " ") {
+    if (lang.isString(value)) 
+      return value;
+
+    if (lang.isArrayLikeObject(value)) {
+      let ret = await Promise.all(value.map(iter => this._convertToString(iter, joinChar)))
+      return ret.join(joinChar);
+    }
+     
+    return JSON.stringify(value)
+  } 
 
 }
 

@@ -36,6 +36,8 @@ describe('String Format Processor', () => {
       {test: "should return correct case given blank string values", value: "", config: {format: ""}, result: ""},
       {test: "should return correct case given integers returned as string", value: 3465, config: {format: "lowercase"}, result: '3465'},
       {test: "should return correct case given all null values", value: null, config: {format: null}, result: null},
+      {test: "should return correct case given format camelcase and array input", value: ["blah", "foo","bar"], config: {format: "camelcase", joinOn: ","}, result: "blahFooBar"},
+      {test: "should return correct case given format camelcase and object input", value: {foo: "bar"}, config: {format: "camelcase"}, result: "fooBar"},
     ]
 
     cmd.forEach(function(input) {
