@@ -8,12 +8,12 @@ class ArrayFilter extends Processor {
       this.description = {
         name:           "Filter Array",
         description:    "Filters out items in an array given criteria",
-        inputHint:      Array,
+        inputHint:      [Array],
         outputHint:     Array,
         configuration:  {
           criteria: {
             required: true,
-            type:     String
+            type:     Array
           }
         }
       }

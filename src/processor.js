@@ -4,7 +4,7 @@ class Processor {
     this.description = {
       name:           "processor",
       description:    "Base Processor. Does no actions on its own",
-      inputHint:      String,
+      inputHint:      [String],
       outputHint:     String,
       configuration:  {}
     }

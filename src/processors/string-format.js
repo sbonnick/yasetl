@@ -11,13 +11,18 @@ class StringFormat extends Processor {
     this.description = {
       name:           "Format String",
       description:    "Formats a string using several different formats",
-      inputHint:      String,
+      inputHint:      [String, Array],
       outputHint:     String,
       configuration:  {
         format: {
           required: true,
           type:     String,
           values:   ['lowercase', 'uppercase', 'propercase', 'camelcase']
+        },
+        joinOn: {
+          required: false,
+          type:     String,
+          default:  " "
         }
       }
     }
@@ -28,7 +33,8 @@ class StringFormat extends Processor {
     if (input == null) return input
     if (configuration == null || get(configuration, 'format', null) == null) return input  
 
-    let joinChar = get(configuration, 'joinOn', " ")
+    let joinChar = get(configuration, 'joinOn', this.description.configuration.joinOn.default)
+    
     let inputString = await this._convertToString(input, joinChar)
 
     switch(configuration.format.toLowerCase()) {
@@ -40,7 +46,7 @@ class StringFormat extends Processor {
     }
   }
 
-  async _convertToString(value, joinChar = " ") {
+  async _convertToString(value, joinChar) {
     if (lang.isString(value)) 
       return value;
 
