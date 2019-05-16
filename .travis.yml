@@ -1,11 +1,12 @@
 language: node_js
 node_js:
-  - 11
+  - 12
 
 env:
   global:
     - COMMIT=${TRAVIS_COMMIT::8}
     - REPO=sbonnick/jiraextract
+    - CC_TEST_REPORTER_ID=1d1feab1aa80de2134f70a2b51bb34a752fb7bc0884f2220fd931682082a2244
 
 jobs:
   include:
@@ -13,9 +14,14 @@ jobs:
     - stage: Test
       install: 
         - npm install
+        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        - chmod +x ./cc-test-reporter
+        - ./cc-test-reporter before-build
       script: 
         - npm test
         - npm run coverage
+      after_script:
+        - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
     - stage: Deploy Docker Container
       script:
