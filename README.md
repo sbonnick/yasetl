@@ -3,6 +3,12 @@
 [![Build Status](https://travis-ci.org/sbonnick/jiraextract.svg?branch=master)](https://travis-ci.org/sbonnick/jiraextract)
 [![codecov](https://codecov.io/gh/sbonnick/jiraextract/branch/master/graph/badge.svg)](https://codecov.io/gh/sbonnick/jiraextract)
 
+[![dependencies Status](https://david-dm.org/sbonnick/jiraextract/status.svg)](https://david-dm.org/sbonnick/jiraextract)
+[![devDependencies Status](https://david-dm.org/sbonnick/jiraextract/dev-status.svg)](https://david-dm.org/sbonnick/jiraextract?type=dev)
+
+[![Docker](https://images.microbadger.com/badges/image/sbonnick/jiraextract.svg)](https://microbadger.com/images/sbonnick/jiraextract)
+[![Docker](https://images.microbadger.com/badges/version/sbonnick/jiraextract.svg)](https://microbadger.com/images/sbonnick/jiraextract)
+
 
 ## Proposed syntax:
 node index.js --source.username user --source.password password --source.baseurl https://api.atlassian.com/ex/jira/${cloudId}/rest
