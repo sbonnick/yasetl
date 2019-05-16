@@ -5,34 +5,52 @@
 
 
 ## Proposed syntax:
-node index.js --username user --password password --baseurl https://api.atlassian.com/ex/jira/${cloudId}/rest
+node index.js --source.username user --source.password password --source.baseurl https://api.atlassian.com/ex/jira/${cloudId}/rest
 
 ## Proposed Configuration:
 
-### Option 1
+### General
 ```
-output: {
-  processor: string-format,
-  format:  camelcase,
-  input: {
-    processor: array-filter,
-    criteria:  [blah],
-    input:     source.lables
+{
+  "schemaVersion": "0.1",
+  "source": {
+    "engine":   "jira",
+    "baseurl":  "https://api.atlassian.com/ex/jira/cloudId/rest",
+    "query":    "project=PROD ORDER BY status ASC",
+    "username": "user",
+    "password": "password",
+  },
+  "destination": {
+    "engine":      "postgres",
+    "connection":  "postgresql://postgres:1234@localhost:5432/postgres",
+    "table":       "jira"
+  },
+  "fields": {
+    ...
   }
 }
 ```
 
-### Option 2
+### Fields
+
+field processors are chained linearly. the output of one is streamed into the next.
 
 ```
-output: {
-  source: labels,
-  processors: [{
-    processor: array-filter,
-    criteria:  [blah]
+"<field>": {
+  "input":    "RECORD.fields.labels",
+  "datatype": "text",
+  "internal": false,  
+  "processors": [{
+    "processor": "array-filter",
+    "criteria":  ["blah"]
   },{
-    processor: string-format,
-    criteria:  camelcase
+    "processor": "string-format",
+    "criteria":  "camelcase"
   }]
 }
 ```
+
+### Filed Input Options
+
+- RECORD [default]: referencing the source item object or a sub record of it
+- FIELD: referencing a already processed field record
