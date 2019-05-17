@@ -20,17 +20,6 @@
       "text"
     ]
   },
-  "eslintConfig": {
-    "env": {
-      "node": true,
-      "es6": true
-    },
-    "parserOptions": {
-      "ecmaVersion": 10,
-      "sourceType": "module"
-    },
-    "extends": ["eslint:recommended"]
-  },
   "dependencies": {
     "@atlassian/jira": "^0.1.0",
     "debug": "^4.1.1",
