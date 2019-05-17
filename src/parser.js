@@ -3,15 +3,15 @@ const Processor    = require('./processor');
 
 class Parser {
 
-  constructor (processors, fields) {
+  constructor (fields, processors) {
     this.processors = processors
     this.fields     = fields
   }
 
-  static async load(fields) {
+  static async init(fields) {
     let loader     = new PluginLoader({ extends: Processor })
     let processors = await loader.loadPlugins(__dirname + '/processors/')
-    return new Parser(processors, fields)
+    return new Parser(fields, processors)
   }
 
   async parse(data) {
