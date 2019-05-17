@@ -3,12 +3,15 @@ const Processor    = require('./processor');
 
 class Parser {
 
-  constructor (fields) {
-    let loader     = new PluginLoader({ extends: Processor })
-    let processors = await loader.loadPlugins(__dirname + '/processors/')
-
+  constructor (processors, fields) {
     this.processors = processors
     this.fields     = fields
+  }
+
+  static async load(fields) {
+    let loader     = new PluginLoader({ extends: Processor })
+    let processors = await loader.loadPlugins(__dirname + '/processors/')
+    return new Parser(processors, fields)
   }
 
   async parse(data) {
@@ -22,6 +25,8 @@ class Parser {
     Object.keys(this.fields).forEach(fieldName => {
       let field = this.fields[fieldName]
       
+      console.log(item, field)
+
       //TODO: Iterate over defined processors in fields and execute the chain, returning value to output field for each input item
 
       sanitizedItem[fieldName] = null
@@ -29,3 +34,5 @@ class Parser {
     return sanitizedItem;
   }
 }
+
+module.exports = Parser

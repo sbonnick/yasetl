@@ -88,6 +88,7 @@ class jiraParser {
     return (isString(field)) ? get(item, field, null) : get(item, field.source, null)
   }
 
+  // eslint-disable-next-line no-unused-vars
   _fnNull(item, field) { 
     return null 
   }

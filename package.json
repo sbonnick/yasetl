@@ -20,6 +20,17 @@
       "text"
     ]
   },
+  "eslintConfig": {
+    "env": {
+      "node": true,
+      "es6": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 10,
+      "sourceType": "module"
+    },
+    "extends": ["eslint:recommended"]
+  },
   "dependencies": {
     "@atlassian/jira": "^0.1.0",
     "debug": "^4.1.1",
@@ -36,6 +47,7 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "codecov": "^3.3.0",
+    "eslint": "^5.16.0",
     "mocha": "^6.1.4",
     "nyc": "^14.1.0",
     "sinon": "^7.2.3",

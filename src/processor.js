@@ -14,6 +14,7 @@ class Processor {
     return this.description;
   }
 
+  // eslint-disable-next-line no-unused-vars
   async process(input, configuration) {
     return input
   }
