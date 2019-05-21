@@ -1,8 +1,8 @@
 const { Client } = require('pg')
 const isObject   = require('lodash/isObject');
-const isString   = require('lodash/isString');
 const moment     = require('moment-timezone');
 const Retry      = require('promise-retry');
+const logger     = require('pino');
 
 class PostgressWriter {
 
@@ -20,7 +20,7 @@ class PostgressWriter {
       db = new Client({ connectionString: con })
       return await db.connect()
         .catch(err => {
-          console.log(err)
+          logger.info(err)
           retry(err)
         })
     })    
@@ -43,11 +43,11 @@ class PostgressWriter {
 
     await this.db.query(`DROP TABLE IF EXISTS ${this.table}`)
       .then(`Dropping table ${this.table}`)
-      .catch(console.log)
+      .catch(logger.info)
 
     await this.db.query(`CREATE TABLE IF NOT EXISTS ${this.table} (${schema.join(', ')})`)
       .then(`Creating table ${this.table}`)
-      .catch(console.log)
+      .catch(logger.info)
   }
 
   async insert(data) {
@@ -59,7 +59,7 @@ class PostgressWriter {
     let query = this._buildInsertQuery(data)
     await this.db.query(query)
       .catch(err => {
-        console.log({error: err.error, query: query, hint: err.hint})
+        logger.info({error: err.error, query: query, hint: err.hint})
       })
   }
 

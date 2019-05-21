@@ -1,5 +1,6 @@
 const PluginLoader = require('./plugin-loader');
 const Processor    = require('./processor');
+const logger       = require('pino');
 
 class Parser {
 
@@ -25,7 +26,7 @@ class Parser {
     Object.keys(this.fields).forEach(fieldName => {
       let field = this.fields[fieldName]
       
-      console.log(item, field)
+      logger.info(item, field)
 
       //TODO: Iterate over defined processors in fields and execute the chain, returning value to output field for each input item
 

@@ -1,7 +1,7 @@
 const fs        = require('fs');
 const minimist  = require('minimist');
 const extractor = require('./src/extractor');
-
+const logger    = require('./src/pino')
 
 const argv = minimist((process.argv.slice(2)))
 
@@ -14,13 +14,12 @@ function getArgument(value, def = null) {
 let debug = (getArgument('loglevel') == 'debug') ? true : false
 
 if(debug) {
-  console.log('Input Paramaters')
-  console.log('----------------')
+  logger.debug('Input Paramaters')
+  logger.debug('----------------')
   let con = ['config', 'baseurl','username', 'cron']
   con.forEach(element => {
-    console.log(`${element} = ${getArgument(element, "NULL")}`)
+    logger.debug(`${element} = ${getArgument(element, "NULL")}`)
   });
-  console.log('')
 }
 
 let configuration = JSON.parse(

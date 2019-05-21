@@ -1,10 +1,10 @@
 const schedule = require('node-schedule');
 const moment   = require('moment');
-const humanize = require('humanize-duration')
+const humanize = require('humanize-duration');
+const logger   = require('pino');
 
 const jiraReader   = require('./jira-reader');
 const jiraParser   = require('./jira-parser');
-
 
 class extractor {
   constructor(config, baseurl, username, password, debug = false) {
@@ -34,7 +34,7 @@ class extractor {
 
     var duration = humanize(moment(Date.now()).diff(moment(fireDate)))
 
-    console.log(`Extracted ${values.length} records from jira to ${config.output.format}  (${duration})`)
+    logger.info(`Extracted ${values.length} records from jira to ${config.output.format}  (${duration})`)
   }
 
   run(cron = null) {  
