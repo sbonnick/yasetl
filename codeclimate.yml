@@ -2,9 +2,6 @@ plugins:
   eslint:
     enabled: true
     channel: "eslint-5"
-    config:
-      extensions:
-      - .es6
   editorconfig:
     enabled: true
   git-legal:

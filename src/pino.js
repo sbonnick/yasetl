@@ -1,5 +1,5 @@
-const pino       = require('pino'); 
-const pinoPretty = require('pino-pretty');
+const pino = require('pino')
+const pinoPretty = require('pino-pretty')
 
 // Basic logger. good for Docker compose as it will have its own timestamps
 const logger = pino({
@@ -8,12 +8,11 @@ const logger = pino({
   prettyPrint: {
     levelFirst: true,
     colorize: true,
-    ignore: "time,pid,hostname"
-    //translateTime: "yyyy-mm-dd'T'HH:MM:ss"
+    ignore: 'time,pid,hostname'
   },
   prettifier: pinoPretty
 })
 
-module.exports = logger;
+module.exports = logger
 
 // TODO: Only use prettyPrint for Dev environments or as a input
