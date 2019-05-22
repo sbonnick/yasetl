@@ -1,35 +1,35 @@
-const fs        = require('fs');
-const minimist  = require('minimist');
-const extractor = require('./src/extractor');
-const logger    = require('./src/pino')
+const fs = require('fs')
+const minimist = require('minimist')
+const Extractor = require('./src/extractor')
+const logger = require('./src/pino')
 
 const argv = minimist((process.argv.slice(2)))
 
-function getArgument(value, def = null) {
-  if (value in argv)              return argv[value]
-  else if (value in process.env)  return process.env[value]
-  else                            return def
+function getArgument (value, def = null) {
+  if (value in argv) return argv[value]
+  else if (value in process.env) return process.env[value]
+  else return def
 }
 
-let debug = (getArgument('loglevel') == 'debug') ? true : false
+let debug = (getArgument('loglevel') === 'debug')
 
-if(debug) {
+if (debug) {
   logger.debug('Input Paramaters')
   logger.debug('----------------')
-  let con = ['config', 'baseurl','username', 'cron']
+  let con = ['config', 'baseurl', 'username', 'cron']
   con.forEach(element => {
-    logger.debug(`${element} = ${getArgument(element, "NULL")}`)
-  });
+    logger.debug(`${element} = ${getArgument(element, 'NULL')}`)
+  })
 }
 
 let configuration = JSON.parse(
   fs.readFileSync(getArgument('config', 'config.json'), 'utf8')
-);
+)
 
-let app = new extractor(
-  configuration, 
-  getArgument('baseurl'), 
-  getArgument('username'), 
+let app = new Extractor(
+  configuration,
+  getArgument('baseurl'),
+  getArgument('username'),
   getArgument('password'),
   debug)
 

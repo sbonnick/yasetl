@@ -1,3 +1,4 @@
+const path = require('path')
 const PluginLoader = require('./plugin-loader')
 const Processor = require('./processor')
 const logger = require('pino')
@@ -10,7 +11,7 @@ class Parser {
 
   static async init (fields) {
     let loader = new PluginLoader({ extends: Processor })
-    let processors = await loader.loadPlugins(__dirname + '/processors/')
+    let processors = await loader.loadPlugins(path.join(__dirname, '/processors/'))
     return new Parser(fields, processors)
   }
 
