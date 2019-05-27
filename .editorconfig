@@ -8,3 +8,11 @@ insert_final_newline = true
 charset = utf-8
 indent_style = space
 indent_size = 2
+
+[package-lock.json]
+charset = ignore
+end_of_line = ignore
+insert_final_newline = ignore
+trim_trailing_whitespace = ignore
+indent_style = ignore
+indent_size = ignore
