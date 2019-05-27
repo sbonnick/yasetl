@@ -23,7 +23,13 @@
     "mocha/no-exclusive-tests": 1,
     "editorconfig/editorconfig": "error",
     "node/no-unpublished-require": ["error", {
-      "allowModules": ["chai", "chai-as-promised", "sinon", "sinon-test"]
+      "allowModules": [
+        "chai", 
+        "chai-as-promised", 
+        "sinon", 
+        "sinon-test", 
+        "mocha-eslint"
+      ]
     }]
   },
   "globals": {
