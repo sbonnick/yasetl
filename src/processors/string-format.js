@@ -36,11 +36,11 @@ class StringFormat extends Processor {
     let inputString = await this._convertToString(input, joinChar)
 
     switch (configuration.format.toLowerCase()) {
-      case 'lowercase': return inputString.toLowerCase()
-      case 'uppercase': return inputString.toUpperCase()
-      case 'propercase': return string.capitalize(inputString)
-      case 'camelcase': return string.camelCase(inputString)
-      default: return inputString
+    case 'lowercase': return inputString.toLowerCase()
+    case 'uppercase': return inputString.toUpperCase()
+    case 'propercase': return string.capitalize(inputString)
+    case 'camelcase': return string.camelCase(inputString)
+    default: return inputString
     }
   }
 

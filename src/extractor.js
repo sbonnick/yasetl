@@ -18,8 +18,8 @@ class extractor {
 
   _writer (name) {
     switch (name) {
-      case 'postgres': return require('./postgres-writer')
-      default: return null
+    case 'postgres': return require('./postgres-writer')
+    default: return null
     }
   }
 

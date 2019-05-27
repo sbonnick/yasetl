@@ -16,7 +16,8 @@
   "extends": [
     "eslint:recommended",
     "plugin:node/recommended",
-    "standard"
+    "standard",
+    "plugin:editorconfig/noconflict"
   ],
   "rules": {
     "mocha/no-exclusive-tests": 1,

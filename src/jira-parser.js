@@ -102,11 +102,11 @@ class jiraParser {
     if (value == null || cast == null || !isString(value)) return value
 
     switch (cast.toLowerCase()) {
-      case 'lowercase': return value.toLowerCase()
-      case 'uppercase': return value.toUpperCase()
-      case 'propercase': return str_.capitalize(value)
-      case 'camelcase': return str_.camelCase(value)
-      default: return value
+    case 'lowercase': return value.toLowerCase()
+    case 'uppercase': return value.toUpperCase()
+    case 'propercase': return str_.capitalize(value)
+    case 'camelcase': return str_.camelCase(value)
+    default: return value
     }
   }
 

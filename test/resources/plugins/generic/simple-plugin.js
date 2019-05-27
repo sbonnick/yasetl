@@ -1,11 +1,8 @@
 
 class simplePlugin {
-
-    constructor() {}
-
-    hello() {
-        return 'world';
-    }
+  hello () {
+    return 'world'
+  }
 }
 
 module.exports = simplePlugin

@@ -1,10 +1,8 @@
+
 class otherPlugin {
-
-    constructor() {}
-
-    hello() {
-        return 'bob';
-    }
+  hello () {
+    return 'bob'
+  }
 }
 
 module.exports = otherPlugin
