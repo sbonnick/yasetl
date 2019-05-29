@@ -21,16 +21,7 @@
   ],
   "rules": {
     "mocha/no-exclusive-tests": 1,
-    "editorconfig/editorconfig": "error",
-    "node/no-unpublished-require": ["error", {
-      "allowModules": [
-        "chai", 
-        "chai-as-promised", 
-        "sinon", 
-        "sinon-test", 
-        "mocha-eslint"
-      ]
-    }]
+    "editorconfig/editorconfig": "error"
   },
   "globals": {
   }

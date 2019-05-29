@@ -2,6 +2,7 @@
 config.json
 config*.json
 example*.json
+*dump.json
 .vscode
 
 # Logs

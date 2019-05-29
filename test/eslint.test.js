@@ -1,18 +1,33 @@
-const lint = require('mocha-eslint')
+const glob = require('glob')
+const CLIEngine = require('eslint').CLIEngine
+const assert = require('chai').assert
 
-var options = {
-  formatter: 'compact',
-  alwaysWarn: false, 
-  timeout: 10000, 
-  slow: 1000,
-  strict: true, 
-  contextName: 'eslint'
+const paths = glob.sync('./+(src|test)/**/*.js')
+const engine = new CLIEngine({
+  envs: ['node', 'mocha'],
+  useEslintrc: true
+})
+
+const results = engine.executeOnFiles(paths).results
+
+describe('ESLint', function () {
+  results.forEach((result) => generateTest(result))
+})
+
+function generateTest (result) {
+  const { filePath, messages } = result
+
+  it(`validates ${filePath}`, function () {
+    if (messages.length > 0) {
+      assert.fail(false, true, formatMessages(messages))
+    }
+  })
 }
 
-var paths = [
-  'src/**/*.js',
-  'test/**/*.js'
-]
+function formatMessages (messages) {
+  const errors = messages.map((message) => {
+    return `${message.line}:${message.column} ${message.message.slice(0, -1)} - ${message.ruleId}\n`
+  })
 
-// Run the tests
-lint(paths, options)
+  return `\n${errors.join('')}`
+}
