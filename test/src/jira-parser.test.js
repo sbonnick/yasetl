@@ -259,7 +259,7 @@ describe('Jira-Parser', () => {
     it('should output the difference in work days between two dates', test(function () {
       field['return'] = 'workday'
       let results = parser._fnDaysDiff(item, field)
-      expect(results).to.equal(19)
+      expect(results).to.equal(18)
     }))
   })
 

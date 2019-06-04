@@ -1,4 +1,4 @@
-const Processor = require('../../../src/processors/array-filter')
+const Processor = require('../../../../src/plugins/processors/array-filter')
 const chai = require('chai')
 const chaiPromise = require('chai-as-promised')
 const sinon = require('sinon')

@@ -74,8 +74,8 @@ class jiraParser {
   _fnDaysDiff (item, field) {
     let source = get(item, field.source, null)
     let criteria = get(item, field.criteria, null)
-    let range = ('return' in field && field.return === 'workday') ? [1, 2, 3, 4, 5] : [0, 1, 2, 3, 4, 5, 6]
-    return (source != null && criteria != null) ? moment().weekdayCalc(source, criteria, range) : null
+    let range = ('return' in field && field.return === 'workday') ? [1, 2, 3, 4, 5] : [1, 2, 3, 4, 5, 6, 7]
+    return (source != null && criteria != null) ? moment().isoWeekdayCalc(source, criteria, range) : null
   }
 
   _fnSimple (item, field) {

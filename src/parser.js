@@ -11,7 +11,7 @@ class Parser {
 
   static async init (fields) {
     let loader = new PluginLoader({ extends: Processor })
-    let processors = await loader.loadPlugins(path.join(__dirname, '/processors/'))
+    let processors = await loader.loadPlugins(path.join(__dirname, '/plugins/processors/'))
     return new Parser(fields, processors)
   }
 

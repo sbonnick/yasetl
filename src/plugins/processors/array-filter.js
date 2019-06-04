@@ -1,4 +1,4 @@
-const Processor = require('../processor')
+const Processor = require('../../processor')
 
 class ArrayFilter extends Processor {
   constructor () {
