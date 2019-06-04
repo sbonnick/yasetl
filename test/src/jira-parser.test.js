@@ -16,7 +16,7 @@ describe('Jira-Parser', () => {
         ],
         'labels': [ 'AAA', 'CCC', 'BBB' ],
         'created': '2018-12-11T08:14:28.000-0800',
-        'resolutiondate': '2019-01-04T13:08:18.000-0800'
+        'resolutiondate': '2019-01-03T13:08:18.000-0800'
       },
       'changelog': {
         'startAt': 0,
@@ -109,9 +109,9 @@ describe('Jira-Parser', () => {
       let output = {
         catalog: 'AAA',
         createdDate: '2018-12-11T08:14:28.000-0800',
-        cycleTime: 4,
+        cycleTime: 3,
         inProgressDate: '2019-01-01T11:09:08.000-0800',
-        resolutionDate: '2019-01-04T13:08:18.000-0800'
+        resolutionDate: '2019-01-03T13:08:18.000-0800'
       }
 
       let results = await parser.parseItem(item)
@@ -253,7 +253,7 @@ describe('Jira-Parser', () => {
 
     it('should output the difference in full days between two dates', test(function () {
       let results = parser._fnDaysDiff(item, field)
-      expect(results).to.equal(25)
+      expect(results).to.equal(24)
     }))
 
     it('should output the difference in work days between two dates', test(function () {
