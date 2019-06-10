@@ -2,7 +2,7 @@ const { Client } = require('pg')
 const isObject = require('lodash/isObject')
 const moment = require('moment-timezone')
 const Retry = require('promise-retry')
-const logger = require('pino')
+const logger = require('./pino')
 
 class PostgressWriter {
   constructor (connectionString, table, fields) {

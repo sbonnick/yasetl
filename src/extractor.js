@@ -1,7 +1,7 @@
 const schedule = require('node-schedule')
 const moment = require('moment')
 const humanize = require('humanize-duration')
-const logger = require('pino')
+const logger = require('./pino')
 
 const JiraReader = require('./jira-reader')
 const JiraParser = require('./jira-parser')

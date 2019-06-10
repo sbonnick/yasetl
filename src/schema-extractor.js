@@ -1,5 +1,5 @@
 const get = require('lodash/get')
-const logger = require('pino')
+const logger = require('./pino')
 const moment = require('moment')
 const humanize = require('humanize-duration')
 
