@@ -1,5 +1,6 @@
 const Processor = require('../../processor')
 
+// @ts-ignore
 class ArrayFilter extends Processor {
   constructor () {
     super()

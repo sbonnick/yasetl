@@ -23,8 +23,7 @@ class Parser {
   }
 
   async parse (data) {
-    let items = data.map(async item => this.parseItem(item))
-    return Promise.all(items)
+    return Promise.all(data.map(item => this.parseItem(item)))
   }
 
   async parseItem (item) {
@@ -71,3 +70,5 @@ class Parser {
 }
 
 module.exports = Parser
+
+// TODO: determine dependancy graph and work on tasks in parallel
