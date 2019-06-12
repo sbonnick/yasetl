@@ -71,4 +71,4 @@ class Parser {
 
 module.exports = Parser
 
-// TODO: determine dependancy graph and work on tasks in parallel
+// TODO: determine dependancy graph and work on fields in parallel

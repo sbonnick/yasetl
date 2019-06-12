@@ -2,6 +2,7 @@ const get = require('lodash/get')
 const logger = require('./pino')
 const moment = require('moment')
 const humanize = require('humanize-duration')
+const allSettled = require('promise.allsettled')
 
 class SchemaExtractor {
   constructor (configuration, configurationOverloads) {
@@ -46,9 +47,11 @@ class SchemaExtractor {
       fireDate = moment.now()
     }
 
-    let reader = this._getSourceReader()
-    let writer = this._getDestinationWriter()
-    let parser = this._getDataProcessor()
+    let reader = await this._getSourceReader()
+    let writer = await this._getDestinationWriter()
+    let parser = await this._getDataProcessor()
+
+    allSettled([reader, writer, parser])
 
     await writer.create()
 
