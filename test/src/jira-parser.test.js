@@ -1,7 +1,6 @@
 const JiraParser = require('../../src/jira-parser')
+const td = require('testdouble')
 const expect = require('chai').expect
-const sinon = require('sinon')
-const test = require('sinon-test')(sinon)
 
 describe('Jira-Parser', () => {
   let item
@@ -42,17 +41,21 @@ describe('Jira-Parser', () => {
   })
 
   describe('Parse()', () => {
-    it('should parse multiple issues', test(function () {
+    it('should parse multiple issues', function () {
       let parser = new JiraParser(null)
-      var stub = this.stub(parser, 'parseItem')
+      var stub = td.replace(parser, 'parseItem')
       let result = parser.parse(['one', 'two', 'three'])
       expect(result).to.not.equal(null)
-      expect(stub.callCount).equals(3)
-    }))
+      td.verify(stub(), { times: 3, ignoreExtraArgs: true })
+    })
+
+    after(function () {
+      td.reset()
+    })
   })
 
   describe('ParseItem()', () => {
-    it('should parse simple string mappings by default', test(async function () {
+    it('should parse simple string mappings by default', async function () {
       let parser = new JiraParser({
         createdDate: 'fields.created'
       })
@@ -63,9 +66,9 @@ describe('Jira-Parser', () => {
 
       let results = await parser.parseItem(item)
       expect(results).to.eql(output)
-    }))
+    })
 
-    it('should parse simple string mappings with no function specified', test(async function () {
+    it('should parse simple string mappings with no function specified', async function () {
       let parser = new JiraParser({
         createdDate: {
           source: 'fields.created'
@@ -78,9 +81,9 @@ describe('Jira-Parser', () => {
 
       let results = await parser.parseItem(item)
       expect(results).to.eql(output)
-    }))
+    })
 
-    it('should parse complex and mixed field functions', test(async function () {
+    it('should parse complex and mixed field functions', async function () {
       let parser = new JiraParser({
         createdDate: 'fields.created',
         resolutionDate: {
@@ -116,7 +119,7 @@ describe('Jira-Parser', () => {
 
       let results = await parser.parseItem(item)
       expect(results).to.eql(output)
-    }))
+    })
   })
 
   describe('_getStateChangeDates()', () => {
@@ -126,10 +129,10 @@ describe('Jira-Parser', () => {
       parser = new JiraParser(null)
     })
 
-    it('should return last date of all state changes', test(function () {
+    it('should return last date of all state changes', function () {
       let results = parser._getStateChangeDates(item)
       expect(results).to.have.property('inprogress', '2019-01-01T11:09:08.000-0800')
-    }))
+    })
   })
 
   describe('_fnMap()', () => {
@@ -145,22 +148,22 @@ describe('Jira-Parser', () => {
       }
     })
 
-    it('should output a comma separated list as a string', test(function () {
+    it('should output a comma separated list as a string', function () {
       let results = parser._fnMap(item, field)
       expect(results).to.equal('Gateway, BackEnd, frontend')
-    }))
+    })
 
-    it('should output a empty string with invalid criteria', test(function () {
+    it('should output a empty string with invalid criteria', function () {
       field['criteria'] = 'non-existent'
       let results = parser._fnMap(item, field)
       expect(results).to.equal('')
-    }))
+    })
 
-    it('should output a empty string with invalid source', test(function () {
+    it('should output a empty string with invalid source', function () {
       field['source'] = 'non-existent'
       let results = parser._fnMap(item, field)
       expect(results).to.equal('')
-    }))
+    })
   })
 
   describe('_fnMapFilter()', () => {
@@ -177,28 +180,28 @@ describe('Jira-Parser', () => {
       }
     })
 
-    it('should output a comma separated list as a string with all criteria matching', test(function () {
+    it('should output a comma separated list as a string with all criteria matching', function () {
       let results = parser._fnMapFilter(item, field)
       expect(results).to.equal('Gateway, frontend')
-    }))
+    })
 
-    it('should output a comma separated list as a string with single criteria matching', test(function () {
+    it('should output a comma separated list as a string with single criteria matching', function () {
       field['criteria'] = ['Gateway', 'Something']
       let results = parser._fnMapFilter(item, field)
       expect(results).to.equal('Gateway')
-    }))
+    })
 
-    it('should output a empty string with no criteria matching', test(function () {
+    it('should output a empty string with no criteria matching', function () {
       field['criteria'] = ['Blah', 'Foo']
       let results = parser._fnMapFilter(item, field)
       expect(results).to.equal('')
-    }))
+    })
 
-    it('should output the first match as a string when return is set to "first"', test(function () {
+    it('should output the first match as a string when return is set to "first"', function () {
       field['return'] = 'first'
       let results = parser._fnMapFilter(item, field)
       expect(results).to.equal('Gateway')
-    }))
+    })
   })
 
   describe('_fnFilter()', () => {
@@ -214,28 +217,28 @@ describe('Jira-Parser', () => {
       }
     })
 
-    it('should output a comma separated list as a string with all criteria matching', test(function () {
+    it('should output a comma separated list as a string with all criteria matching', function () {
       let results = parser._fnFilter(item, field)
       expect(results).to.equal('AAA, BBB')
-    }))
+    })
 
-    it('should output a comma separated list as a string with single criteria matching', test(function () {
+    it('should output a comma separated list as a string with single criteria matching', function () {
       field['criteria'] = ['AAA', 'DDD']
       let results = parser._fnFilter(item, field)
       expect(results).to.equal('AAA')
-    }))
+    })
 
-    it('should output a empty string with no criteria matching', test(function () {
+    it('should output a empty string with no criteria matching', function () {
       field['criteria'] = ['EEE', 'DDD']
       let results = parser._fnFilter(item, field)
       expect(results).to.equal('')
-    }))
+    })
 
-    it('should output the first match as a string when return is set to "first"', test(function () {
+    it('should output the first match as a string when return is set to "first"', function () {
       field['return'] = 'first'
       let results = parser._fnFilter(item, field)
       expect(results).to.equal('AAA')
-    }))
+    })
   })
 
   describe('_fnDaysDiff()', () => {
@@ -251,16 +254,16 @@ describe('Jira-Parser', () => {
       }
     })
 
-    it('should output the difference in full days between two dates', test(function () {
+    it('should output the difference in full days between two dates', function () {
       let results = parser._fnDaysDiff(item, field)
       expect(results).to.equal(24)
-    }))
+    })
 
-    it('should output the difference in work days between two dates', test(function () {
+    it('should output the difference in work days between two dates', function () {
       field['return'] = 'workday'
       let results = parser._fnDaysDiff(item, field)
       expect(results).to.equal(18)
-    }))
+    })
   })
 
   describe('_fnSimple()', () => {
@@ -270,17 +273,17 @@ describe('Jira-Parser', () => {
       parser = new JiraParser(null)
     })
 
-    it('should output when using a string value', test(function () {
+    it('should output when using a string value', function () {
       let field = 'fields.created'
       let results = parser._fnSimple(item, field)
       expect(results).to.equal('2018-12-11T08:14:28.000-0800')
-    }))
+    })
 
-    it('should output when using a source object', test(function () {
+    it('should output when using a source object', function () {
       let field = { source: 'fields.created' }
       let results = parser._fnSimple(item, field)
       expect(results).to.equal('2018-12-11T08:14:28.000-0800')
-    }))
+    })
   })
 
   describe('_fnNull()', () => {
@@ -290,9 +293,9 @@ describe('Jira-Parser', () => {
       parser = new JiraParser(null)
     })
 
-    it('should return null', test(function () {
+    it('should return null', function () {
       expect(parser._fnNull()).to.equal(null)
-    }))
+    })
   })
 
   describe('_fn()', () => {
@@ -304,19 +307,19 @@ describe('Jira-Parser', () => {
     })
 
     fnSupported.forEach(function (fn) {
-      it('should return function reference with ' + fn + ' function', test(function () {
+      it('should return function reference with ' + fn + ' function', function () {
         let fct = parser._fn(fn)
         expect(fct).to.be.a('function')
         expect(fct).to.have.lengthOf(2)
-      }))
+      })
     })
 
-    it('should return _fnNull reference on unrecognized functions', test(function () {
+    it('should return _fnNull reference on unrecognized functions', function () {
       let fct = parser._fn('fake')
       expect(fct).to.be.a('function')
       expect(fct).to.have.lengthOf(2)
       expect(fct.name).to.equal('_fnNull')
-    }))
+    })
   })
 
   describe('_castCase()', () => {
@@ -332,10 +335,10 @@ describe('Jira-Parser', () => {
     ]
 
     cmd.forEach(function (input) {
-      it('should return correct case given the input cast ' + input.cast + '', test(function () {
+      it('should return correct case given the input cast ' + input.cast + '', function () {
         let rtn = parser._castCase(input.value, input.cast)
         expect(rtn).to.equal(input.result)
-      }))
+      })
     })
   })
 
@@ -351,14 +354,14 @@ describe('Jira-Parser', () => {
     ]
 
     cmd.forEach(function (input) {
-      it('should return correct replaced value with input "' + input.value + '", regex "' + input.regex + '"', test(function () {
+      it('should return correct replaced value with input "' + input.value + '", regex "' + input.regex + '"', function () {
         let rtn = parser._replace(input.value, {
           replace: {
             regex: input.regex,
             with: input.with
           } })
         expect(rtn).to.equal(input.result)
-      }))
+      })
     })
   })
 })

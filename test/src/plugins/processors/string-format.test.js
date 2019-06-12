@@ -1,25 +1,23 @@
 const Processor = require('../../../../src/plugins/processors/string-format')
 const chai = require('chai')
 const chaiPromise = require('chai-as-promised')
-const sinon = require('sinon')
-const test = require('sinon-test')(sinon)
 
 chai.use(chaiPromise)
 const expect = chai.expect
 
 describe('String Format Processor', () => {
   describe('describe()', () => {
-    it('should contain mandatory description fields', test(async function () {
+    it('should contain mandatory description fields', async function () {
       let proc = new Processor()
       let description = await proc.describe()
       expect(description).to.have.all.keys('name', 'description', 'inputHint', 'outputHint', 'configuration')
-    }))
+    })
 
-    it('should contain override name', test(async function () {
+    it('should contain override name', async function () {
       let proc = new Processor()
       let description = await proc.describe()
       expect(description.name).equals('Format String')
-    }))
+    })
   })
 
   describe('process()', () => {
@@ -39,11 +37,11 @@ describe('String Format Processor', () => {
     ]
 
     cmd.forEach(function (input) {
-      it(input.test, test(async function () {
+      it(input.test, async function () {
         let proc = new Processor()
         let processed = await proc.process(input.value, input.config)
         expect(processed).to.equal(input.result)
-      }))
+      })
     })
   })
 })
