@@ -54,6 +54,7 @@
     "glob": "^7.1.4",
     "mocha": "^6.1.4",
     "nyc": "^14.1.1",
-    "testdouble": "^3.11.0"
+    "testdouble": "^3.11.0",
+    "tmp-promise": "^2.0.1"
   }
 }

@@ -5,9 +5,8 @@ const humanize = require('humanize-duration')
 const allSettled = require('promise.allsettled')
 
 class SchemaExtractor {
-  constructor (configuration, configurationOverloads) {
+  constructor (configuration) {
     this.configuration = configuration
-    this.configurationOverloads = configurationOverloads
 
     try {
       this.version = get(configuration, 'schemaVersion')
