@@ -3,13 +3,15 @@ const pinoPretty = require('pino-pretty')
 
 // Basic logger. good for Docker compose as it will have its own timestamps
 const logger = pino({
-  level: 'debug',
+  enabled: !(process.env.LOG_ENABLED === 'false'),
+  level: 'info',
   timestamp: false,
   prettyPrint: {
     levelFirst: true,
     colorize: true,
     ignore: 'time,pid,hostname'
   },
+  // @ts-ignore
   prettifier: pinoPretty
 })
 
