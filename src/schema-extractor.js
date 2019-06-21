@@ -2,7 +2,10 @@ const get = require('lodash/get')
 const logger = require('./pino')
 const moment = require('moment')
 const humanize = require('humanize-duration')
-const allSettled = require('promise.allsettled')
+
+const ReaderService = require('./reader-service')
+const WriterService = require('./writer-service')
+const ParserService = require('./parser')
 
 class SchemaExtractor {
   constructor (configuration) {
@@ -18,52 +21,34 @@ class SchemaExtractor {
     return this
   }
 
-  async _getSourceReader () {
-    let source = this.configuration.source
-    // TODO: lookup engine in a list of plugin impl instead of hard coded. Throw as default
-    if (source.engine === 'jira') {
-      let ReaderEngine = require('./jira-reader')
-      return new ReaderEngine(source.baseurl, source.username, source.password)
-    }
-  }
-
-  async _getDestinationWriter () {
-    let destination = this.configuration.destination
-    // TODO: lookup engine in a list of plugin impl instead of hard coded. Throw as default
-    if (destination.engine === 'postgres') {
-      let WriterEngine = require('./postgres-writer')
-      return new WriterEngine(destination.location, destination.table, destination.fields)
-    }
-  }
-
-  async _getDataProcessor () {
-    let Parser = require('./parser')
-    return Parser.init()
-  }
-
   async extract (fireDate) {
     if (fireDate === null) {
       fireDate = moment.now()
     }
 
-    let reader = await this._getSourceReader()
-    let writer = await this._getDestinationWriter()
-    let parser = await this._getDataProcessor()
+    let config = { ...this.configuration }
 
-    allSettled([reader, writer, parser])
+    let readerEngine = await ReaderService.init(config.source)
+    let writerEngine = await WriterService.init(config.destination)
+    let parser = await ParserService.init(config.fields)
 
-    await writer.create()
+    let reader = await readerEngine.loadEngine()
+    let writer = await writerEngine.loadEngine()
 
-    let results = await reader.query(this.configuration.source.query)
+    await writer.open()
+
+    let results = await reader.items()
 
     let values = await parser.parse(results)
 
-    await writer.insert(values)
+    await writer.items(values)
     await writer.close()
 
     var duration = humanize(moment(Date.now()).diff(moment(fireDate)))
 
     logger.info(`Extracted ${values.length} records from jira to ${this.configuration.source.engine}  (${duration})`)
+
+    return config
   }
 
   // TODO: Impl. should be moved to a schema version specific file, loaded by a factory
