@@ -5,6 +5,7 @@ const logger = require('./pino')
 
 const JiraReader = require('./plugins/readers/jira')
 const JiraParser = require('./jira-parser')
+const WriterEngine = require('./plugins/writers/postgres')
 
 class extractor {
   constructor (config, baseurl, username, password, debug = false) {
@@ -16,20 +17,13 @@ class extractor {
     return this
   }
 
-  _writer (name) {
-    switch (name) {
-    case 'postgres': return require('./postgres-writer')
-    default: return null
-    }
-  }
-
   static async extract (config, reader, parser, writer, fireDate) {
-    await writer.create()
+    await writer.open()
 
     let results = await reader.query({ query: config.jql })
     let values = await parser.parse(results)
 
-    await writer.insert(values)
+    await writer.items(values)
     await writer.close()
 
     var duration = humanize(moment(Date.now()).diff(moment(fireDate)))
@@ -47,8 +41,11 @@ class extractor {
     
     var parser = new JiraParser(this.config.output.fields)
 
-    let WriterEngine = this._writer(this.config.output.format)
-    let writer = new WriterEngine(this.config.output.location, this.config.output.table, this.config.output.fields)
+    let writer = new WriterEngine({
+      connection: this.config.output.location, 
+      table: this.config.output.table, 
+      fields: this.config.output.fields
+    })
 
     // Run extract Immediately on execution
     extractor.extract(this.config, reader, parser, writer, Date.now())
