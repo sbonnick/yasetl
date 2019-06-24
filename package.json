@@ -9,7 +9,8 @@
   "scripts": {
     "start": "node index.js",
     "test": "cross-env LOG_ENABLED=false nyc mocha --recursive",
-    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "depcheck": "npx depcheck"
   },
   "author": "stewart bonnick",
   "license": "MIT",
@@ -25,7 +26,7 @@
   },
   "dependencies": {
     "@atlassian/jira": "^0.1.0",
-    "debug": "^4.1.1",
+    "@lifeomic/attempt": "^3.0.0",
     "humanize-duration": "^3.17.0",
     "lodash": "^4.17.11",
     "minimist": "^1.2.0",
@@ -37,7 +38,7 @@
     "pino": "^5.12.6",
     "pino-pretty": "^3.1.0",
     "promise-retry": "^1.1.1",
-    "promise.allsettled": "^1.0.1"
+    "retry-as-promised": "^3.2.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
@@ -55,7 +56,6 @@
     "glob": "^7.1.4",
     "mocha": "^6.1.4",
     "nyc": "^14.1.1",
-    "testdouble": "^3.11.0",
-    "tmp-promise": "^2.0.1"
+    "testdouble": "^3.11.0"
   }
 }

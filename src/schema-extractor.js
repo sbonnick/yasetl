@@ -44,25 +44,17 @@ class SchemaExtractor {
     // Make a shallow copy of configurations
     let config = { ...this.configuration }
 
-    // let readerEngine = await PluginService.init(...readerServiceConfig)
-    // let writerEngine = await PluginService.init(...writerServiceConfig)
     let parser = await ParserService.init(config.fields)
-
-    // let reader = await readerEngine.loadEngine(config.source.engine, config.source)
-    // let writer = await writerEngine.loadEngine(config.destination.engine, config.destination)
-
     let reader = await this.initAndLoadEngine(readerServiceConfig, config.source)
     let writer = await this.initAndLoadEngine(writerServiceConfig, config.destination)
 
-    await writer.open()
-    await reader.open()
+    await Promise.all([writer.open(), reader.open()])
     
     let results = await reader.items()
     let values = await parser.parse(results)
     await writer.items(values)
-    
-    await reader.close()
-    await writer.close()
+
+    await Promise.all([reader.close(), writer.close()])
 
     var duration = humanize(moment(Date.now()).diff(moment(fireDate)))
 
@@ -72,7 +64,6 @@ class SchemaExtractor {
   }
 
   // TODO: Impl. should be moved to a schema version specific file, loaded by a factory
-  // TODO: Implement operation logic (Record replacement, looping, etc...) 
 }
 
 module.exports = SchemaExtractor

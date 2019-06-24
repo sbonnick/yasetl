@@ -4,17 +4,14 @@ class Writer {
     this.config = config
   }
 
-  async open () {
-    return true
-  }
+  async open () {}
 
-  async items (items) {
+  // @ts-ignore
+  async items (items, configuration) {
     throw Error('Writer Not implemented')
   }
 
-  async close () {
-    return true
-  }
+  async close () {}
 }
 
 module.exports = Writer

@@ -3,7 +3,7 @@ const moment = require('moment')
 const humanize = require('humanize-duration')
 const logger = require('./pino')
 
-const JiraReader = require('./jira-reader')
+const JiraReader = require('./plugins/readers/jira')
 const JiraParser = require('./jira-parser')
 
 class extractor {
@@ -26,7 +26,7 @@ class extractor {
   static async extract (config, reader, parser, writer, fireDate) {
     await writer.create()
 
-    let results = await reader.query(config.jql)
+    let results = await reader.query({ query: config.jql })
     let values = await parser.parse(results)
 
     await writer.insert(values)
@@ -38,7 +38,13 @@ class extractor {
   }
 
   run (cron = null) {
-    var reader = new JiraReader(this.baseurl, this.username, this.password)
+    var reader = new JiraReader({
+      baseurl: this.baseurl, 
+      username: this.username, 
+      password: this.password
+    })
+    reader.open()
+    
     var parser = new JiraParser(this.config.output.fields)
 
     let WriterEngine = this._writer(this.config.output.format)

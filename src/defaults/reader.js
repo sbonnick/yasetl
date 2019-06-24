@@ -4,17 +4,14 @@ class Reader {
     this.config = config
   }
 
-  async open () {
-    return true
-  }
+  async open () {}
 
-  async items () {
+  // @ts-ignore
+  async items (configuration) {
     throw Error('Reader Not implemented')
   }
 
-  async close () {
-    return true
-  }
+  async close () {}
 }
 
 module.exports = Reader
