@@ -37,7 +37,7 @@ class SchemaExtractor {
   }
 
   async extract (fireDate) {
-    if (fireDate === null) {
+    if (fireDate == null) {
       fireDate = moment.now()
     }
 
