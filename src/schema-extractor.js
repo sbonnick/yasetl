@@ -20,14 +20,11 @@ class SchemaExtractor {
   constructor (configuration) {
     this.configuration = configuration
 
-    try {
-      this.version = get(configuration, 'schemaVersion')
-      // TODO: Load specific schema implementation or throw
-    } catch (error) {
-      logger.error(error)
+    this.version = get(configuration, 'schemaVersion', null)
+    if (this.version == null) {
+      throw Error('no schemaVersion is specified in the configuration')
     }
-
-    return this
+    // TODO: Do something with specific schema implementation   
   }
 
   async initAndLoadEngine (loaderConfig, engineConfig) {

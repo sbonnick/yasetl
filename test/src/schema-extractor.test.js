@@ -3,6 +3,15 @@ const expect = require('chai').expect
 const moment = require('moment')
 
 describe('SchemaExtractor', () => {
+  describe('constructor()', () => {
+    it('throw error without a schema version in the configuration', async function () {
+      function expectFunc () { 
+        let extract = new SchemaExtractor({}) 
+        console.log(extract)
+      }
+      expect(expectFunc).to.throw('no schemaVersion is specified in the configuration')
+    })
+  })
   describe('extract()', () => {
     let config
 

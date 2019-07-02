@@ -2,10 +2,11 @@
   "env": {
     "node": true,
     "es6": true,
-    "mocha": true
+    "mocha": true,
+    "amd": true
   },
   "parserOptions": {
-    "ecmaVersion": 10,
+    "ecmaVersion": 2019,
     "sourceType": "module"
   },
   "plugins": [
