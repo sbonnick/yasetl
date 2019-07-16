@@ -14,11 +14,11 @@ class Parser {
   }
 
   static async init (fields) {
-    let dir = path.join(__dirname, '/plugins/processors/')
+    const dir = path.join(__dirname, '/plugins/processors/')
     logger.info('loading processor plugins from: ' + dir)
 
-    let loader = new PluginLoader({ extends: Processor })
-    let processors = await loader.loadPlugins(dir)
+    const loader = new PluginLoader({ extends: Processor })
+    const processors = await loader.loadPlugins(dir)
     return new Parser(fields, processors)
   }
 
@@ -27,15 +27,15 @@ class Parser {
   }
 
   async parseItem (item) {
-    let sanitizedItem = {}
+    const sanitizedItem = {}
 
-    let fields = Object.keys(this.fields)
+    const fields = Object.keys(this.fields)
     for (var i = 0; i < fields.length; i++) {
-      let fieldName = fields[i]
-      let field = this.fields[fieldName]
+      const fieldName = fields[i]
+      const field = this.fields[fieldName]
       logger.debug('Processing field "' + fieldName + '"')
-      let inputValue = await this._getInputValue(field, item, sanitizedItem)
-      let processed = await this._processField(field, inputValue)
+      const inputValue = await this._getInputValue(field, item, sanitizedItem)
+      const processed = await this._processField(field, inputValue)
       logger.debug('finished processing, value: ' + processed)
       sanitizedItem[fieldName] = processed
     }
@@ -45,8 +45,8 @@ class Parser {
   async _processField (field, inputValue) {
     if (field.processors !== undefined) {
       for (var i = 0; i < field.processors.length; i++) {
-        let proc = field.processors[i]
-        let procObj = this._getProcessor(proc.processor)
+        const proc = field.processors[i]
+        const procObj = this._getProcessor(proc.processor)
         inputValue = await procObj.process(inputValue, proc)
       }
     }
@@ -55,10 +55,10 @@ class Parser {
 
   async _getInputValue (field, item, processedFields) {
     if (field.input.match(this.RECORD)) {
-      let key = field.input.replace(this.RECORD, '$1')
+      const key = field.input.replace(this.RECORD, '$1')
       return get(item, key)
     } else if (field.input.match(this.FIELD)) {
-      let key = field.input.replace(this.FIELD, '$1')
+      const key = field.input.replace(this.FIELD, '$1')
       return get(processedFields, key)
     }
     throw Error('Input value cannot be recognized')

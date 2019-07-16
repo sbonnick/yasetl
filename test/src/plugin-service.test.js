@@ -15,7 +15,7 @@ describe('Plugin Service', () => {
   const ExtendedPlugin = require(extendedPluginPath)
   describe('init()', () => {
     it('should load specific plugins given a path and type', async function () {
-      let pluginService = await PluginService.init(simplePlugin, pluginPath)
+      const pluginService = await PluginService.init(simplePlugin, pluginPath)
       expect(pluginService.plugins).to.include({
         extendedPlugin: ExtendedPlugin
       })
@@ -24,14 +24,14 @@ describe('Plugin Service', () => {
 
   describe('loadEngine()', () => {
     it('loads the engine specified successfully', async function () {
-      let pluginService = await PluginService.init(simplePlugin, pluginPath)
-      let loadedEngine = await pluginService.loadEngine('extendedPlugin')
+      const pluginService = await PluginService.init(simplePlugin, pluginPath)
+      const loadedEngine = await pluginService.loadEngine('extendedPlugin')
       expect(loadedEngine.foo()).to.equal((new ExtendedPlugin()).foo())
     })
 
     it('throws error when plugin cannot be found', async function () {
-      let pluginService = await PluginService.init(simplePlugin, pluginPath)
-      let loadedEngine = pluginService.loadEngine('noPlugin', {})
+      const pluginService = await PluginService.init(simplePlugin, pluginPath)
+      const loadedEngine = pluginService.loadEngine('noPlugin', {})
       expect(loadedEngine).to.be.rejectedWith(Error)
     })
   })

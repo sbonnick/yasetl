@@ -9,7 +9,7 @@ class PluginLoader {
 
   async loadPlugins (path) {
     const files = await fs.readdir(path)
-    let promises = files.map(file => this.loadPlugin(path + file))
+    const promises = files.map(file => this.loadPlugin(path + file))
 
     const loadedPlugins = await Promise.all(promises.map(p => p.catch(e => e)))
 
@@ -27,7 +27,7 @@ class PluginLoader {
     const stat = await fs.stat(filePath)
     if (!stat.isFile() || !filePath.match(this.regex)) { return Promise.reject(new Error('Not a valid plugin file path: ' + filePath)) }
 
-    let plugin = require(filePath)
+    const plugin = require(filePath)
 
     if (this.extended != null && !(plugin.prototype instanceof this.extended)) { return Promise.reject(new Error('Plugin not an instance of [' + this.extended.name + ']: ' + filePath)) }
 

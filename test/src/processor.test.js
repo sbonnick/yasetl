@@ -8,16 +8,16 @@ const expect = chai.expect
 describe('Processor', () => {
   describe('describe()', () => {
     it('should contain mandatory description fields', async function () {
-      let proc = new Processor()
-      let description = await proc.describe()
+      const proc = new Processor()
+      const description = await proc.describe()
       expect(description).to.have.all.keys('name', 'description', 'inputHint', 'outputHint', 'configuration')
     })
   })
 
   describe('process()', () => {
     it('should by default pass through input', async function () {
-      let proc = new Processor()
-      let processed = await proc.process('value', null)
+      const proc = new Processor()
+      const processed = await proc.process('value', null)
       expect(processed).equal('value')
     })
   })

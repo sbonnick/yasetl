@@ -11,21 +11,21 @@ class jiraParser {
   }
 
   async parse (data) {
-    let items = data.map(async item => this.parseItem(item))
+    const items = data.map(async item => this.parseItem(item))
     return Promise.all(items)
   }
 
   async parseItem (item) {
     item.fields['stateChangeDates'] = this._getStateChangeDates(item)
-    let sanitizedItem = {}
+    const sanitizedItem = {}
     Object.keys(this.fields).forEach(fieldName => {
-      let field = this.fields[fieldName]
-      let fn = (isObject(field) && 'function' in field) ? field.function : 'simple'
-      let ca = (isObject(field) && 'case' in field) ? field.case : null
+      const field = this.fields[fieldName]
+      const fn = (isObject(field) && 'function' in field) ? field.function : 'simple'
+      const ca = (isObject(field) && 'case' in field) ? field.case : null
 
-      let fnResp = this._fn(fn)(item, field)
-      let caResp = this._castCase(fnResp, ca)
-      let reResp = this._replace(caResp, field)
+      const fnResp = this._fn(fn)(item, field)
+      const caResp = this._castCase(fnResp, ca)
+      const reResp = this._replace(caResp, field)
 
       sanitizedItem[fieldName] = reResp
     })
@@ -33,10 +33,10 @@ class jiraParser {
   }
 
   _getStateChangeDates (item) {
-    let history = get(item, 'changelog.histories', null)
+    const history = get(item, 'changelog.histories', null)
     if (history == null) return null
 
-    let changeDates = {}
+    const changeDates = {}
     history.forEach(change => {
       change.items.forEach(changeItem => {
         if (changeItem.field === 'status') {
@@ -72,9 +72,9 @@ class jiraParser {
   }
 
   _fnDaysDiff (item, field) {
-    let source = get(item, field.source, null)
-    let criteria = get(item, field.criteria, null)
-    let range = ('return' in field && field.return === 'workday') ? [1, 2, 3, 4, 5] : [1, 2, 3, 4, 5, 6, 7]
+    const source = get(item, field.source, null)
+    const criteria = get(item, field.criteria, null)
+    const range = ('return' in field && field.return === 'workday') ? [1, 2, 3, 4, 5] : [1, 2, 3, 4, 5, 6, 7]
     return (source != null && criteria != null) ? moment().isoWeekdayCalc(source, criteria, range) : null
   }
 
@@ -88,12 +88,12 @@ class jiraParser {
   }
 
   _fn (fn) {
-    let functions = {
-      'simple': this._fnSimple,
-      'filter': this._fnFilter,
-      'map': this._fnMap,
-      'mapfilter': this._fnMapFilter,
-      'daysdiff': this._fnDaysDiff
+    const functions = {
+      simple: this._fnSimple,
+      filter: this._fnFilter,
+      map: this._fnMap,
+      mapfilter: this._fnMapFilter,
+      daysdiff: this._fnDaysDiff
     }
     return get(functions, fn.toLowerCase(), this._fnNull)
   }
@@ -113,7 +113,7 @@ class jiraParser {
   _replace (value, field) {
     if (value == null || (isString(value) && value === '') || field.replace == null) { return value }
 
-    let repValue = (isString(value)) ? value : JSON.stringify(value)
+    const repValue = (isString(value)) ? value : JSON.stringify(value)
 
     if (get(field, 'replace.mustMatch', true) && repValue.match(get(field, 'replace.regex', '')) == null) { return null }
 

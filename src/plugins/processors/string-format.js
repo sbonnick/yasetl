@@ -31,9 +31,9 @@ class StringFormat extends Processor {
     if (input == null) return input
     if (configuration == null || get(configuration, 'format', null) == null) return input
 
-    let joinChar = get(configuration, 'joinOn', this.description.configuration.joinOn.default)
+    const joinChar = get(configuration, 'joinOn', this.description.configuration.joinOn.default)
 
-    let inputString = await this._convertToString(input, joinChar)
+    const inputString = await this._convertToString(input, joinChar)
 
     switch (configuration.format.toLowerCase()) {
     case 'lowercase': return inputString.toLowerCase()
@@ -48,7 +48,7 @@ class StringFormat extends Processor {
     if (lang.isString(value)) { return value }
 
     if (lang.isArrayLikeObject(value)) {
-      let ret = await Promise.all(value.map(iter => this._convertToString(iter, joinChar)))
+      const ret = await Promise.all(value.map(iter => this._convertToString(iter, joinChar)))
       return ret.join(joinChar)
     }
 

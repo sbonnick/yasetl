@@ -26,32 +26,32 @@ describe('Parser', () => {
     }
 
     item = {
-      'id': 123456,
-      'fields': {
-        'components': [
-          { 'name': 'Gateway' },
-          { 'name': 'BackEnd' },
-          { 'name': 'frontend' }
+      id: 123456,
+      fields: {
+        components: [
+          { name: 'Gateway' },
+          { name: 'BackEnd' },
+          { name: 'frontend' }
         ],
-        'labels': [ 'AAA', 'CCC', 'BBB' ],
-        'created': '2018-12-11T08:14:28.000-0800',
-        'resolutiondate': '2019-01-03T13:08:18.000-0800'
+        labels: ['AAA', 'CCC', 'BBB'],
+        created: '2018-12-11T08:14:28.000-0800',
+        resolutiondate: '2019-01-03T13:08:18.000-0800'
       },
-      'changelog': {
-        'startAt': 0,
-        'maxResults': 11,
-        'total': 11,
-        'histories': [
+      changelog: {
+        startAt: 0,
+        maxResults: 11,
+        total: 11,
+        histories: [
           {
-            'created': '2019-01-01T11:09:08.000-0800',
-            'items': [
+            created: '2019-01-01T11:09:08.000-0800',
+            items: [
               {
-                'field': 'status',
-                'fieldtype': 'jira',
-                'from': '10000',
-                'fromString': 'To Do',
-                'to': '3',
-                'toString': 'In Progress'
+                field: 'status',
+                fieldtype: 'jira',
+                from: '10000',
+                fromString: 'To Do',
+                to: '3',
+                toString: 'In Progress'
               }
             ]
           }
@@ -62,7 +62,7 @@ describe('Parser', () => {
 
   describe('init()', () => {
     it('should load processors and fields', async function () {
-      let parser = await Parser.init(basicFields)
+      const parser = await Parser.init(basicFields)
       expect(parser.fields).to.contain.keys('id', 'budget')
       expect(parser.processors).to.contain.keys('ArrayFilter', 'StringFormat')
     })
@@ -70,22 +70,22 @@ describe('Parser', () => {
 
   describe('parseItem()', () => {
     it('should parse config against RECORDS', async function () {
-      let parser = await Parser.init(basicFields)
-      let result = await parser.parseItem(item)
+      const parser = await Parser.init(basicFields)
+      const result = await parser.parseItem(item)
       expect(result).to.have.keys('id', 'budget')
       expect(result.id).to.equal(123456)
       expect(result.budget).to.eql(['AAA', 'BBB'])
     })
 
     it('should parse config against FIELDS', async function () {
-      let input = { ...basicFields, 
+      const input = { ...basicFields, 
         refid: {
           input: 'FIELD.id',
           datatype: 'integer'
         }
       }
-      let parser = await Parser.init(input)
-      let result = await parser.parseItem(item)
+      const parser = await Parser.init(input)
+      const result = await parser.parseItem(item)
       expect(result).to.have.keys('id', 'refid', 'budget')
       expect(result.id).to.equal(123456)
       expect(result.refid).to.equal(123456)
@@ -93,22 +93,22 @@ describe('Parser', () => {
     })
 
     it('should reject with error on unrecognized input', async function () {
-      let input = { 
+      const input = { 
         refid: {
           input: 'SOMETHING.id',
           datatype: 'integer'
         }
       }
-      let parser = await Parser.init(input)
-      let result = parser.parseItem(item)
+      const parser = await Parser.init(input)
+      const result = parser.parseItem(item)
       expect(result).to.be.rejectedWith(Error)
     })
   })
 
   describe('parse()', () => {
     it('should pass basic config', async function () {
-      let parser = await Parser.init(basicFields)
-      let result = await parser.parse([item])
+      const parser = await Parser.init(basicFields)
+      const result = await parser.parse([item])
       expect(result).to.have.lengthOf(1)
       expect(result[0]).to.have.keys('id', 'budget')
       expect(result[0].id).to.equal(123456)

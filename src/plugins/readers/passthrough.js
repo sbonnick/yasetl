@@ -3,7 +3,7 @@ const get = require('lodash/get')
 
 class Passthrough extends Reader {
   async items (configuration) {
-    let config = { ...this.config, ...configuration }
+    const config = { ...this.config, ...configuration }
     return get(config, 'items', [])
   }
 }

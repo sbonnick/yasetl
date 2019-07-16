@@ -28,8 +28,8 @@ class SchemaExtractor {
   }
 
   async initAndLoadEngine (loaderConfig, engineConfig) {
-    let engine = await PluginService.init(...loaderConfig)
-    let plugin = await engine.loadEngine(engineConfig.engine, engineConfig)
+    const engine = await PluginService.init(...loaderConfig)
+    const plugin = await engine.loadEngine(engineConfig.engine, engineConfig)
     return plugin
   }
 
@@ -39,16 +39,16 @@ class SchemaExtractor {
     }
 
     // Make a shallow copy of configurations
-    let config = { ...this.configuration }
+    const config = { ...this.configuration }
 
-    let parser = await ParserService.init(config.fields)
-    let reader = await this.initAndLoadEngine(readerServiceConfig, config.source)
-    let writer = await this.initAndLoadEngine(writerServiceConfig, config.destination)
+    const parser = await ParserService.init(config.fields)
+    const reader = await this.initAndLoadEngine(readerServiceConfig, config.source)
+    const writer = await this.initAndLoadEngine(writerServiceConfig, config.destination)
 
     await Promise.all([writer.open(), reader.open()])
     
-    let results = await reader.items()
-    let values = await parser.parse(results)
+    const results = await reader.items()
+    const values = await parser.parse(results)
     await writer.items(values)
 
     await Promise.all([reader.close(), writer.close()])

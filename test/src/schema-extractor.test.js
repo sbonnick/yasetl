@@ -6,7 +6,7 @@ describe('SchemaExtractor', () => {
   describe('constructor()', () => {
     it('throw error without a schema version in the configuration', async function () {
       function expectFunc () { 
-        let extract = new SchemaExtractor({}) 
+        const extract = new SchemaExtractor({}) 
         console.log(extract)
       }
       expect(expectFunc).to.throw('no schemaVersion is specified in the configuration')
@@ -51,14 +51,14 @@ describe('SchemaExtractor', () => {
       }
     })
     it('should extract simple passthrough data given a schema config', async function () {
-      let extractor = new SchemaExtractor(config)    
-      let result = await extractor.extract()
+      const extractor = new SchemaExtractor(config)    
+      const result = await extractor.extract()
       expect(result.destination.items).to.have.lengthOf(2)
     })
 
     it('should extract simple passthrough data given a schema config and a fire date', async function () {
-      let extractor = new SchemaExtractor(config)    
-      let result = await extractor.extract(moment.now())
+      const extractor = new SchemaExtractor(config)    
+      const result = await extractor.extract(moment.now())
       expect(result.destination.items).to.have.lengthOf(2)
     })
   })

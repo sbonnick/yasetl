@@ -9,13 +9,13 @@ class PluginService {
 
   static async init (type, path) {
     logger.info('loading ' + type.name + ' plugins from: ' + path)
-    let loader = new PluginLoader({ extends: type })
-    let plugins = await loader.loadPlugins(path)
+    const loader = new PluginLoader({ extends: type })
+    const plugins = await loader.loadPlugins(path)
     return new PluginService(plugins)
   }
 
   async loadEngine (plugin, configuration) {
-    let LoadedEngine = get(this.plugins, plugin, null)
+    const LoadedEngine = get(this.plugins, plugin, null)
     if (LoadedEngine === null) {
       throw Error('Plugin "' + plugin + '" could not be found. Validate plugin with matching Class name is in plugin path')
     }

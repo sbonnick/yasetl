@@ -18,8 +18,8 @@ describe('Plugin Loader', () => {
 
   describe('loadPlugins()', () => {
     it('should load all valid plugins with a valid directory', async function () {
-      let pluginLoader = new PluginLoader()
-      let pluginList = await pluginLoader.loadPlugins(pluginPath)
+      const pluginLoader = new PluginLoader()
+      const pluginList = await pluginLoader.loadPlugins(pluginPath)
       expect(pluginList).to.include({
         simplePlugin: simplePlugin,
         extendedPlugin: extendedPlugin,
@@ -28,14 +28,14 @@ describe('Plugin Loader', () => {
     })
 
     it('should return error with a invalid directory', async function () {
-      let pluginLoader = new PluginLoader()
-      let pluginList = pluginLoader.loadPlugins(pluginPath + 'NE')
+      const pluginLoader = new PluginLoader()
+      const pluginList = pluginLoader.loadPlugins(pluginPath + 'NE')
       expect(pluginList).to.be.rejectedWith(Error)
     })
 
     it('should only load plugins that explicitly extend a base class', async function () {
-      let pluginLoader = new PluginLoader({ extends: simplePlugin })
-      let pluginList = await pluginLoader.loadPlugins(pluginPath)
+      const pluginLoader = new PluginLoader({ extends: simplePlugin })
+      const pluginList = await pluginLoader.loadPlugins(pluginPath)
       expect(pluginList).to.include({
         extendedPlugin: extendedPlugin
       })
@@ -48,33 +48,33 @@ describe('Plugin Loader', () => {
 
   describe('loadPlugin()', () => {
     it('should load a plugin with correct path', async function () {
-      let pluginLoader = new PluginLoader()
-      let Plugin = await pluginLoader.loadPlugin(simplePluginPath)
+      const pluginLoader = new PluginLoader()
+      const Plugin = await pluginLoader.loadPlugin(simplePluginPath)
       expect(Plugin).to.be.a('function')
       expect((new Plugin()).hello()).equal('world')
     })
 
     it('should be rejected on an incorrect path', async function () {
-      let pluginLoader = new PluginLoader()
-      let Plugin = pluginLoader.loadPlugin(simplePluginPath + 'NE')
+      const pluginLoader = new PluginLoader()
+      const Plugin = pluginLoader.loadPlugin(simplePluginPath + 'NE')
       expect(Plugin).to.be.rejectedWith(Error)
     })
 
     it('should be rejected on an incorrect file regex', async function () {
-      let pluginLoader = new PluginLoader({ regex: /.+\.jsNE$/i })
-      let Plugin = pluginLoader.loadPlugin(simplePluginPath)
+      const pluginLoader = new PluginLoader({ regex: /.+\.jsNE$/i })
+      const Plugin = pluginLoader.loadPlugin(simplePluginPath)
       expect(Plugin).to.be.rejectedWith(Error)
     })
 
     it('should be rejected if it does not extend the correct base class', async function () {
-      let pluginLoader = new PluginLoader({ extends: simplePlugin })
-      let Plugin = pluginLoader.loadPlugin(otherPluginPath)
+      const pluginLoader = new PluginLoader({ extends: simplePlugin })
+      const Plugin = pluginLoader.loadPlugin(otherPluginPath)
       expect(Plugin).to.be.rejectedWith(Error)
     })
 
     it('should load plugin with correct base class', async function () {
-      let pluginLoader = new PluginLoader({ extends: simplePlugin })
-      let Plugin = await pluginLoader.loadPlugin(extendedPluginPath)
+      const pluginLoader = new PluginLoader({ extends: simplePlugin })
+      const Plugin = await pluginLoader.loadPlugin(extendedPluginPath)
       expect(Plugin).to.be.a('function')
       expect((new Plugin()).hello()).equal('world')
       expect((new Plugin()).foo()).equal('bar')

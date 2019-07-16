@@ -13,7 +13,7 @@ configuration: {
 */
 class Jira extends Reader {
   async open () {
-    let jira = new ExternalJira({
+    const jira = new ExternalJira({
       baseUrl: this.config.baseurl,
       headers: {},
       options: {
@@ -31,7 +31,7 @@ class Jira extends Reader {
   }
 
   async items (configuration) {
-    let config = { ...this.config, ...configuration }
+    const config = { ...this.config, ...configuration }
     return this._query(config.query, config.batchSize)
   }
 
@@ -46,7 +46,7 @@ class Jira extends Reader {
         if (!data) data = []
 
         data = data.concat(response.data.issues)
-        let next = response.data.startAt + response.data.maxResults
+        const next = response.data.startAt + response.data.maxResults
         if (next < response.data.total) { 
           return this._query(jql, batchSize, next, data) 
         }

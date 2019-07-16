@@ -20,8 +20,8 @@ class extractor {
   static async extract (config, reader, parser, writer, fireDate) {
     await writer.open()
 
-    let results = await reader.query({ query: config.jql })
-    let values = await parser.parse(results)
+    const results = await reader.query({ query: config.jql })
+    const values = await parser.parse(results)
 
     await writer.items(values)
     await writer.close()
@@ -41,7 +41,7 @@ class extractor {
     
     var parser = new JiraParser(this.config.output.fields)
 
-    let writer = new WriterEngine({
+    const writer = new WriterEngine({
       connection: this.config.output.location, 
       table: this.config.output.table, 
       fields: this.config.output.fields

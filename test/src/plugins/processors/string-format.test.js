@@ -8,21 +8,21 @@ const expect = chai.expect
 describe('String Format Processor', () => {
   describe('describe()', () => {
     it('should contain mandatory description fields', async function () {
-      let proc = new Processor()
-      let description = await proc.describe()
+      const proc = new Processor()
+      const description = await proc.describe()
       expect(description).to.have.all.keys('name', 'description', 'inputHint', 'outputHint', 'configuration')
     })
 
     it('should contain override name', async function () {
-      let proc = new Processor()
-      let description = await proc.describe()
+      const proc = new Processor()
+      const description = await proc.describe()
       expect(description.name).equals('Format String')
     })
   })
 
   describe('process()', () => {
-    let commonInput = 'tHIS ShouldFunction correctlyAs EXPECTED'
-    let cmd = [
+    const commonInput = 'tHIS ShouldFunction correctlyAs EXPECTED'
+    const cmd = [
       { test: 'should by default pass through input when configuration is null', value: commonInput, config: null, result: commonInput },
       { test: 'should by default pass through input when configuration does not containa format', value: commonInput, config: {}, result: commonInput },
       { test: 'should return correct case given format lowercase', value: commonInput, config: { format: 'lowercase' }, result: 'this shouldfunction correctlyas expected' },
@@ -38,8 +38,8 @@ describe('String Format Processor', () => {
 
     cmd.forEach(function (input) {
       it(input.test, async function () {
-        let proc = new Processor()
-        let processed = await proc.process(input.value, input.config)
+        const proc = new Processor()
+        const processed = await proc.process(input.value, input.config)
         expect(processed).to.equal(input.result)
       })
     })

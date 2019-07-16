@@ -15,30 +15,30 @@ configuration: {
 
 class Postgres extends Writer {
   async open () {
-    let db = await retry(async () => {
+    const db = await retry(async () => {
       return this._connect(this.config.connection)
     }, { maxAttempts: 5, timeout: 36000 })
     this.db = db
 
-    let schema = await this._createTableSchema(this.config.fields)
+    const schema = await this._createTableSchema(this.config.fields)
 
     await this._dropTable(db, this.config.table)
     await this._createTable(db, this.config.table, schema)
   }
 
   async _connect (connection) {
-    let db = new Client({ connectionString: connection })
+    const db = new Client({ connectionString: connection })
     await db.connect()
       .catch(logger.warn)
     return db
   }
 
   async _createTableSchema (fields) {
-    let schema = []
+    const schema = []
     Object.keys(fields).forEach(name => {
-      let field = fields[name]
-      let datatype = get(field, 'datatype', 'TEXT').toUpperCase()
-      let isPrimary = (get(field, 'primary', false) === true) ? 'PRIMARY KEY' : '' 
+      const field = fields[name]
+      const datatype = get(field, 'datatype', 'TEXT').toUpperCase()
+      const isPrimary = (get(field, 'primary', false) === true) ? 'PRIMARY KEY' : '' 
 
       schema.push([name, datatype, isPrimary].join(' ').trimRight())
     })
@@ -58,13 +58,13 @@ class Postgres extends Writer {
   }
 
   async items (items, configuration) {
-    let config = { ...this.config, ...configuration }
-    let inserts = items.map(async item => this._item(item, config.fields, config.table, this.db))
+    const config = { ...this.config, ...configuration }
+    const inserts = items.map(async item => this._item(item, config.fields, config.table, this.db))
     return Promise.all(inserts)
   }
 
   async _item (item, fields, table, db) {
-    let query = this._insertQuery(item, fields, table)
+    const query = this._insertQuery(item, fields, table)
     await db.query(query)
       .catch(err => {
         logger.error({ error: err.error, query: query, hint: err.hint })
@@ -72,11 +72,11 @@ class Postgres extends Writer {
   }
 
   _insertQuery (item, fields, table) {
-    let formattedKeys = []
-    let formattedData = []
+    const formattedKeys = []
+    const formattedData = []
     Object.keys(item).forEach(name => {
       let value
-      let datatype = get(fields[name], 'datatype', 'text').toLowerCase()
+      const datatype = get(fields[name], 'datatype', 'text').toLowerCase()
 
       if (['integer', 'real'].includes(datatype)) {
         value = item[name] 
@@ -92,7 +92,7 @@ class Postgres extends Writer {
       formattedData.push(value)
     })
 
-    let query = `INSERT INTO ${table} (${formattedKeys.join(', ')}) VALUES (${formattedData.join(', ')})`
+    const query = `INSERT INTO ${table} (${formattedKeys.join(', ')}) VALUES (${formattedData.join(', ')})`
     return query
   }
 
