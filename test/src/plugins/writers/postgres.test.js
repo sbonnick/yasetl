@@ -6,13 +6,13 @@ const td = require('testdouble')
 chai.use(chaiPromise)
 const expect = chai.expect
 
-describe('Postgres', () => {
+describe('Postgres', function () {
   // Client => db
   // db.connect() => promise
   // db.query(query) => promise
   // db.end() => promise
 
-  describe('open()', () => {
+  describe('open()', function () {
     let postgres, _connect, _createTableSchema, _dropTable, _createTable
     const any = td.matchers.anything()
     

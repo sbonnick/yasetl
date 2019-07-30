@@ -5,8 +5,8 @@ const chaiPromise = require('chai-as-promised')
 chai.use(chaiPromise)
 const expect = chai.expect
 
-describe('String Format Processor', () => {
-  describe('describe()', () => {
+describe('String Format Processor', function () {
+  describe('describe()', function () {
     it('should contain mandatory description fields', async function () {
       const proc = new Processor()
       const description = await proc.describe()
@@ -20,7 +20,7 @@ describe('String Format Processor', () => {
     })
   })
 
-  describe('process()', () => {
+  describe('process()', function () {
     const commonInput = 'tHIS ShouldFunction correctlyAs EXPECTED'
     const cmd = [
       { test: 'should by default pass through input when configuration is null', value: commonInput, config: null, result: commonInput },

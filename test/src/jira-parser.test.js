@@ -2,7 +2,7 @@ const JiraParser = require('../../src/jira-parser')
 const td = require('testdouble')
 const expect = require('chai').expect
 
-describe('Jira-Parser', () => {
+describe('Jira-Parser', function () {
   let item
 
   before(function () {
@@ -40,7 +40,7 @@ describe('Jira-Parser', () => {
     }
   })
 
-  describe('Parse()', () => {
+  describe('Parse()', function () {
     it('should parse multiple issues', function () {
       const parser = new JiraParser(null)
       var stub = td.replace(parser, 'parseItem')
@@ -54,7 +54,7 @@ describe('Jira-Parser', () => {
     })
   })
 
-  describe('ParseItem()', () => {
+  describe('ParseItem()', function () {
     it('should parse simple string mappings by default', async function () {
       const parser = new JiraParser({
         createdDate: 'fields.created'
@@ -122,7 +122,7 @@ describe('Jira-Parser', () => {
     })
   })
 
-  describe('_getStateChangeDates()', () => {
+  describe('_getStateChangeDates()', function () {
     let parser
 
     beforeEach(function () {
@@ -135,7 +135,7 @@ describe('Jira-Parser', () => {
     })
   })
 
-  describe('_fnMap()', () => {
+  describe('_fnMap()', function () {
     let field, parser
 
     beforeEach(function () {
@@ -166,7 +166,7 @@ describe('Jira-Parser', () => {
     })
   })
 
-  describe('_fnMapFilter()', () => {
+  describe('_fnMapFilter()', function () {
     let field, parser
 
     beforeEach(function () {
@@ -204,7 +204,7 @@ describe('Jira-Parser', () => {
     })
   })
 
-  describe('_fnFilter()', () => {
+  describe('_fnFilter()', function () {
     let field, parser
 
     beforeEach(function () {
@@ -241,7 +241,7 @@ describe('Jira-Parser', () => {
     })
   })
 
-  describe('_fnDaysDiff()', () => {
+  describe('_fnDaysDiff()', function () {
     let field, parser
 
     beforeEach(function () {
@@ -266,7 +266,7 @@ describe('Jira-Parser', () => {
     })
   })
 
-  describe('_fnSimple()', () => {
+  describe('_fnSimple()', function () {
     let parser
 
     beforeEach(function () {
@@ -286,7 +286,7 @@ describe('Jira-Parser', () => {
     })
   })
 
-  describe('_fnNull()', () => {
+  describe('_fnNull()', function () {
     let parser
 
     beforeEach(function () {
@@ -298,7 +298,7 @@ describe('Jira-Parser', () => {
     })
   })
 
-  describe('_fn()', () => {
+  describe('_fn()', function () {
     let parser
     const fnSupported = ['simple', 'filter', 'map', 'mapfilter', 'daysdiff']
 
@@ -322,7 +322,7 @@ describe('Jira-Parser', () => {
     })
   })
 
-  describe('_castCase()', () => {
+  describe('_castCase()', function () {
     const parser = new JiraParser(null)
     const cmd = [
       { value: 'tHIS ShouldFunction correctlyAs EXPECTED', cast: 'lowercase', result: 'this shouldfunction correctlyas expected' },
@@ -342,7 +342,7 @@ describe('Jira-Parser', () => {
     })
   })
 
-  describe('_replace()', () => {
+  describe('_replace()', function () {
     const parser = new JiraParser(null)
     const cmd = [
       { value: 'A4A', regex: '[^0-9.]', with: '', result: '4' },

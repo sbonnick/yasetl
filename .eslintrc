@@ -18,7 +18,7 @@
     "eslint:recommended",
     "plugin:node/recommended",
     "standard",
-    "plugin:mocha/recommended",
+    //"plugin:mocha/recommended",
     "plugin:editorconfig/noconflict"
   ],
   "rules": {

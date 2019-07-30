@@ -5,8 +5,8 @@ const chaiPromise = require('chai-as-promised')
 chai.use(chaiPromise)
 const expect = chai.expect
 
-describe('Array Filter Processor', () => {
-  describe('describe()', () => {
+describe('Array Filter Processor', function () {
+  describe('describe()', function () {
     it('should contain mandatory description fields', async function () {
       const proc = new Processor()
       const description = await proc.describe()
@@ -20,7 +20,7 @@ describe('Array Filter Processor', () => {
     })
   })
 
-  describe('process()', () => {
+  describe('process()', function () {
     it('should output a sublist with all criteria matching', async function () {
       const proc = new Processor()
       const results = await proc.process(['AAA', 'CCC', 'BBB'], { criteria: ['AAA', 'BBB'] })

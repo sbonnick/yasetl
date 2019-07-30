@@ -1,8 +1,8 @@
 const Extractor = require('../../src/jira-parser')
 const expect = require('chai').expect
 
-describe('Extractor', () => {
-  describe('run()', () => {
+describe('Extractor', function () {
+  describe('run()', function () {
     it.skip('One off extraction', function () {
       const extract = new Extractor()
       expect(extract).to.equal(true)

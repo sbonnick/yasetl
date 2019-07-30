@@ -6,7 +6,7 @@ const chaiPromise = require('chai-as-promised')
 chai.use(chaiPromise)
 const expect = chai.expect
 
-describe('Plugin Loader', () => {
+describe('Plugin Loader', function () {
   const pluginPath = path.join(__dirname, '/../resources/plugins/generic/')
   const simplePluginPath = path.join(pluginPath + 'simple-plugin.js')
   const extendedPluginPath = path.join(pluginPath + 'extended-plugin.js')
@@ -16,7 +16,7 @@ describe('Plugin Loader', () => {
   const extendedPlugin = require(extendedPluginPath)
   const otherPlugin = require(otherPluginPath)
 
-  describe('loadPlugins()', () => {
+  describe('loadPlugins()', function () {
     it('should load all valid plugins with a valid directory', async function () {
       const pluginLoader = new PluginLoader()
       const pluginList = await pluginLoader.loadPlugins(pluginPath)
@@ -46,7 +46,7 @@ describe('Plugin Loader', () => {
     })
   })
 
-  describe('loadPlugin()', () => {
+  describe('loadPlugin()', function () {
     it('should load a plugin with correct path', async function () {
       const pluginLoader = new PluginLoader()
       const Plugin = await pluginLoader.loadPlugin(simplePluginPath)

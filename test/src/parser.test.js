@@ -5,7 +5,7 @@ const chaiPromise = require('chai-as-promised')
 chai.use(chaiPromise)
 const expect = chai.expect
 
-describe('Parser', () => {
+describe('Parser', function () {
   let basicFields, item
 
   before(function () {
@@ -60,7 +60,7 @@ describe('Parser', () => {
     }
   })
 
-  describe('init()', () => {
+  describe('init()', function () {
     it('should load processors and fields', async function () {
       const parser = await Parser.init(basicFields)
       expect(parser.fields).to.contain.keys('id', 'budget')
@@ -68,7 +68,7 @@ describe('Parser', () => {
     })
   })
 
-  describe('parseItem()', () => {
+  describe('parseItem()', function () {
     it('should parse config against RECORDS', async function () {
       const parser = await Parser.init(basicFields)
       const result = await parser.parseItem(item)
@@ -105,7 +105,7 @@ describe('Parser', () => {
     })
   })
 
-  describe('parse()', () => {
+  describe('parse()', function () {
     it('should pass basic config', async function () {
       const parser = await Parser.init(basicFields)
       const result = await parser.parse([item])

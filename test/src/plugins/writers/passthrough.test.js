@@ -5,8 +5,8 @@ const chaiPromise = require('chai-as-promised')
 chai.use(chaiPromise)
 const expect = chai.expect
 
-describe('Writer Passthrough', () => {
-  describe('items()', () => {
+describe('Writer Passthrough', function () {
+  describe('items()', function () {
     it('will return the items on the config when passed through', async function () {
       const items = ['row one', 'row two']
       const passthrough = new Passthrough({})
