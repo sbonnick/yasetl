@@ -9,15 +9,27 @@ const moment = require('moment-timezone')
 configuration: {
   connection: "conn",
   table:      "",
+  timout:     36000,
+  attempts:   5,
   fields:     {}
 }
 */
 
 class Postgres extends Writer {
   async open () {
-    const db = await retry(async () => {
-      return this._connect(this.config.connection)
-    }, { maxAttempts: 5, timeout: 36000 })
+    let db
+    try {
+      db = await retry(async () => {
+        return this._connect(this.config.connection)
+      }, { 
+        maxAttempts: this.config.attempts || 5, 
+        timeout: this.config.timout || 36000 
+      })
+    } catch (error) {
+      logger.error(error)
+      return Promise.reject(error)
+    }
+
     this.db = db
 
     const schema = await this._createTableSchema(this.config.fields)
@@ -28,8 +40,12 @@ class Postgres extends Writer {
 
   async _connect (connection) {
     const db = new Client({ connectionString: connection })
-    await db.connect()
-      .catch(logger.warn)
+    try {
+      await db.connect()
+    } catch (error) {
+      logger.warn(error)
+      return Promise.reject(error)
+    }
     return db
   }
 
