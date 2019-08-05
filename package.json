@@ -9,6 +9,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "cross-env LOG_ENABLED=false nyc mocha --recursive",
+    "debugtest": "cross-env LOG_ENABLED=true nyc mocha --recursive",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "npmcheck": "node node_modules/npm-check/bin/cli.js"
   },

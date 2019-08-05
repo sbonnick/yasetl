@@ -38,6 +38,7 @@ class Postgres extends Writer {
     await this._createTable(db, this.config.table, schema)
   }
 
+  /* istanbul ignore next */
   async _connect (connection) {
     const db = new Client({ connectionString: connection })
     try {
@@ -75,11 +76,11 @@ class Postgres extends Writer {
 
   async items (items, configuration) {
     const config = { ...this.config, ...configuration }
-    const inserts = items.map(async item => this._item(item, config.fields, config.table, this.db))
+    const inserts = items.map(async item => this.item(item, config.fields, config.table, this.db))
     return Promise.all(inserts)
   }
 
-  async _item (item, fields, table, db) {
+  async item (item, fields, table, db) {
     const query = this._insertQuery(item, fields, table)
     await db.query(query)
       .catch(err => {
