@@ -36,7 +36,7 @@ describe('Postgres', function () {
         result = postgres.open()
         await Promise.all([result])
       } catch (error) {
-        console.log(error)
+        console.log('')
       }
 
       expect(result).to.be.rejectedWith('Fake Rejection')

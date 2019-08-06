@@ -8,7 +8,7 @@ const expect = chai.expect
 describe('Parser', function () {
   let basicFields, item
 
-  before(function () {
+  beforeAll(function () {
     basicFields = {
       id: {
         input: 'RECORD.id',

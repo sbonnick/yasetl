@@ -2,6 +2,8 @@ const SchemaExtractor = require('../../src/schema-extractor')
 const expect = require('chai').expect
 const moment = require('moment')
 
+jest.setTimeout(60000)
+
 describe('SchemaExtractor', function () {
   describe('constructor()', function () {
     it('throw error without a schema version in the configuration', async function () {

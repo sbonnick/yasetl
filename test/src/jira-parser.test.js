@@ -5,7 +5,7 @@ const expect = require('chai').expect
 describe('Jira-Parser', function () {
   let item
 
-  before(function () {
+  beforeAll(function () {
     item = {
       fields: {
         components: [
@@ -49,7 +49,7 @@ describe('Jira-Parser', function () {
       td.verify(stub(), { times: 3, ignoreExtraArgs: true })
     })
 
-    after(function () {
+    afterAll(function () {
       td.reset()
     })
   })
