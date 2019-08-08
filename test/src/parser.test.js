@@ -1,14 +1,9 @@
 const Parser = require('../../src/parser')
-const chai = require('chai')
-const chaiPromise = require('chai-as-promised')
 
-chai.use(chaiPromise)
-const expect = chai.expect
-
-describe('Parser', function () {
+describe('Parser', () => {
   let basicFields, item
 
-  beforeAll(function () {
+  beforeAll(() => {
     basicFields = {
       id: {
         input: 'RECORD.id',
@@ -60,24 +55,27 @@ describe('Parser', function () {
     }
   })
 
-  describe('init()', function () {
-    it('should load processors and fields', async function () {
+  describe('init()', () => {
+    it('should load processors and fields', async () => {
       const parser = await Parser.init(basicFields)
-      expect(parser.fields).to.contain.keys('id', 'budget')
-      expect(parser.processors).to.contain.keys('ArrayFilter', 'StringFormat')
+      expect(parser.fields).toHaveProperty('id')
+      expect(parser.fields).toHaveProperty('budget')
+      expect(parser.processors).toHaveProperty('ArrayFilter')
+      expect(parser.processors).toHaveProperty('StringFormat')
     })
   })
 
-  describe('parseItem()', function () {
-    it('should parse config against RECORDS', async function () {
+  describe('parseItem()', () => {
+    it('should parse config against RECORDS', async () => {
       const parser = await Parser.init(basicFields)
       const result = await parser.parseItem(item)
-      expect(result).to.have.keys('id', 'budget')
-      expect(result.id).to.equal(123456)
-      expect(result.budget).to.eql(['AAA', 'BBB'])
+      expect(result).toHaveProperty('id')
+      expect(result).toHaveProperty('budget')
+      expect(result.id).toEqual(123456)
+      expect(result.budget).toEqual(['AAA', 'BBB'])
     })
 
-    it('should parse config against FIELDS', async function () {
+    it('should parse config against FIELDS', async () => {
       const input = { ...basicFields, 
         refid: {
           input: 'FIELD.id',
@@ -86,13 +84,15 @@ describe('Parser', function () {
       }
       const parser = await Parser.init(input)
       const result = await parser.parseItem(item)
-      expect(result).to.have.keys('id', 'refid', 'budget')
-      expect(result.id).to.equal(123456)
-      expect(result.refid).to.equal(123456)
-      expect(result.budget).to.eql(['AAA', 'BBB'])
+      expect(result).toHaveProperty('id')
+      expect(result).toHaveProperty('refid')
+      expect(result).toHaveProperty('budget')
+      expect(result.id).toEqual(123456)
+      expect(result.refid).toEqual(123456)
+      expect(result.budget).toEqual(['AAA', 'BBB'])
     })
 
-    it('should reject with error on unrecognized input', async function () {
+    it('should reject with error on unrecognized input', async () => {
       const input = { 
         refid: {
           input: 'SOMETHING.id',
@@ -101,18 +101,19 @@ describe('Parser', function () {
       }
       const parser = await Parser.init(input)
       const result = parser.parseItem(item)
-      expect(result).to.be.rejectedWith(Error)
+      await expect(result).rejects.toThrow()
     })
   })
 
-  describe('parse()', function () {
-    it('should pass basic config', async function () {
+  describe('parse()', () => {
+    it('should pass basic config', async () => {
       const parser = await Parser.init(basicFields)
       const result = await parser.parse([item])
-      expect(result).to.have.lengthOf(1)
-      expect(result[0]).to.have.keys('id', 'budget')
-      expect(result[0].id).to.equal(123456)
-      expect(result[0].budget).to.eql(['AAA', 'BBB'])
+      expect(result.length).toEqual(1)
+      expect(result[0]).toHaveProperty('id')
+      expect(result[0]).toHaveProperty('budget')
+      expect(result[0].id).toEqual(123456)
+      expect(result[0].budget).toEqual(['AAA', 'BBB'])
     })
   })
 })

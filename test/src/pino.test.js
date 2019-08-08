@@ -1,11 +1,10 @@
 const pino = require('../../src/pino')
-const expect = require('chai').expect
 
-describe('Pino', function () {
-  describe('configurations', function () {
-    it('should configure a basic logger for the application', async function () {
+describe('Pino', () => {
+  describe('configurations', () => {
+    it('should configure a basic logger for the application', async () => {
       const logger = pino
-      expect(logger).to.not.equal(null)
+      expect(logger).not.toEqual(null)
     })
   })
 })

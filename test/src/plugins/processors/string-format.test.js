@@ -1,26 +1,25 @@
 const Processor = require('../../../../src/plugins/processors/string-format')
-const chai = require('chai')
-const chaiPromise = require('chai-as-promised')
 
-chai.use(chaiPromise)
-const expect = chai.expect
-
-describe('String Format Processor', function () {
-  describe('describe()', function () {
-    it('should contain mandatory description fields', async function () {
+describe('String Format Processor', () => {
+  describe('describe()', () => {
+    it('should contain mandatory description fields', async () => {
       const proc = new Processor()
       const description = await proc.describe()
-      expect(description).to.have.all.keys('name', 'description', 'inputHint', 'outputHint', 'configuration')
+      expect(description).toHaveProperty('name')
+      expect(description).toHaveProperty('description')
+      expect(description).toHaveProperty('inputHint')
+      expect(description).toHaveProperty('outputHint')
+      expect(description).toHaveProperty('configuration')
     })
 
-    it('should contain override name', async function () {
+    it('should contain override name', async () => {
       const proc = new Processor()
       const description = await proc.describe()
-      expect(description.name).equals('Format String')
+      expect(description.name).toEqual('Format String')
     })
   })
 
-  describe('process()', function () {
+  describe('process()', () => {
     const commonInput = 'tHIS ShouldFunction correctlyAs EXPECTED'
     const cmd = [
       { test: 'should by default pass through input when configuration is null', value: commonInput, config: null, result: commonInput },
@@ -37,10 +36,10 @@ describe('String Format Processor', function () {
     ]
 
     cmd.forEach(function (input) {
-      it(input.test, async function () {
+      it(input.test, async () => {
         const proc = new Processor()
         const processed = await proc.process(input.value, input.config)
-        expect(processed).to.equal(input.result)
+        expect(processed).toEqual(input.result)
       })
     })
   })

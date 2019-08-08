@@ -1,38 +1,31 @@
 const path = require('path')
 const PluginService = require('../../src/plugin-service')
-const chai = require('chai')
-const chaiPromise = require('chai-as-promised')
 
-chai.use(chaiPromise)
-const expect = chai.expect
-
-describe('Plugin Service', function () {
+describe('Plugin Service', () => {
   const pluginPath = path.join(__dirname, '/../resources/plugins/generic/')
   const simplePluginPath = path.join(pluginPath + 'simple-plugin.js')
   const extendedPluginPath = path.join(pluginPath + 'extended-plugin.js')
 
   const simplePlugin = require(simplePluginPath)
   const ExtendedPlugin = require(extendedPluginPath)
-  describe('init()', function () {
-    it('should load specific plugins given a path and type', async function () {
+  describe('init()', () => {
+    it('should load specific plugins given a path and type', async () => {
       const pluginService = await PluginService.init(simplePlugin, pluginPath)
-      expect(pluginService.plugins).to.include({
-        extendedPlugin: ExtendedPlugin
-      })
+      expect(pluginService.plugins).toHaveProperty('extendedPlugin', ExtendedPlugin)
     })
   })
 
-  describe('loadEngine()', function () {
-    it('loads the engine specified successfully', async function () {
+  describe('loadEngine()', () => {
+    it('loads the engine specified successfully', async () => {
       const pluginService = await PluginService.init(simplePlugin, pluginPath)
       const loadedEngine = await pluginService.loadEngine('extendedPlugin')
-      expect(loadedEngine.foo()).to.equal((new ExtendedPlugin()).foo())
+      expect(loadedEngine.foo()).toEqual((new ExtendedPlugin()).foo())
     })
 
-    it('throws error when plugin cannot be found', async function () {
+    it('throws error when plugin cannot be found', async () => {
       const pluginService = await PluginService.init(simplePlugin, pluginPath)
       const loadedEngine = pluginService.loadEngine('noPlugin', {})
-      expect(loadedEngine).to.be.rejectedWith(Error)
+      await expect(loadedEngine).rejects.toThrow(/Plugin "noPlugin" could not be found/)
     })
   })
 })

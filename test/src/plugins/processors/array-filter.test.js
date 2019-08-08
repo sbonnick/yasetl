@@ -1,42 +1,41 @@
 const Processor = require('../../../../src/plugins/processors/array-filter')
-const chai = require('chai')
-const chaiPromise = require('chai-as-promised')
 
-chai.use(chaiPromise)
-const expect = chai.expect
-
-describe('Array Filter Processor', function () {
-  describe('describe()', function () {
-    it('should contain mandatory description fields', async function () {
+describe('Array Filter Processor', () => {
+  describe('describe()', () => {
+    it('should contain mandatory description fields', async () => {
       const proc = new Processor()
       const description = await proc.describe()
-      expect(description).to.have.all.keys('name', 'description', 'inputHint', 'outputHint', 'configuration')
+      expect(description).toHaveProperty('name')
+      expect(description).toHaveProperty('description')
+      expect(description).toHaveProperty('inputHint')
+      expect(description).toHaveProperty('outputHint')
+      expect(description).toHaveProperty('configuration')
     })
 
-    it('should contain override name', async function () {
+    it('should contain override name', async () => {
       const proc = new Processor()
       const description = await proc.describe()
-      expect(description.name).equals('Filter Array')
+      expect(description.name).toEqual('Filter Array')
     })
   })
 
-  describe('process()', function () {
-    it('should output a sublist with all criteria matching', async function () {
+  describe('process()', () => {
+    it('should output a sublist with all criteria matching', async () => {
       const proc = new Processor()
       const results = await proc.process(['AAA', 'CCC', 'BBB'], { criteria: ['AAA', 'BBB'] })
-      expect(results).to.eql(['AAA', 'BBB'])
+      expect(results).toEqual(['AAA', 'BBB'])
     })
 
-    it('should output a sublist with single criteria matching', async function () {
+    it('should output a sublist with single criteria matching', async () => {
       const proc = new Processor()
       const results = await proc.process(['AAA', 'CCC', 'BBB'], { criteria: ['AAA', 'DDD'] })
-      expect(results).to.eql(['AAA'])
+      expect(results).toEqual(['AAA'])
     })
 
-    it('should output a empty list with no criteria matching', async function () {
+    it('should output a empty list with no criteria matching', async () => {
       const proc = new Processor()
       const results = await proc.process(['AAA', 'CCC', 'BBB'], { criteria: ['EEE', 'DDD'] })
-      expect(results).to.eql([])
+      expect(results).toEqual([])
     })
   })
 })

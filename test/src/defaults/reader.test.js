@@ -1,27 +1,22 @@
 const Reader = require('../../../src/defaults/reader')
-const chai = require('chai')
-const chaiPromise = require('chai-as-promised')
 
-chai.use(chaiPromise)
-const expect = chai.expect
-
-describe('Default Reader', function () {
-  describe('open()', function () {
-    it('open function exists', async function () {
-      const writer = new Reader({})
-      expect(writer.open).to.not.equal(null)
+describe('Default Reader', () => {
+  describe('open()', () => {
+    it('open function exists', async () => {
+      const reader = new Reader({})
+      return reader.open()
     })
   })
-  describe('items()', function () {
-    it('items function throws a not-implemented error', async function () {
-      const writer = new Reader({})
-      expect(writer.items({})).to.be.rejectedWith(Error)
+  describe('items()', () => {
+    it('items function throws a not-implemented error', async () => {
+      const reader = new Reader({})
+      await expect(reader.items({})).rejects.toThrow(/Not implemented/)
     })
   })
-  describe('close()', function () {
-    it('close function exists', async function () {
-      const writer = new Reader({})
-      expect(writer.close).to.not.equal(null)
+  describe('close()', () => {
+    it('close function exists', async () => {
+      const reader = new Reader({})
+      return reader.close()
     })
   })
 })

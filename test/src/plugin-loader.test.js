@@ -1,10 +1,5 @@
 const path = require('path')
 const PluginLoader = require('../../src/plugin-loader')
-const chai = require('chai')
-const chaiPromise = require('chai-as-promised')
-
-chai.use(chaiPromise)
-const expect = chai.expect
 
 describe('Plugin Loader', () => {
   const pluginPath = path.join(__dirname, '/../resources/plugins/generic/')
@@ -20,7 +15,7 @@ describe('Plugin Loader', () => {
     it('should load all valid plugins with a valid directory', async () => {
       const pluginLoader = new PluginLoader()
       const pluginList = await pluginLoader.loadPlugins(pluginPath)
-      expect(pluginList).to.include({
+      expect(pluginList).toEqual({
         simplePlugin: simplePlugin,
         extendedPlugin: extendedPlugin,
         otherPlugin: otherPlugin
@@ -30,19 +25,15 @@ describe('Plugin Loader', () => {
     it('should return error with a invalid directory', async () => {
       const pluginLoader = new PluginLoader()
       const pluginList = pluginLoader.loadPlugins(pluginPath + 'NE')
-      expect(pluginList).to.be.rejectedWith(Error)
+      await expect(pluginList).rejects.toThrow(/Not a valid plugin directory/)
     })
 
     it('should only load plugins that explicitly extend a base class', async () => {
       const pluginLoader = new PluginLoader({ extends: simplePlugin })
       const pluginList = await pluginLoader.loadPlugins(pluginPath)
-      expect(pluginList).to.include({
-        extendedPlugin: extendedPlugin
-      })
-      expect(pluginList).to.not.include({
-        simplePlugin: simplePlugin,
-        otherPlugin: otherPlugin
-      })
+      expect(pluginList).toHaveProperty('extendedPlugin', extendedPlugin)
+      expect(pluginList).not.toHaveProperty('simplePlugin', simplePlugin)
+      expect(pluginList).not.toHaveProperty('otherPlugin', otherPlugin)
     })
   })
 
@@ -50,34 +41,34 @@ describe('Plugin Loader', () => {
     it('should load a plugin with correct path', async () => {
       const pluginLoader = new PluginLoader()
       const Plugin = await pluginLoader.loadPlugin(simplePluginPath)
-      expect(Plugin).to.be.a('function')
-      expect((new Plugin()).hello()).equal('world')
+      expect(typeof Plugin).toBe('function')
+      expect((new Plugin()).hello()).toEqual('world')
     })
 
     it('should be rejected on an incorrect path', async () => {
       const pluginLoader = new PluginLoader()
       const Plugin = pluginLoader.loadPlugin(simplePluginPath + 'NE')
-      expect(Plugin).to.be.rejectedWith(Error)
+      await expect(Plugin).rejects.toThrow(/Not a valid plugin file/)
     })
 
     it('should be rejected on an incorrect file regex', async () => {
       const pluginLoader = new PluginLoader({ regex: /.+\.jsNE$/i })
       const Plugin = pluginLoader.loadPlugin(simplePluginPath)
-      expect(Plugin).to.be.rejectedWith(Error)
+      await expect(Plugin).rejects.toThrow(/Not a valid plugin file/)
     })
 
     it('should be rejected if it does not extend the correct base class', async () => {
       const pluginLoader = new PluginLoader({ extends: simplePlugin })
       const Plugin = pluginLoader.loadPlugin(otherPluginPath)
-      expect(Plugin).to.be.rejectedWith(Error)
+      await expect(Plugin).rejects.toThrow(/Plugin not an instance of \[simplePlugin\]/)
     })
 
     it('should load plugin with correct base class', async () => {
       const pluginLoader = new PluginLoader({ extends: simplePlugin })
       const Plugin = await pluginLoader.loadPlugin(extendedPluginPath)
-      expect(Plugin).to.be.a('function')
-      expect((new Plugin()).hello()).equal('world')
-      expect((new Plugin()).foo()).equal('bar')
+      expect(typeof Plugin).toBe('function')
+      expect((new Plugin()).hello()).toEqual('world')
+      expect((new Plugin()).foo()).toEqual('bar')
     })
   })
 })

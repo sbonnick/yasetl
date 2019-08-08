@@ -1,27 +1,22 @@
 const Writer = require('../../../src/defaults/writer')
-const chai = require('chai')
-const chaiPromise = require('chai-as-promised')
 
-chai.use(chaiPromise)
-const expect = chai.expect
-
-describe('Default Writer', function () {
-  describe('open()', function () {
-    it('open function exists', async function () {
+describe('Default Writer', () => {
+  describe('open()', () => {
+    it('open function exists', async () => {
       const writer = new Writer({})
-      expect(writer.open).to.not.equal(null)
+      return writer.open()
     })
   })
-  describe('items()', function () {
-    it('items function throws a not-implemented error', async function () {
+  describe('items()', () => {
+    it('items function throws a not-implemented error', async () => {
       const writer = new Writer({})
-      expect(writer.items([], {})).to.be.rejectedWith(Error)
+      await expect(writer.items([], {})).rejects.toThrow(/Not implemented/)
     })
   })
-  describe('close()', function () {
-    it('close function exists', async function () {
+  describe('close()', () => {
+    it('close function exists', async () => {
       const writer = new Writer({})
-      expect(writer.close).to.not.equal(null)
+      return writer.close()
     })
   })
 })

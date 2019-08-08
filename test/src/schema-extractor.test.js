@@ -1,23 +1,19 @@
 const SchemaExtractor = require('../../src/schema-extractor')
-const expect = require('chai').expect
 const moment = require('moment')
 
 jest.setTimeout(60000)
 
-describe('SchemaExtractor', function () {
-  describe('constructor()', function () {
-    it('throw error without a schema version in the configuration', async function () {
-      function expectFunc () { 
-        const extract = new SchemaExtractor({}) 
-        console.log(extract)
-      }
-      expect(expectFunc).to.throw('no schemaVersion is specified in the configuration')
+describe('SchemaExtractor', () => {
+  describe('constructor()', () => {
+    it('throw error without a schema version in the configuration', async () => { 
+      expect(() => new SchemaExtractor({})).toThrow(/no schemaVersion is specified/)
     })
   })
-  describe('extract()', function () {
+
+  describe('extract()', () => {
     let config
 
-    beforeEach(function () {
+    beforeEach(() => {
       config = {
         schemaVersion: '0.1',
         source: {
@@ -52,16 +48,16 @@ describe('SchemaExtractor', function () {
         }
       }
     })
-    it('should extract simple passthrough data given a schema config', async function () {
+    it('should extract simple passthrough data given a schema config', async () => {
       const extractor = new SchemaExtractor(config)    
       const result = await extractor.extract()
-      expect(result.destination.items).to.have.lengthOf(2)
+      expect(result.destination.items.length).toEqual(2)
     })
 
-    it('should extract simple passthrough data given a schema config and a fire date', async function () {
+    it('should extract simple passthrough data given a schema config and a fire date', async () => {
       const extractor = new SchemaExtractor(config)    
       const result = await extractor.extract(moment.now())
-      expect(result.destination.items).to.have.lengthOf(2)
+      expect(result.destination.items.length).toEqual(2)
     })
   })
 })
