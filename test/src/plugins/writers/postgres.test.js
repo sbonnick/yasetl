@@ -1,44 +1,45 @@
 const Postgres = require('../../../../src/plugins/writers/postgres')
-const td = require('testdouble')
 
 describe('Postgres', () => {
-  const any = td.matchers.anything()
-
   describe('open()', () => {
     let postgres, _connect, _createTableSchema, _dropTable, _createTable
     
     beforeEach(() => {
       postgres = new Postgres({ connection: '' })
-      _connect = td.replace(postgres, '_connect')
-      _createTableSchema = td.replace(postgres, '_createTableSchema')
-      _dropTable = td.replace(postgres, '_dropTable')
-      _createTable = td.replace(postgres, '_createTable')
+
+      _connect = jest.spyOn(postgres, '_connect')
+      _connect.mockImplementation(async () => { return undefined })
+      
+      _createTableSchema = jest.spyOn(postgres, '_createTableSchema')
+      _createTableSchema.mockImplementation(async () => { return undefined })
+
+      _dropTable = jest.spyOn(postgres, '_dropTable')
+      _dropTable.mockImplementation(async () => { return undefined })
+
+      _createTable = jest.spyOn(postgres, '_createTable')      
+      _createTable.mockImplementation(async () => { return undefined })
     })
 
     it('attempts to connect, create schema, drop table and create table', async () => {
       await postgres.open()
       
-      td.verify(_connect(any))
-      td.verify(_createTableSchema(any))
-      td.verify(_dropTable(any, any))
-      td.verify(_createTable(any, any, any))
+      expect(_connect).toHaveBeenCalled()
+      expect(_createTableSchema).toHaveBeenCalled()
+      expect(_dropTable).toHaveBeenCalled()
+      expect(_createTable).toHaveBeenCalled()
     })
 
     it('retries upon failed connection then rejects', async () => {
       let result
       try {
-        td.when(_connect(any)).thenReject(new Error('Fake Rejection'))
+        _connect.mockImplementation(async () => Promise.reject(new Error('Fake Rejection')))
         result = postgres.open()
         await Promise.all([result])
-      // eslint-disable-next-line
-      } catch { }
-
+        // eslint-disable-next-line
+      } catch {}
+      
       await expect(result).rejects.toThrow(/Fake Rejection/)
-      td.verify(_connect(), { times: 5, ignoreExtraArgs: true })
-    })
-
-    afterEach(() => {
-      td.reset()
+      expect(_connect).toHaveBeenCalledTimes(5)
     })
   })
 
