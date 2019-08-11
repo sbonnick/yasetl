@@ -1,5 +1,4 @@
 const JiraParser = require('../../src/jira-parser')
-const td = require('testdouble')
 
 describe('Jira-Parser', () => {
   let item
@@ -42,13 +41,10 @@ describe('Jira-Parser', () => {
   describe('Parse()', () => {
     it('should parse multiple issues', async () => {
       const parser = new JiraParser(null)
-      var stub = td.replace(parser, 'parseItem')
+      const stub = jest.spyOn(parser, 'parseItem')
+      stub.mockImplementation(async () => { return [] })
       await parser.parse(['one', 'two', 'three'])
-      td.verify(stub(), { times: 3, ignoreExtraArgs: true })
-    })
-
-    afterAll(() => {
-      td.reset()
+      expect(stub).toHaveBeenCalledTimes(3)
     })
   })
 
