@@ -76,7 +76,8 @@ describe('Parser', () => {
     })
 
     it('should parse config against FIELDS', async () => {
-      const input = { ...basicFields, 
+      const input = { 
+        ...basicFields, 
         refid: {
           input: 'FIELD.id',
           datatype: 'integer'

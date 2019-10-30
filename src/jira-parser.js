@@ -1,8 +1,10 @@
 const isString = require('lodash/isString')
 const isObject = require('lodash/isObject')
 const get = require('lodash/get')
+// @ts-ignore
 const str_ = require('lodash/string')
 const moment = require('moment')
+// @ts-ignore
 require('moment-weekday-calc')
 
 class jiraParser {
@@ -16,11 +18,13 @@ class jiraParser {
   }
 
   async parseItem (item) {
-    item.fields['stateChangeDates'] = this._getStateChangeDates(item)
+    item.fields.stateChangeDates = this._getStateChangeDates(item)
     const sanitizedItem = {}
     Object.keys(this.fields).forEach(fieldName => {
       const field = this.fields[fieldName]
+      // @ts-ignore
       const fn = (isObject(field) && 'function' in field) ? field.function : 'simple'
+      // @ts-ignore
       const ca = (isObject(field) && 'case' in field) ? field.case : null
 
       const fnResp = this._fn(fn)(item, field)
@@ -75,6 +79,7 @@ class jiraParser {
     const source = get(item, field.source, null)
     const criteria = get(item, field.criteria, null)
     const range = ('return' in field && field.return === 'workday') ? [1, 2, 3, 4, 5] : [1, 2, 3, 4, 5, 6, 7]
+    // @ts-ignore
     return (source != null && criteria != null) ? moment().isoWeekdayCalc(source, criteria, range) : null
   }
 
@@ -83,6 +88,7 @@ class jiraParser {
   }
 
   // eslint-disable-next-line no-unused-vars
+  // @ts-ignore
   _fnNull (item, field) {
     return null
   }

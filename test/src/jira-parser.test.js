@@ -148,13 +148,13 @@ describe('Jira-Parser', () => {
     })
 
     it('should output a empty string with invalid criteria', () => {
-      field['criteria'] = 'non-existent'
+      field.criteria = 'non-existent'
       const results = parser._fnMap(item, field)
       expect(results).toEqual('')
     })
 
     it('should output a empty string with invalid source', () => {
-      field['source'] = 'non-existent'
+      field.source = 'non-existent'
       const results = parser._fnMap(item, field)
       expect(results).toEqual('')
     })
@@ -180,19 +180,19 @@ describe('Jira-Parser', () => {
     })
 
     it('should output a comma separated list as a string with single criteria matching', () => {
-      field['criteria'] = ['Gateway', 'Something']
+      field.criteria = ['Gateway', 'Something']
       const results = parser._fnMapFilter(item, field)
       expect(results).toEqual('Gateway')
     })
 
     it('should output a empty string with no criteria matching', () => {
-      field['criteria'] = ['Blah', 'Foo']
+      field.criteria = ['Blah', 'Foo']
       const results = parser._fnMapFilter(item, field)
       expect(results).toEqual('')
     })
 
     it('should output the first match as a string when return is set to "first"', () => {
-      field['return'] = 'first'
+      field.return = 'first'
       const results = parser._fnMapFilter(item, field)
       expect(results).toEqual('Gateway')
     })
@@ -217,19 +217,19 @@ describe('Jira-Parser', () => {
     })
 
     it('should output a comma separated list as a string with single criteria matching', () => {
-      field['criteria'] = ['AAA', 'DDD']
+      field.criteria = ['AAA', 'DDD']
       const results = parser._fnFilter(item, field)
       expect(results).toEqual('AAA')
     })
 
     it('should output a empty string with no criteria matching', () => {
-      field['criteria'] = ['EEE', 'DDD']
+      field.criteria = ['EEE', 'DDD']
       const results = parser._fnFilter(item, field)
       expect(results).toEqual('')
     })
 
     it('should output the first match as a string when return is set to "first"', () => {
-      field['return'] = 'first'
+      field.return = 'first'
       const results = parser._fnFilter(item, field)
       expect(results).toEqual('AAA')
     })
@@ -254,7 +254,7 @@ describe('Jira-Parser', () => {
     })
 
     it('should output the difference in work days between two dates', () => {
-      field['return'] = 'workday'
+      field.return = 'workday'
       const results = parser._fnDaysDiff(item, field)
       expect(results).toEqual(18)
     })
@@ -351,7 +351,8 @@ describe('Jira-Parser', () => {
           replace: {
             regex: input.regex,
             with: input.with
-          } })
+          } 
+        })
         expect(rtn).toEqual(input.result)
       })
     })
