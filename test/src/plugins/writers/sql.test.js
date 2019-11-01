@@ -1,10 +1,12 @@
 
 const SQL = require('../../../../src/plugins/writers/sql')
-const Sequelize = require('sequelize')
-const SequelizeMock = require('sequelize-mock')
+
+jest.mock('sequelize', () => {
+  return require('sequelize-mock') 
+})
 
 describe('Jira-Parser', () => {
-  let config, schema
+  let config
 
   beforeEach(() => {
     config = {
@@ -26,33 +28,12 @@ describe('Jira-Parser', () => {
         }
       }
     }
-    
-    schema = {
-      id: {
-        type: Sequelize.INTEGER(),
-        primaryKey: true,
-        fieldName: 'id',
-        field: 'id'
-      },
-      budget: {
-        type: Sequelize.STRING(),
-        primaryKey: false,
-        fieldName: 'budget',
-        field: 'budget'
-      }
-    }
   })
 
   describe('items()', () => {
     it('query items from the model', async () => {
       const sql = new SQL(config)
       await sql.open()
-      sql.db = new SequelizeMock(config.connection)
-      sql.model = sql.db.define(
-        config.table,
-        sql._createModel(config.fields),
-        {}
-      )
 
       await sql.items([
         { 
@@ -64,12 +45,15 @@ describe('Jira-Parser', () => {
         }
       ])
 
+      const query = await sql.model.findById(1234)
+
       expect(sql.db.getDialect()).toEqual('mock')
+      expect(query.get('budget')).not.toEqual(undefined)
     })
   })
 
   describe('close()', () => {
-    it('opens and then closes a db', async () => {
+    it('opens and then closes a mock db', async () => {
       const sql = new SQL(config)
       await sql.open()
       await sql.close()
@@ -78,12 +62,22 @@ describe('Jira-Parser', () => {
   })
 
   describe('open()', () => {
-    it('opens a connection to an expected postgres db with expected fields', async () => {
+    it('opens a connection to an mock db with expected fields', async () => {
       const sql = new SQL(config)
       await sql.open()
-      expect(sql.db.getDialect()).toEqual('postgres')
+      expect(sql.db.getDialect()).toEqual('mock')
       expect(sql.db.isDefined(config.table)).toEqual(true)
-      expect(sql.db.model(config.table).rawAttributes).toMatchObject(schema)
+
+      const schema = {
+        id: {
+          primaryKey: true
+        },
+        budget: {
+          primaryKey: false
+        }
+      }
+
+      expect(sql.db.model(config.table)._defaults).toMatchObject(schema)
     })
   })
 })

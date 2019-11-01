@@ -4,7 +4,7 @@ describe('Default Reader', () => {
   describe('open()', () => {
     it('open function exists', async () => {
       const reader = new Reader({})
-      return reader.open()
+      await expect(reader.open()).resolves.toBe(undefined)
     })
   })
   describe('items()', () => {
@@ -16,7 +16,7 @@ describe('Default Reader', () => {
   describe('close()', () => {
     it('close function exists', async () => {
       const reader = new Reader({})
-      return reader.close()
+      await expect(reader.close()).resolves.toBe(undefined)
     })
   })
 })

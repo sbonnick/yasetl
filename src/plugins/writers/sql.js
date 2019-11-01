@@ -1,5 +1,5 @@
 const Writer = require('./../../defaults/writer')
-const logger = require('./../../pino')
+// const logger = require('./../../pino')
 const Sequelize = require('sequelize')
 const get = require('lodash/get')
 
@@ -18,13 +18,12 @@ class SQL extends Writer {
 
   async open () {
     // @ts-ignore
-    const db = new Sequelize(this.config.connection)
-    this.model = db.define(
+    this.db = new Sequelize(this.config.connection)
+    this.model = this.db.define(
       this.config.table, 
       this._createModel(this.config.fields),
       {})
-    db.sync({ force: true })
-    this.db = db
+    this.model.sync({ force: true })
   }
 
   _createModel (fields) {
@@ -41,16 +40,12 @@ class SQL extends Writer {
   }
 
   async items (items, configuration) {
-    const inserts = this.model.bulkCreate(items)
-      .catch(err => {
-        logger.error({ error: err.error, hint: err.hint })
-      })
-    return inserts
+    return this.model.bulkCreate(items)
   }
 
   async close () {
-    await this.db.close()
     delete this.db
+    delete this.model
   }
 }
 

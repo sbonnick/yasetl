@@ -4,7 +4,7 @@ describe('Default Writer', () => {
   describe('open()', () => {
     it('open function exists', async () => {
       const writer = new Writer({})
-      return writer.open()
+      await expect(writer.open()).resolves.toBe(undefined)
     })
   })
   describe('items()', () => {
@@ -16,7 +16,7 @@ describe('Default Writer', () => {
   describe('close()', () => {
     it('close function exists', async () => {
       const writer = new Writer({})
-      return writer.close()
+      await expect(writer.close()).resolves.toBe(undefined)
     })
   })
 })
