@@ -1,7 +1,10 @@
 const SchemaExtractor = require('../../src/schema-extractor')
 const moment = require('moment')
+const Sequelize = require('sequelize')
+const tmp = require('tmp')
 
 jest.setTimeout(60000)
+tmp.setGracefulCleanup()
 
 describe('SchemaExtractor', () => {
   describe('constructor()', () => {
@@ -43,6 +46,9 @@ describe('SchemaExtractor', () => {
             processors: [{
               processor: 'ArrayFilter',
               criteria: ['aaa', 'ccc']
+            }, {
+              processor: 'StringFormat',
+              format: 'lowercase'
             }]
           }
         }
@@ -51,13 +57,46 @@ describe('SchemaExtractor', () => {
     it('should extract simple passthrough data given a schema config', async () => {
       const extractor = new SchemaExtractor(config)    
       const result = await extractor.extract()
-      expect(result.destination.items.length).toEqual(2)
+      expect(result.count).toEqual(2)
     })
 
     it('should extract simple passthrough data given a schema config and a fire date', async () => {
       const extractor = new SchemaExtractor(config)    
       const result = await extractor.extract(moment.now())
-      expect(result.destination.items.length).toEqual(2)
+      expect(result.count).toEqual(2)
+    })
+
+    it('should extract simple passthrough data given SQLite output', async () => {
+      config.destination.engine = 'SQL'
+      config.destination.table = 'mydbs'
+
+      const tmpobj = await tmp.fileSync({ postfix: '.db' })
+      config.destination.connection = 'sqlite:' + tmpobj.name
+      console.log(config.destination.connection)
+
+      const extractor = new SchemaExtractor(config)
+      const result = await extractor.extract(moment.now())
+
+      // @ts-ignore
+      const directSQL = new Sequelize({
+        dialect: 'sqlite',
+        storage: tmpobj.name,
+        type: Sequelize.QueryTypes.SELECT
+      })
+      const confirmDB = await directSQL.query('SELECT * FROM mydbs')
+      await directSQL.close()
+
+      tmpobj.removeCallback()
+
+      expect(result.count).toEqual(2)
+      expect(confirmDB[0].length).toEqual(2)
+      expect(confirmDB[0]).toMatchObject([{
+        id: 2353,
+        budget: 'ccc'
+      }, {
+        id: 34523,
+        budget: 'aaa ccc'
+      }])
     })
   })
 })

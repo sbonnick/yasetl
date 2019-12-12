@@ -1,5 +1,5 @@
 const Writer = require('./../../defaults/writer')
-// const logger = require('./../../pino')
+const logger = require('./../../pino')
 const Sequelize = require('sequelize')
 const get = require('lodash/get')
 
@@ -17,13 +17,24 @@ class SQL extends Writer {
   }
 
   async open () {
+    let dialectConn = this.config.connection
+
+    if (this.config.connection.toLowerCase().startsWith('sqlite:')) {
+      logger.info('Writing DB to: ' + this.config.connection.substr(7))
+      dialectConn = {
+        dialect: 'sqlite',
+        storage: this.config.connection.substr(7)
+      }
+    }
+
     // @ts-ignore
-    this.db = new Sequelize(this.config.connection)
+    this.db = new Sequelize(dialectConn)
+
     this.model = this.db.define(
       this.config.table, 
       this._createModel(this.config.fields),
       {})
-    this.model.sync({ force: true })
+    await this.model.sync({ force: true })
   }
 
   _createModel (fields) {

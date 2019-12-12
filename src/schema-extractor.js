@@ -42,8 +42,14 @@ class SchemaExtractor {
     const config = { ...this.configuration }
 
     const parser = await ParserService.init(config.fields)
-    const reader = await this.initAndLoadEngine(readerServiceConfig, config.source)
-    const writer = await this.initAndLoadEngine(writerServiceConfig, config.destination)
+    const reader = await this.initAndLoadEngine(readerServiceConfig, {
+      ...config.source,
+      fields: config.fields
+    })
+    const writer = await this.initAndLoadEngine(writerServiceConfig, {
+      ...config.destination,
+      fields: config.fields
+    })
 
     await Promise.all([writer.open(), reader.open()])
     
@@ -57,7 +63,10 @@ class SchemaExtractor {
 
     logger.info(`Extracted ${values.length} records from jira to ${this.configuration.source.engine}  (${duration})`)
 
-    return config
+    return {
+      count: values.length,
+      duration: duration
+    }
   }
 
   // TODO: Impl. should be moved to a schema version specific file, loaded by a factory
