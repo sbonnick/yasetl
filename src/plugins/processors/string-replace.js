@@ -43,10 +43,12 @@ class StringReplace extends Processor {
 
     const inputString = lang.isString(input) ? input : JSON.stringify(input)
 
-    if (get(configuration, 'mustMatch', true) && inputString.match(get(configuration, 'regex', '')) == null) { return null }
+    if (get(configuration, 'mustMatch', this.description.configuration.mustMatch.default) && inputString.match(get(configuration, 'regex', '')) == null) { return null }
 
     return inputString.replace(
-      new RegExp(get(configuration, 'regex', ''), get(configuration, 'flags', 'gi')),
+      new RegExp(
+        get(configuration, 'regex', ''), 
+        get(configuration, 'flags', this.description.configuration.flags.default)),
       get(configuration, 'with', ''))
   }
 }

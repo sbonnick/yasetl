@@ -23,7 +23,7 @@ describe('String Format Processor', () => {
     const commonInput = 'tHIS ShouldFunction correctlyAs EXPECTED'
     const cmd = [
       { test: 'should by default pass through input when configuration is null', value: commonInput, config: null, result: commonInput },
-      { test: 'should by default pass through input when configuration does not containa format', value: commonInput, config: {}, result: commonInput },
+      { test: 'should by default pass through input when configuration does not contain format', value: commonInput, config: {}, result: commonInput },
       { test: 'should return correct case given format lowercase', value: commonInput, config: { format: 'lowercase' }, result: 'this shouldfunction correctlyas expected' },
       { test: 'should return correct case given format uppercase', value: commonInput, config: { format: 'uppercase' }, result: 'THIS SHOULDFUNCTION CORRECTLYAS EXPECTED' },
       { test: 'should return correct case given format propercase', value: commonInput, config: { format: 'propercase' }, result: 'This shouldfunction correctlyas expected' },
