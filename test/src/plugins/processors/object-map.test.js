@@ -1,6 +1,6 @@
-const Processor = require('../../../../src/plugins/processors/array-map')
+const Processor = require('../../../../src/plugins/processors/object-map')
 
-describe('Array Map Processor', () => {
+describe('Object Map Processor', () => {
   describe('describe()', () => {
     it('should contain mandatory description fields', async () => {
       const proc = new Processor()
@@ -15,7 +15,7 @@ describe('Array Map Processor', () => {
     it('should contain override name', async () => {
       const proc = new Processor()
       const description = await proc.describe()
-      expect(description.name).toEqual('Maps Array')
+      expect(description.name).toEqual('Maps Object')
     })
   })
 
