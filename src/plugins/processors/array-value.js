@@ -6,7 +6,7 @@ class ArrayValue extends Processor {
     super()
 
     this.description = {
-      name: 'Value in Array',
+      name: 'Array Value',
       description: 'get value in array given criteria critiera function',
       inputHint: [Array],
       outputHint: Array,
@@ -14,7 +14,7 @@ class ArrayValue extends Processor {
         criteria: {
           required: true,
           type: String,
-          value: ['first', 'last', 'index']
+          value: ['first', 'last']
         }
       }
     }
