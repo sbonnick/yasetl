@@ -9,7 +9,7 @@ class ObjectMap extends Processor {
     this.description = {
       name: 'Maps Object',
       description: 'Maps values in an object to an array given criteria',
-      inputHint: [Object],
+      inputHint: Object,
       outputHint: Array,
       configuration: {
         criteria: {

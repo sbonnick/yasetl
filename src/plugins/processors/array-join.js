@@ -9,7 +9,7 @@ class ArrayJoin extends Processor {
     this.description = {
       name: 'Join Array',
       description: 'join the values in an array',
-      inputHint: [Array],
+      inputHint: Array,
       outputHint: String,
       configuration: {
         joinOn: {

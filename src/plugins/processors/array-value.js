@@ -8,7 +8,7 @@ class ArrayValue extends Processor {
     this.description = {
       name: 'Array Value',
       description: 'get value in array given criteria critiera function',
-      inputHint: [Array],
+      inputHint: Array,
       outputHint: Array,
       configuration: {
         criteria: {
