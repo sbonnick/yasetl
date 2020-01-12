@@ -1,6 +1,6 @@
 const path = require('path')
 const PluginLoader = require('./plugin-loader')
-const Processor = require('./processor')
+const Processor = require('./defaults/processor')
 const logger = require('./pino')
 const get = require('lodash/get')
 

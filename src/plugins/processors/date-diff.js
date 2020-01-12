@@ -1,4 +1,4 @@
-const Processor = require('../../processor')
+const Processor = require('../../defaults/processor')
 const get = require('lodash/get')
 const moment = require('moment')
 // @ts-ignore

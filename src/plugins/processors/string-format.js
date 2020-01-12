@@ -1,4 +1,4 @@
-const Processor = require('../../processor')
+const Processor = require('../../defaults/processor')
 const string = require('lodash/string')
 const lang = require('lodash/lang')
 const get = require('lodash/get')

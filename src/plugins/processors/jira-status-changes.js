@@ -1,4 +1,4 @@
-const Processor = require('../../processor')
+const Processor = require('../../defaults/processor')
 
 // @ts-ignore
 class JiraStatusChanges extends Processor {

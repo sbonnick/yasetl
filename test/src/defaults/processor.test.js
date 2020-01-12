@@ -1,4 +1,4 @@
-const Processor = require('../../src/processor')
+const Processor = require('../../../src/defaults/processor')
 
 describe('Processor', () => {
   describe('describe()', () => {
