@@ -1,7 +1,6 @@
 const fs = require('fs')
 const minimist = require('minimist')
-const Extractor = require('./src/extractor')
-const logger = require('./src/pino')
+const Extractor = require('./src/schema-extractor')
 
 const argv = minimist((process.argv.slice(2)))
 
@@ -11,26 +10,12 @@ function getArgument (value, def = null) {
   else return def
 }
 
-const debug = (getArgument('loglevel') === 'debug')
-
-if (debug) {
-  logger.debug('Input Paramaters')
-  logger.debug('----------------')
-  const con = ['config', 'baseurl', 'username', 'cron']
-  con.forEach(element => {
-    logger.debug(`${element} = ${getArgument(element, 'NULL')}`)
-  })
-}
-
 const configuration = JSON.parse(
   fs.readFileSync(getArgument('config', 'config.json'), 'utf8')
 )
 
-const app = new Extractor(
-  configuration,
-  getArgument('baseurl'),
-  getArgument('username'),
-  getArgument('password'),
-  debug)
+configuration.source.username = getArgument('username')
+configuration.source.password = getArgument('password')
+const app = new Extractor(configuration)
 
-app.run(getArgument('cron'))
+app.extract()

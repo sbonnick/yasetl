@@ -17,23 +17,30 @@ class SQL extends Writer {
   }
 
   async open () {
-    let dialectConn = this.config.connection
+    const commonOptions = {
+      logging: logger.debug
+    }
+
+    let dialectConn = [
+      this.config.connection, 
+      commonOptions
+    ]
 
     if (this.config.connection.toLowerCase().startsWith('sqlite:')) {
       logger.info('Writing DB to: ' + this.config.connection.substr(7))
-      dialectConn = {
+      dialectConn = [{
         dialect: 'sqlite',
-        storage: this.config.connection.substr(7)
-      }
+        storage: this.config.connection.substr(7),
+        ...commonOptions
+      }]
     }
 
     // @ts-ignore
-    this.db = new Sequelize(dialectConn)
+    this.db = new Sequelize(...dialectConn)
 
     this.model = this.db.define(
       this.config.table, 
-      this._createModel(this.config.fields),
-      {})
+      this._createModel(this.config.fields), { timestamps: false })
     await this.model.sync({ force: true })
   }
 
