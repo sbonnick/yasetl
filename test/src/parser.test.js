@@ -10,6 +10,18 @@ describe('Parser', () => {
         datatype: 'integer',
         primary: true
       },
+      virtualBudget: {
+        input: 'RECORD.fields.labels',
+        virtual: true,
+        datatype: 'text',
+        processors: [{
+          processor: 'ArrayJoin',
+          joinOn: 'FIELD.id'
+        }]
+      },
+      virtualCheck: {
+        input: 'FIELD.virtualBudget'
+      },
       budget: {
         input: 'RECORD.fields.labels',
         datatype: 'text',
