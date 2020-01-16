@@ -93,14 +93,14 @@ class Parser {
 
     if (referance.match(this.RECORD)) {
       const key = referance.replace(this.RECORD, '$1')
-      value = get(recordItems, key, undefined)
+      value = get(recordItems, key)
     } else if (referance.match(this.FIELD)) {
       const key = referance.replace(this.FIELD, '$1')
       value = get(realItems, key)
       if (value === undefined) { value = get(virtualItems, key) }
+    } else {
+      throw Error(`Value ${referance} cannot be recognized as a field referance, or field not yet processed`)
     }
-
-    if (value === undefined) { throw Error(`Value ${referance} cannot be recognized as a field referance, or field not yet processed`) }
 
     return value
   }

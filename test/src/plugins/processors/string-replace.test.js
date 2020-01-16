@@ -27,7 +27,7 @@ describe('String Replace Processor', () => {
       { test: 'should by default pass through input when value in blank', value: '', config: {}, result: '' },
       { test: 'should return correct replacement given simple string', value: 'Cab3465', config: { with: '3213', regex: 'ab' }, result: 'C32133465' },
       { test: 'should return correct replacement with case insensitivty regex', value: 'Cab3465', config: { with: '3213', regex: 'Ab' }, result: 'C32133465' },
-      { test: 'should return value and not replace with case insensitivty turned on', value: 'Cab3465', config: { with: '3213', regex: 'Ab', flags: 'g' }, result: 'Cab3465' },
+      { test: 'should return value and not replace with case insensitivty turned on and match required off', value: 'Cab3465', config: { with: '3213', regex: 'Ab', flags: 'g', mustMatch: false }, result: 'Cab3465' },
       { test: 'should return correct replacement given integers returned as string', value: 3465, config: { with: '3213', regex: '34' }, result: '321365' },
       { test: 'should return correct replacement given all null values', value: null, config: { with: null, regex: null }, result: null },
       { test: 'should return correct replacement given object returned as string', value: { with: null }, config: { with: 'something', regex: 'null' }, result: '{"with":something}' },

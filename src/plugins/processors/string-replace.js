@@ -30,7 +30,7 @@ class StringReplace extends Processor {
         mustMatch: {
           required: false,
           type: Boolean,
-          default: false
+          default: true
         }
       }
     }
@@ -42,14 +42,17 @@ class StringReplace extends Processor {
     if (configuration == null || get(configuration, 'with', null) == null) return input
 
     const inputString = lang.isString(input) ? input : JSON.stringify(input)
+    
+    const mustMatch = get(configuration, 'mustMatch', this.description.configuration.mustMatch.default)
+    const regex = get(configuration, 'regex', this.description.configuration.regex.default)
+    const flags = get(configuration, 'flags', this.description.configuration.flags.default)
+    const replaceWith = get(configuration, 'with', this.description.configuration.with.default)
 
-    if (get(configuration, 'mustMatch', this.description.configuration.mustMatch.default) && inputString.match(get(configuration, 'regex', '')) == null) { return null }
+    const regStatement = new RegExp(regex, flags)
 
-    return inputString.replace(
-      new RegExp(
-        get(configuration, 'regex', ''), 
-        get(configuration, 'flags', this.description.configuration.flags.default)),
-      get(configuration, 'with', ''))
+    if (mustMatch && inputString.match(regStatement) == null) { return null }
+
+    return inputString.replace(regStatement, replaceWith)
   }
 }
 
