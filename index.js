@@ -1,6 +1,7 @@
 const fs = require('fs')
 const minimist = require('minimist')
 const Extractor = require('./src/schema-extractor')
+const schedule = require('node-schedule')
 
 const argv = minimist((process.argv.slice(2)))
 
@@ -16,6 +17,13 @@ const configuration = JSON.parse(
 
 configuration.source.username = getArgument('username')
 configuration.source.password = getArgument('password')
-const app = new Extractor(configuration)
 
+const app = new Extractor(configuration)
 app.extract()
+
+const cron = getArgument('cron')
+if (cron !== null) {
+  schedule.scheduleJob(cron, function (app) {
+    app.extract()
+  }.bind(null, app))
+}
