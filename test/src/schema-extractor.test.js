@@ -68,7 +68,7 @@ describe('SchemaExtractor', () => {
     })
 
     it('should create a dubug file when sampling is set', async () => {
-      jest.spyOn(fs, 'writeFileSync')
+      jest.spyOn(fs, 'writeFileSync').mockImplementation()
       const extractor = new SchemaExtractor({
         ...config,
         settings: {
