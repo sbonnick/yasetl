@@ -9,3 +9,5 @@ config*.json
 example*.json
 *dump.json
 *.test.js
+debug.json
+report*.json
