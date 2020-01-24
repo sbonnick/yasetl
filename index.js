@@ -18,6 +18,13 @@ const configuration = JSON.parse(
 configuration.source.username = getArgument('username')
 configuration.source.password = getArgument('password')
 
+configuration.settings = {
+  debug: {
+    samples: getArgument('samples'),
+    processes: getArgument('trace')
+  }
+}
+
 const app = new Extractor(configuration)
 app.extract()
 

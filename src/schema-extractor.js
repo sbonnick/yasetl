@@ -5,6 +5,7 @@ const humanize = require('humanize-duration')
 const path = require('path')
 const PluginService = require('./plugin-service')
 const ParserService = require('./parser')
+const fs = require('fs')
 
 const readerServiceConfig = [
   require('./defaults/reader'),
@@ -41,6 +42,8 @@ class SchemaExtractor {
     // Make a shallow copy of configurations
     const config = { ...this.configuration }
 
+    const samples = get(config, 'settings.debug.samples', 0)
+
     const parser = await ParserService.init(config.fields)
     const reader = await this.initAndLoadEngine(readerServiceConfig, {
       ...config.source,
@@ -54,6 +57,12 @@ class SchemaExtractor {
     await Promise.all([writer.open(), reader.open()])
     
     const results = await reader.items()
+
+    if (samples > 0) {
+      logger.info('Writing samples to file: debug.json')
+      fs.writeFileSync('debug.json', JSON.stringify({ samples: results.slice(0, samples) }))
+    }
+
     const values = await parser.parse(results)
     await writer.items(values)
 
