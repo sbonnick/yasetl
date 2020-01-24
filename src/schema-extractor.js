@@ -58,9 +58,9 @@ class SchemaExtractor {
     
     const results = await reader.items()
 
-    if (samples > 0) {
+    if (samples > 0 && results.length > 0) {
       logger.info('Writing samples to file: debug.json')
-      fs.writeFileSync('debug.json', JSON.stringify({ samples: results.slice(0, samples) }))
+      fs.writeFileSync('debug.json', JSON.stringify({ samples: results.slice(0, Math.min(samples, results.length)) }))
     }
 
     const values = await parser.parse(results)

@@ -21,7 +21,8 @@ configuration.source.password = getArgument('password')
 configuration.settings = {
   debug: {
     samples: getArgument('samples'),
-    processes: getArgument('trace')
+    processes: getArgument('trace'),
+    file: getArgument('debugFile', 'debug.json')
   }
 }
 

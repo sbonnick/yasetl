@@ -2,6 +2,7 @@ const SchemaExtractor = require('../../src/schema-extractor')
 const moment = require('moment')
 const Sequelize = require('sequelize')
 const tmp = require('tmp')
+const fs = require('fs')
 
 jest.setTimeout(60000)
 tmp.setGracefulCleanup()
@@ -64,6 +65,20 @@ describe('SchemaExtractor', () => {
       const extractor = new SchemaExtractor(config)    
       const result = await extractor.extract(moment.now())
       expect(result.count).toEqual(2)
+    })
+
+    it('should create a dubug file when sampling is set', async () => {
+      jest.spyOn(fs, 'writeFileSync')
+      const extractor = new SchemaExtractor({
+        ...config,
+        settings: {
+          debug: {
+            samples: 1
+          }
+        }
+      }) 
+      await extractor.extract(moment.now())   
+      expect(fs.writeFileSync).toHaveBeenCalled()
     })
 
     it('should extract simple passthrough data given SQLite output', async () => {

@@ -1,0 +1,611 @@
+
+{
+  "header": {
+    "reportVersion": 1,
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "trigger": "FatalError",
+    "filename": "report.20200124.153746.21004.0.001.json",
+    "dumpEventTime": "2020-01-24T15:37:46Z",
+    "dumpEventTimeStamp": "1579898266823",
+    "processId": 21004,
+    "cwd": "c:\\Users\\stewart\\workspace\\jiraextract",
+    "commandLine": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "c:\\Users\\stewart\\workspace\\jiraextract\\node_modules\\jest-worker\\build\\workers\\processChild.js"
+    ],
+    "nodejsVersion": "v13.3.0",
+    "wordSize": 64,
+    "arch": "x64",
+    "platform": "win32",
+    "componentVersions": {
+      "node": "13.3.0",
+      "v8": "7.9.317.25-node.23",
+      "uv": "1.33.1",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "79",
+      "nghttp2": "1.40.0",
+      "napi": "5",
+      "llhttp": "2.0.1",
+      "openssl": "1.1.1d",
+      "cldr": "35.1",
+      "icu": "64.2",
+      "tz": "2019c",
+      "unicode": "12.1"
+    },
+    "release": {
+      "name": "node",
+      "headersUrl": "https://nodejs.org/download/release/v13.3.0/node-v13.3.0-headers.tar.gz",
+      "sourceUrl": "https://nodejs.org/download/release/v13.3.0/node-v13.3.0.tar.gz",
+      "libUrl": "https://nodejs.org/download/release/v13.3.0/win-x64/node.lib"
+    },
+    "osName": "Windows_NT",
+    "osRelease": "10.0.18363",
+    "osVersion": "Windows 10 Pro",
+    "osMachine": "x86_64",
+    "cpus": [
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 4636812,
+        "nice": 0,
+        "sys": 2423843,
+        "idle": 45610156,
+        "irq": 33218
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 1872875,
+        "nice": 0,
+        "sys": 994234,
+        "idle": 49803562,
+        "irq": 13812
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 2487234,
+        "nice": 0,
+        "sys": 1091953,
+        "idle": 49091484,
+        "irq": 16437
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 2501437,
+        "nice": 0,
+        "sys": 1155640,
+        "idle": 49013578,
+        "irq": 19968
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 2203312,
+        "nice": 0,
+        "sys": 457718,
+        "idle": 50009640,
+        "irq": 82921
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 473765,
+        "nice": 0,
+        "sys": 120421,
+        "idle": 52076484,
+        "irq": 21078
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 1516406,
+        "nice": 0,
+        "sys": 293312,
+        "idle": 50860953,
+        "irq": 59718
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 390140,
+        "nice": 0,
+        "sys": 263687,
+        "idle": 52016828,
+        "irq": 101265
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 1354984,
+        "nice": 0,
+        "sys": 197500,
+        "idle": 51118171,
+        "irq": 17906
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 368046,
+        "nice": 0,
+        "sys": 110562,
+        "idle": 52192046,
+        "irq": 5250
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 1875515,
+        "nice": 0,
+        "sys": 255609,
+        "idle": 50539531,
+        "irq": 16484
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 392281,
+        "nice": 0,
+        "sys": 73484,
+        "idle": 52204890,
+        "irq": 4765
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 841046,
+        "nice": 0,
+        "sys": 154500,
+        "idle": 51675109,
+        "irq": 17390
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 127515,
+        "nice": 0,
+        "sys": 69921,
+        "idle": 52473218,
+        "irq": 2218
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 1001671,
+        "nice": 0,
+        "sys": 182437,
+        "idle": 51486546,
+        "irq": 18500
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 147015,
+        "nice": 0,
+        "sys": 94343,
+        "idle": 52429296,
+        "irq": 4156
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 1124000,
+        "nice": 0,
+        "sys": 226187,
+        "idle": 51320468,
+        "irq": 21625
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 255984,
+        "nice": 0,
+        "sys": 83890,
+        "idle": 52330781,
+        "irq": 4250
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 638890,
+        "nice": 0,
+        "sys": 189671,
+        "idle": 51842093,
+        "irq": 14015
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 115968,
+        "nice": 0,
+        "sys": 218593,
+        "idle": 52336093,
+        "irq": 6515
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 754437,
+        "nice": 0,
+        "sys": 175687,
+        "idle": 51740531,
+        "irq": 15625
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 97875,
+        "nice": 0,
+        "sys": 97906,
+        "idle": 52474859,
+        "irq": 1812
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 1054515,
+        "nice": 0,
+        "sys": 3366656,
+        "idle": 48249484,
+        "irq": 17578
+      },
+      {
+        "model": "AMD Ryzen 9 3900X 12-Core Processor            ",
+        "speed": 3793,
+        "user": 993265,
+        "nice": 0,
+        "sys": 3526546,
+        "idle": 48150828,
+        "irq": 18531
+      }
+    ],
+    "networkInterfaces": [
+      {
+        "name": "Ethernet",
+        "internal": false,
+        "mac": "04:d9:f5:60:ed:f7",
+        "address": "fe80::4f8:713f:315b:c71f",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 7
+      },
+      {
+        "name": "Ethernet",
+        "internal": false,
+        "mac": "04:d9:f5:60:ed:f7",
+        "address": "192.168.10.190",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "::1",
+        "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "127.0.0.1",
+        "netmask": "255.0.0.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "vEthernet (Default Switch)",
+        "internal": false,
+        "mac": "00:15:5d:42:6a:cd",
+        "address": "fe80::38cb:1913:fe92:395c",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 18
+      },
+      {
+        "name": "vEthernet (Default Switch)",
+        "internal": false,
+        "mac": "00:15:5d:42:6a:cd",
+        "address": "192.168.1.129",
+        "netmask": "255.255.255.240",
+        "family": "IPv4"
+      }
+    ],
+    "host": "DESKTOP-DKSTDJE"
+  },
+  "javascriptStack": {
+    "message": "No stack.",
+    "stack": [
+      "Unavailable."
+    ]
+  },
+  "nativeStack": [
+    {
+      "pc": "0x00007ff601bb1509",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+10857"
+    },
+    {
+      "pc": "0x00007ff601bb587c",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+28124"
+    },
+    {
+      "pc": "0x00007ff601bb4838",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+23960"
+    },
+    {
+      "pc": "0x00007ff601cacc8b",
+      "symbol": "v8::base::CPU::has_sse+39435"
+    },
+    {
+      "pc": "0x00007ff6024d44ae",
+      "symbol": "v8::Isolate::ReportExternalAllocationLimitReached+94"
+    },
+    {
+      "pc": "0x00007ff6024bbc01",
+      "symbol": "v8::SharedArrayBuffer::Externalize+785"
+    },
+    {
+      "pc": "0x00007ff602382f5c",
+      "symbol": "v8::internal::Heap::EphemeronKeyWriteBarrierFromCode+1436"
+    },
+    {
+      "pc": "0x00007ff60238e250",
+      "symbol": "v8::internal::Heap::ProtectUnprotectedMemoryChunks+1312"
+    },
+    {
+      "pc": "0x00007ff60238ad7f",
+      "symbol": "v8::internal::Heap::PageFlagsAreConsistent+3151"
+    },
+    {
+      "pc": "0x00007ff6023804d3",
+      "symbol": "v8::internal::Heap::CollectGarbage+1283"
+    },
+    {
+      "pc": "0x00007ff60237ec64",
+      "symbol": "v8::internal::Heap::AllocateExternalBackingStore+1300"
+    },
+    {
+      "pc": "0x00007ff6023a0c54",
+      "symbol": "v8::internal::Factory::NewFillerObject+196"
+    },
+    {
+      "pc": "0x00007ff6020fb251",
+      "symbol": "v8::internal::interpreter::JumpTableTargetOffsets::iterator::operator=+1681"
+    },
+    {
+      "pc": "0x00007ff60291ae3d",
+      "symbol": "v8::internal::SetupIsolateDelegate::SetupHeap+517453"
+    },
+    {
+      "pc": "0x00007ff6028a7fd8",
+      "symbol": "v8::internal::SetupIsolateDelegate::SetupHeap+46824"
+    },
+    {
+      "pc": "0x000002933bf4349c",
+      "symbol": ""
+    }
+  ],
+  "javascriptHeap": {
+    "totalMemory": 2153328640,
+    "totalCommittedMemory": 2153328640,
+    "usedMemory": 2146126728,
+    "availableMemory": 48212344,
+    "memoryLimit": 2197815296,
+    "heapSpaces": {
+      "read_only_space": {
+        "memorySize": 262144,
+        "committedMemory": 262144,
+        "capacity": 33040,
+        "used": 33040,
+        "available": 0
+      },
+      "new_space": {
+        "memorySize": 3670016,
+        "committedMemory": 3670016,
+        "capacity": 1832992,
+        "used": 386152,
+        "available": 1446840
+      },
+      "old_space": {
+        "memorySize": 1668943872,
+        "committedMemory": 1668943872,
+        "capacity": 1666892704,
+        "used": 1666446848,
+        "available": 445856
+      },
+      "code_space": {
+        "memorySize": 430080,
+        "committedMemory": 430080,
+        "capacity": 277600,
+        "used": 277600,
+        "available": 0
+      },
+      "map_space": {
+        "memorySize": 2363392,
+        "committedMemory": 2363392,
+        "capacity": 1386400,
+        "used": 1386400,
+        "available": 0
+      },
+      "large_object_space": {
+        "memorySize": 477609984,
+        "committedMemory": 477609984,
+        "capacity": 477593904,
+        "used": 477593904,
+        "available": 0
+      },
+      "code_large_object_space": {
+        "memorySize": 49152,
+        "committedMemory": 49152,
+        "capacity": 2784,
+        "used": 2784,
+        "available": 0
+      },
+      "new_large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 1832992,
+        "used": 0,
+        "available": 1832992
+      }
+    }
+  },
+  "resourceUsage": {
+    "userCpuSeconds": 52.812,
+    "kernelCpuSeconds": 2.234,
+    "cpuConsumptionPercent": 229.358,
+    "maxRss": 2380533760,
+    "pageFaults": {
+      "IORequired": 1519514,
+      "IONotRequired": 0
+    },
+    "fsActivity": {
+      "reads": 2626,
+      "writes": 110
+    }
+  },
+  "libuv": [
+  ],
+  "environmentVariables": {
+    "ALLUSERSPROFILE": "C:\\ProgramData",
+    "AMDRMPATH": "C:\\Program Files\\AMD\\RyzenMaster\\",
+    "AMD_ENTRYPOINT": "vs/workbench/services/extensions/node/extensionHostProcess",
+    "ANSICON": "239x32766 (239x63)",
+    "ANSICON_DEF": "7",
+    "APPDATA": "C:\\Users\\stewart\\AppData\\Roaming",
+    "APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL": "true",
+    "ChocolateyInstall": "C:\\ProgramData\\chocolatey",
+    "ChocolateyLastPathUpdate": "132211935816057184",
+    "CI": "true",
+    "CommonProgramFiles": "C:\\Program Files\\Common Files",
+    "CommonProgramFiles(x86)": "C:\\Program Files (x86)\\Common Files",
+    "CommonProgramW6432": "C:\\Program Files\\Common Files",
+    "COMPUTERNAME": "DESKTOP-DKSTDJE",
+    "ComSpec": "C:\\Windows\\system32\\cmd.exe",
+    "ConEmuANSI": "ON",
+    "ConEmuAnsiLog": "",
+    "ConEmuArgs": "",
+    "ConEmuArgs2": "",
+    "ConEmuBackHWND": "0x002F06DA",
+    "ConEmuBaseDir": "C:\\Program Files\\ConEmu\\ConEmu",
+    "ConEmuBaseDirShort": "C:\\PROGRA~1\\ConEmu\\ConEmu",
+    "ConEmuBuild": "191012",
+    "ConEmuCfgDir": "C:\\Users\\stewart\\AppData\\Roaming",
+    "ConEmuConfig": "",
+    "ConEmuDir": "C:\\Program Files\\ConEmu",
+    "ConEmuDrawHWND": "0x0004002C",
+    "ConEmuDrive": "C:",
+    "ConEmuHooks": "Enabled",
+    "ConEmuHWND": "0x0017042E",
+    "ConEmuPalette": "<Ubuntu>",
+    "ConEmuPID": "10520",
+    "ConEmuServerPID": "8292",
+    "ConEmuTask": "{Shells::cmd}",
+    "ConEmuWorkDir": "C:\\Users\\stewart",
+    "ConEmuWorkDrive": "C:",
+    "dp0": "c:\\Users\\stewart\\workspace\\jiraextract\\node_modules\\.bin\\",
+    "DriverData": "C:\\Windows\\System32\\Drivers\\DriverData",
+    "ELECTRON_NO_ATTACH_CONSOLE": "1",
+    "ELECTRON_RUN_AS_NODE": "1",
+    "FPS_BROWSER_APP_PROFILE_STRING": "Internet Explorer",
+    "FPS_BROWSER_USER_PROFILE_STRING": "Default",
+    "HOMEDRIVE": "C:",
+    "HOMEPATH": "\\Users\\stewart",
+    "JEST_WORKER_ID": "1",
+    "LOCALAPPDATA": "C:\\Users\\stewart\\AppData\\Local",
+    "LOGONSERVER": "\\\\DESKTOP-DKSTDJE",
+    "NODE_ENV": "test",
+    "NO_PROXY": "127.0.0.1",
+    "NUMBER_OF_PROCESSORS": "24",
+    "OneDrive": "C:\\Users\\stewart\\OneDrive",
+    "OS": "Windows_NT",
+    "Path": "C:\\Users\\stewart\\.platformio\\penv\\Scripts;C:\\Users\\stewart\\.platformio\\penv;C:\\Program Files\\ConEmu\\ConEmu\\Scripts;C:\\Program Files\\ConEmu;C:\\Program Files\\ConEmu\\ConEmu;C:\\Python38\\Scripts\\;C:\\Python38\\;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\Git\\cmd;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Program Files\\nodejs\\;C:\\Program Files\\Microsoft VS Code\\bin;C:\\Program Files\\Docker\\Docker\\resources\\bin;C:\\ProgramData\\DockerDesktop\\version-bin;C:\\Users\\stewart\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\stewart\\AppData\\Roaming\\npm;C:\\Program Files\\ConEmu\\ConEmu\\Scripts;C:\\Program Files\\ConEmu;C:\\Program Files\\ConEmu\\ConEmu;C:\\Python38\\Scripts\\;C:\\Python38\\;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\Git\\cmd;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Program Files\\nodejs\\;C:\\Program Files\\Microsoft VS Code\\bin;C:\\Program Files\\Docker\\Docker\\resources\\bin;C:\\ProgramData\\DockerDesktop\\version-bin;C:\\Users\\stewart\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\stewart\\AppData\\Roaming\\npm",
+    "PATHEXT": ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JSE;.WSF;.WSH;.MSC;.PY;.PYW",
+    "PIPE_LOGGING": "true",
+    "PLATFORMIO_CALLER": "vscode",
+    "PLATFORMIO_IDE": "1.10.0",
+    "PROCESSOR_ARCHITECTURE": "AMD64",
+    "PROCESSOR_IDENTIFIER": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+    "PROCESSOR_LEVEL": "23",
+    "PROCESSOR_REVISION": "7100",
+    "ProgramData": "C:\\ProgramData",
+    "ProgramFiles": "C:\\Program Files",
+    "ProgramFiles(x86)": "C:\\Program Files (x86)",
+    "ProgramW6432": "C:\\Program Files",
+    "PROMPT": "$E[m$E[32m$E]9;8;\"USERNAME\"$E\\@$E]9;8;\"COMPUTERNAME\"$E\\$S$E[92m$P$E[90m$_$E[90m$$$E[m$S$E]9;12$E\\",
+    "PSModulePath": "C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules",
+    "PUBLIC": "C:\\Users\\Public",
+    "SESSIONNAME": "Console",
+    "SystemDrive": "C:",
+    "SystemRoot": "C:\\Windows",
+    "TEMP": "C:\\Users\\stewart\\AppData\\Local\\Temp",
+    "TMP": "C:\\Users\\stewart\\AppData\\Local\\Temp",
+    "USERDOMAIN": "DESKTOP-DKSTDJE",
+    "USERDOMAIN_ROAMINGPROFILE": "DESKTOP-DKSTDJE",
+    "USERNAME": "stewart",
+    "USERPROFILE": "C:\\Users\\stewart",
+    "VERBOSE_LOGGING": "true",
+    "VSCODE_CLI": "1",
+    "VSCODE_CWD": "C:\\Users\\stewart\\workspace\\jiraextract",
+    "VSCODE_HANDLES_UNCAUGHT_ERRORS": "true",
+    "VSCODE_IPC_HOOK": "\\\\.\\pipe\\e2363975d572825d3e8a066713ac5652-1.41.1-main-sock",
+    "VSCODE_IPC_HOOK_EXTHOST": "\\\\.\\pipe\\vscode-ipc-414340a5-259d-4efb-879d-f181a146f342-sock",
+    "VSCODE_LOGS": "C:\\Users\\stewart\\AppData\\Roaming\\Code\\logs\\20200124T131505",
+    "VSCODE_LOG_STACK": "false",
+    "VSCODE_NLS_CONFIG": "{\"locale\":\"en-us\",\"availableLanguages\":{},\"_languagePackSupport\":true}",
+    "VSCODE_NODE_CACHED_DATA_DIR": "C:\\Users\\stewart\\AppData\\Roaming\\Code\\CachedData\\26076a4de974ead31f97692a0d32f90d735645c0",
+    "VSCODE_PID": "3396",
+    "windir": "C:\\Windows",
+    "_prog": "node"
+  },
+  "sharedObjects": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "C:\\Windows\\SYSTEM32\\ntdll.dll",
+    "C:\\Windows\\System32\\KERNEL32.DLL",
+    "C:\\Windows\\System32\\KERNELBASE.dll",
+    "C:\\Windows\\System32\\WS2_32.dll",
+    "C:\\Windows\\System32\\RPCRT4.dll",
+    "C:\\Windows\\SYSTEM32\\dbghelp.dll",
+    "C:\\Windows\\System32\\PSAPI.DLL",
+    "C:\\Windows\\System32\\ucrtbase.dll",
+    "C:\\Windows\\System32\\ADVAPI32.dll",
+    "C:\\Windows\\System32\\msvcrt.dll",
+    "C:\\Windows\\System32\\sechost.dll",
+    "C:\\Windows\\SYSTEM32\\USERENV.dll",
+    "C:\\Windows\\SYSTEM32\\IPHLPAPI.DLL",
+    "C:\\Windows\\System32\\USER32.dll",
+    "C:\\Windows\\System32\\profapi.dll",
+    "C:\\Windows\\System32\\win32u.dll",
+    "C:\\Windows\\System32\\GDI32.dll",
+    "C:\\Windows\\System32\\gdi32full.dll",
+    "C:\\Windows\\System32\\msvcp_win.dll",
+    "C:\\Windows\\System32\\CRYPT32.dll",
+    "C:\\Windows\\System32\\MSASN1.dll",
+    "C:\\Windows\\System32\\bcrypt.dll",
+    "C:\\Windows\\SYSTEM32\\WINMM.dll",
+    "C:\\Windows\\SYSTEM32\\winmmbase.dll",
+    "C:\\Windows\\System32\\cfgmgr32.dll",
+    "C:\\Windows\\System32\\bcryptPrimitives.dll",
+    "C:\\Windows\\System32\\IMM32.DLL",
+    "C:\\Windows\\System32\\powrprof.dll",
+    "C:\\Windows\\System32\\UMPDC.dll",
+    "C:\\Windows\\SYSTEM32\\CRYPTBASE.DLL",
+    "C:\\Windows\\system32\\uxtheme.dll",
+    "C:\\Windows\\System32\\combase.dll",
+    "C:\\Windows\\system32\\mswsock.dll",
+    "C:\\Windows\\System32\\kernel.appcore.dll",
+    "C:\\Windows\\system32\\napinsp.dll",
+    "C:\\Windows\\system32\\pnrpnsp.dll",
+    "C:\\Windows\\SYSTEM32\\DNSAPI.dll",
+    "C:\\Windows\\System32\\NSI.dll",
+    "C:\\Windows\\System32\\winrnr.dll",
+    "C:\\Windows\\system32\\NLAapi.dll",
+    "C:\\Windows\\system32\\wshbth.dll",
+    "C:\\Windows\\SYSTEM32\\dhcpcsvc6.DLL",
+    "C:\\Windows\\SYSTEM32\\dhcpcsvc.DLL"
+  ]
+}
