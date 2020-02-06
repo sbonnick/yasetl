@@ -37,5 +37,11 @@ describe('Object Map Processor', () => {
       const results = await proc.process(commonInput, { criteria: 'non-existent' })
       expect(results).toEqual([])
     })
+
+    it('should output a null with input of null', async () => {
+      const proc = new Processor()
+      const results = await proc.process(null, { criteria: 'name' })
+      expect(results).toEqual(null)
+    })
   })
 })
