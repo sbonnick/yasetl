@@ -21,6 +21,9 @@ class ObjectMap extends Processor {
   }
 
   async process (input, configuration) {
+    if (input === null) {
+      return null
+    }
     return input
       .map(value => get(value, configuration.criteria))
       .filter(element => { return element !== undefined })
