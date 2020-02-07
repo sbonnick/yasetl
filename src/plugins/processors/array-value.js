@@ -21,7 +21,9 @@ class ArrayValue extends Processor {
   }
 
   async process (input, configuration) {
-    if (configuration.criteria === 'first') {
+    if (input === null) {
+      return null
+    } if (configuration.criteria === 'first') {
       return input.shift() || null
     } if (configuration.criteria === 'last') {
       return input.pop() || null

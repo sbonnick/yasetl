@@ -37,5 +37,11 @@ describe('Array Filter Processor', () => {
       const results = await proc.process(['AAA', 'CCC', 'BBB'], { criteria: ['EEE', 'DDD'] })
       expect(results).toEqual([])
     })
+
+    it('should output a null with input of null', async () => {
+      const proc = new Processor()
+      const results = await proc.process(null, { criteria: null })
+      expect(results).toEqual(null)
+    })
   })
 })

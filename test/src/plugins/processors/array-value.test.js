@@ -48,5 +48,11 @@ describe('Array Join Processor', () => {
       const results = await proc.process(['AAA', 'CCC', 'BBB'], { criteria: null })
       expect(results).toEqual(null)
     })
+
+    it('should output a null with input of null', async () => {
+      const proc = new Processor()
+      const results = await proc.process(null, { criteria: 'first' })
+      expect(results).toEqual(null)
+    })
   })
 })

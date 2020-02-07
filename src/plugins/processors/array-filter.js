@@ -20,6 +20,9 @@ class ArrayFilter extends Processor {
   }
 
   async process (input, configuration) {
+    if (input === null) {
+      return null
+    }
     return input.filter(value => configuration.criteria.findIndex(item => item.toLowerCase() === value.toLowerCase()) !== -1)
   }
 }
