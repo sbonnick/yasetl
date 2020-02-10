@@ -1,7 +1,6 @@
 
 
 [![Build Status](https://travis-ci.org/sbonnick/jiraextract.svg?branch=master)](https://travis-ci.org/sbonnick/jiraextract)
-[![codecov](https://codecov.io/gh/sbonnick/jiraextract/branch/master/graph/badge.svg)](https://codecov.io/gh/sbonnick/jiraextract)
 [![Maintainability](https://api.codeclimate.com/v1/badges/6641534502a1cde6c565/maintainability)](https://codeclimate.com/github/sbonnick/jiraextract/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/6641534502a1cde6c565/test_coverage)](https://codeclimate.com/github/sbonnick/jiraextract/test_coverage)
 

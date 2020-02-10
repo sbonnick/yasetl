@@ -18,7 +18,11 @@ class SQL extends Writer {
 
   async open () {
     const commonOptions = {
-      logging: logger.debug
+      logging: logger.debug,
+      retry: {
+        max: 5,
+        timeout: 36000
+      }
     }
 
     let dialectConn = [
