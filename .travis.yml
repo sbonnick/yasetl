@@ -6,7 +6,7 @@ env:
   global:
     - COMMIT=${TRAVIS_COMMIT::8}
     - REPO=sbonnick/yasetl
-    - CC_TEST_REPORTER_ID=1d1feab1aa80de2134f70a2b51bb34a752fb7bc0884f2220fd931682082a2244
+    - CC_TEST_REPORTER_ID=84bc58b9d8136c9d527a40c0acac52b53064cdfbdab2cd3aefecf7b279795c0f
 
 jobs:
   include:
