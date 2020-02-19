@@ -1,14 +1,14 @@
 
 
-[![Build Status](https://travis-ci.org/sbonnick/jiraextract.svg?branch=master)](https://travis-ci.org/sbonnick/jiraextract)
-[![Maintainability](https://api.codeclimate.com/v1/badges/6641534502a1cde6c565/maintainability)](https://codeclimate.com/github/sbonnick/jiraextract/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/6641534502a1cde6c565/test_coverage)](https://codeclimate.com/github/sbonnick/jiraextract/test_coverage)
+[![Build Status](https://travis-ci.org/sbonnick/yasetl.svg?branch=master)](https://travis-ci.org/sbonnick/yasetl)
+[![Maintainability](https://api.codeclimate.com/v1/badges/6641534502a1cde6c565/maintainability)](https://codeclimate.com/github/sbonnick/yasetl/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/6641534502a1cde6c565/test_coverage)](https://codeclimate.com/github/sbonnick/yasetl/test_coverage)
 
-[![dependencies Status](https://david-dm.org/sbonnick/jiraextract/status.svg)](https://david-dm.org/sbonnick/jiraextract)
-[![devDependencies Status](https://david-dm.org/sbonnick/jiraextract/dev-status.svg)](https://david-dm.org/sbonnick/jiraextract?type=dev)
+[![dependencies Status](https://david-dm.org/sbonnick/yasetl/status.svg)](https://david-dm.org/sbonnick/yasetl)
+[![devDependencies Status](https://david-dm.org/sbonnick/yasetl/dev-status.svg)](https://david-dm.org/sbonnick/yasetl?type=dev)
 
-[![Docker](https://images.microbadger.com/badges/image/sbonnick/jiraextract.svg)](https://microbadger.com/images/sbonnick/jiraextract)
-[![Docker](https://images.microbadger.com/badges/version/sbonnick/jiraextract.svg)](https://microbadger.com/images/sbonnick/jiraextract)
+[![Docker](https://images.microbadger.com/badges/image/sbonnick/yasetl.svg)](https://microbadger.com/images/sbonnick/yasetl)
+[![Docker](https://images.microbadger.com/badges/version/sbonnick/yasetl.svg)](https://microbadger.com/images/sbonnick/yasetl)
 
 
 ## Proposed syntax:

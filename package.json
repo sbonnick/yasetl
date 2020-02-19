@@ -1,10 +1,10 @@
 {
-  "name": "jiraextract",
+  "name": "yasetl",
   "version": "1.0.0",
   "engines": {
     "node": ">=12.4.0"
   },
-  "description": "extracts data via jira api and loads into a database",
+  "description": "Yet Another Simple ETL",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
