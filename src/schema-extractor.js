@@ -43,6 +43,7 @@ class SchemaExtractor {
     const config = { ...this.configuration }
 
     const samples = get(config, 'settings.debug.samples', 0)
+    const sampleFile = get(config, 'settings.debug.file')
 
     const parser = await ParserService.init(config.fields)
     const reader = await this.initAndLoadEngine(readerServiceConfig, {
@@ -59,8 +60,8 @@ class SchemaExtractor {
     const results = await reader.items()
 
     if (samples > 0 && results.length > 0) {
-      logger.info('Writing samples to file: debug.json')
-      fs.writeFileSync('debug.json', JSON.stringify({ samples: results.slice(0, Math.min(samples, results.length)) }))
+      logger.info('Writing samples to file: ' + sampleFile)
+      fs.writeFileSync(sampleFile, JSON.stringify({ samples: results.slice(0, Math.min(samples, results.length)) }))
     }
 
     const values = await parser.parse(results)

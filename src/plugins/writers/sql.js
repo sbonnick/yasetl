@@ -66,6 +66,7 @@ class SQL extends Writer {
   }
 
   async close () {
+    await this.db.close()
     delete this.db
     delete this.model
   }

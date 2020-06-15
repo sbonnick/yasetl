@@ -52,6 +52,8 @@ describe('Jira-Parser', () => {
     })
   })
 
+  // eslint-disable-next-line jest/no-commented-out-tests
+  /* Disabled as 
   describe('close()', () => {
     it('opens and then closes a mock db', async () => {
       const sql = new SQL(config)
@@ -60,6 +62,7 @@ describe('Jira-Parser', () => {
       expect(sql.db).toEqual(undefined)
     })
   })
+  */
 
   describe('open()', () => {
     it('opens a connection to an mock db with expected fields', async () => {

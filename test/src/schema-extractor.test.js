@@ -86,9 +86,10 @@ describe('SchemaExtractor', () => {
       config.destination.table = 'mydbs'
 
       const tmpobj = await tmp.fileSync({ postfix: '.db' })
+  
       config.destination.connection = 'sqlite:' + tmpobj.name
       console.log(config.destination.connection)
-
+      
       const extractor = new SchemaExtractor(config)
       const result = await extractor.extract(moment.now())
 
@@ -99,6 +100,7 @@ describe('SchemaExtractor', () => {
         type: Sequelize.QueryTypes.SELECT
       })
       const confirmDB = await directSQL.query('SELECT * FROM mydbs')
+
       await directSQL.close()
 
       tmpobj.removeCallback()
