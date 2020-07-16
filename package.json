@@ -49,7 +49,7 @@
     "@atlassian/jira": "^0.1.0",
     "@types/jest": "^26.0.0",
     "humanize-duration": "^3.23.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "minimist": "^1.2.5",
     "moment": "^2.26.0",
     "moment-weekday-calc": "^1.1.3",
