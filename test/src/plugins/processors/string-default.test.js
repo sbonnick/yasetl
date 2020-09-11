@@ -21,13 +21,13 @@ describe('String Default Processor', () => {
 
   describe('process()', () => {
     const cmd = [
-      { test: 'should return input value when not null', value: 'foo', config: { default: 'bar' }, result: 'foo' },
-      { test: 'should return default value when input is null', value: null, config: { default: 'bar' }, result: 'bar' },
-      { test: 'should return null if no default provided', value: null, config: { default: null }, result: null }
+      { test: 'return input value when not null', value: 'foo', config: { default: 'bar' }, result: 'foo' },
+      { test: 'return default value when input is null', value: null, config: { default: 'bar' }, result: 'bar' },
+      { test: 'return null if no default provided', value: null, config: { default: null }, result: null }
     ]
 
     cmd.forEach(function (input) {
-      it(input.test, async () => {
+      it('should' + input.test, async () => {
         const proc = new Processor()
         const processed = await proc.process(input.value, input.config)
         expect(processed).toEqual(input.result)
